@@ -342,7 +342,7 @@
       <div class="w-10 h-10 rounded-xl bg-[#f0fff4] flex items-center justify-center shrink-0"><i class="fa-solid fa-copy text-[#22c55e]"></i></div>
       <h3 class="text-xl font-bold">Duplicar modelo</h3>
     </div>
-    <p class="text-sm text-[#888] mb-5">Selecione os dispositivos para onde quer duplicar <strong id="duplicar-modelo-nome" class="text-[#1a1a1a]"></strong> com todos os serviços, opções e FAQs.</p>
+    <p class="text-sm text-[#888] mb-5">Selecione os dispositivos para onde quer duplicar <strong id="duplicar-modelo-nome" class="text-[#1a1a1a]"></strong> com todos os serviços, opções e FAQs. Você pode selecionar o mesmo dispositivo para duplicar dentro dele.</p>
     <div id="duplicar-modal-loading" class="hidden py-8 text-center text-[#999] text-sm"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Carregando dispositivos...</div>
     <div id="duplicar-produtos-list" class="space-y-2 mb-5"></div>
     <div id="duplicar-modal-progress" class="hidden mb-4 text-sm font-semibold bg-[#f0f4ff] text-[#1a6cff] rounded-xl px-4 py-3"></div>
@@ -2983,21 +2983,23 @@ async function openDuplicarModelo(modeloId, modeloNome) {
     const todosOsProdutos = await API('/api/produtos');
     document.getElementById('duplicar-modal-loading').classList.add('hidden');
 
-    const outros = todosOsProdutos.filter(p => p.id !== _duplicarProdutoAtualId);
     const listEl = document.getElementById('duplicar-produtos-list');
 
-    if (!outros.length) {
-      listEl.innerHTML = '<p class="text-sm text-[#999] py-4 text-center">Nenhum outro dispositivo cadastrado.</p>';
+    if (!todosOsProdutos.length) {
+      listEl.innerHTML = '<p class="text-sm text-[#999] py-4 text-center">Nenhum dispositivo cadastrado.</p>';
       return;
     }
 
-    listEl.innerHTML = outros.map(p => `
-      <label class="flex items-center gap-3 p-3 rounded-xl border-2 border-[#e0ddd9] cursor-pointer hover:border-[#1a6cff] hover:bg-[#f8fbff] transition-all" style="user-select:none">
+    listEl.innerHTML = todosOsProdutos.map(p => {
+      const isAtual = p.id === _duplicarProdutoAtualId;
+      return `
+      <label class="flex items-center gap-3 p-3 rounded-xl border-2 ${isAtual ? 'border-[#1a6cff] bg-[#f0f4ff]' : 'border-[#e0ddd9]'} cursor-pointer hover:border-[#1a6cff] hover:bg-[#f8fbff] transition-all" style="user-select:none">
         <input type="checkbox" name="dup-produto" value="${p.id}" class="w-4 h-4 accent-[#1a6cff] shrink-0">
         ${p.imagem ? `<img loading="lazy" src="${p.imagem}" onerror="this.style.display='none'" class="w-7 h-7 object-contain shrink-0">` : '<div class="w-7 h-7 rounded-lg bg-[#f0f0f2] shrink-0"></div>'}
-        <span class="flex-1 text-sm font-semibold">${p.nome}</span>
+        <span class="flex-1 text-sm font-semibold">${p.nome}${isAtual ? ' <span class="text-[10px] font-semibold text-[#1a6cff] bg-[#dbeafe] px-1.5 py-0.5 rounded-full ml-1">atual</span>' : ''}</span>
         <span class="text-xs px-2 py-0.5 rounded-full ${p.ativo ? 'bg-green-100 text-green-700' : 'bg-[#f0f0f0] text-[#aaa]'}">${p.ativo ? 'Ativo' : 'Inativo'}</span>
-      </label>`).join('');
+      </label>`;
+    }).join('');
   } catch(e) {
     document.getElementById('duplicar-modal-loading').classList.add('hidden');
     document.getElementById('duplicar-modal-err').textContent = 'Erro ao carregar dispositivos: ' + e.message;

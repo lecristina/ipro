@@ -376,6 +376,8 @@
       const inner = document.getElementById(id + '-inner');
       if (inner) inner.style.transform = 'scale(1)';
       document.body.style.overflow = 'hidden';
+      var fb=document.querySelector('.agendamento-float');if(fb)fb.style.display='none';
+      var ft=document.querySelector('footer');if(ft)ft.style.display='none'; var st=ft&&ft.previousElementSibling;if(st)st.style.display='none';
     }
     function closeFaqPopup(id) {
       const popup = document.getElementById(id);
@@ -385,6 +387,8 @@
       const inner = document.getElementById(id + '-inner');
       if (inner) inner.style.transform = 'scale(0.95)';
       document.body.style.overflow = '';
+      var fb=document.querySelector('.agendamento-float');if(fb)fb.style.display='';
+      var ft=document.querySelector('footer');if(ft)ft.style.display=''; var st=ft&&ft.previousElementSibling;if(st)st.style.display='';
     }
     document.querySelectorAll('[id^="faq"]').forEach(function(el) {
       if (el.classList.contains('fixed')) {

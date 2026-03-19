@@ -16,9 +16,12 @@ const RESEND_FROM = process.env.RESEND_FROM || "iPro Assistência <termos@duegro
 const resend = new Resend(RESEND_API_KEY);
 
 // ── Supabase ─────────────────────────────────────────────
+if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_KEY) {
+  console.error("[Supabase] ERRO: Variáveis SUPABASE_URL e SUPABASE_SERVICE_KEY não definidas.");
+}
 const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_KEY
+  process.env.SUPABASE_URL || "https://placeholder.supabase.co",
+  process.env.SUPABASE_SERVICE_KEY || "placeholder"
 );
 
 // ── Evolution API (WhatsApp automático) ──────────────────

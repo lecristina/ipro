@@ -126,7 +126,7 @@ function buildTermosEmailHtml(info) {
 
       <div style="background:#f5f5f7;border-radius:14px;padding:20px;margin-bottom:24px;text-align:center">
         <p style="font-size:13px;color:#555;margin:0 0 12px">Para consultar os Termos e Condições completos, acesse:</p>
-        <a href="https://ipro.vercel.app/termos.html" style="display:inline-block;background:#1a6cff;color:#fff;font-size:13px;font-weight:700;text-decoration:none;padding:12px 24px;border-radius:10px">📄 Ver Termos e Condições</a>
+        <a href="https://ipro-kappa.vercel.app/termos.html" style="display:inline-block;background:#1a6cff;color:#fff;font-size:13px;font-weight:700;text-decoration:none;padding:12px 24px;border-radius:10px">📄 Ver Termos e Condições</a>
       </div>
 
       <p style="font-size:11px;color:#aaa;text-align:center;margin:0">Dúvidas? Entre em contato via WhatsApp (19) 99406-3782.</p>

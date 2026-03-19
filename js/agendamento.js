@@ -478,6 +478,18 @@
     .agend-guide-title{font-size:14px;font-weight:700;color:#1a1a1a;margin:0 0 3px}
     .agend-guide-desc{font-size:12px;color:#777;line-height:1.6;margin:0}
     .agend-guide-line{width:1.5px;height:16px;background:#e8e8ea;margin:0 0 0 13px}
+    #agend-pix-overlay{position:fixed;inset:0;z-index:9999999;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.88);backdrop-filter:blur(16px);opacity:0;pointer-events:none;transition:opacity .25s}
+    #agend-pix-overlay.pix-open{opacity:1;pointer-events:auto}
+    #agend-pix-box{background:#fff;border-radius:24px;width:100%;max-width:440px;max-height:92vh;overflow-y:auto;padding:28px;box-shadow:0 32px 80px rgba(0,0,0,.4);transform:scale(.95) translateY(8px);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+    #agend-pix-overlay.pix-open #agend-pix-box{transform:scale(1) translateY(0)}
+    #agend-pix-qr{display:block;margin:12px auto;width:180px;height:180px;border-radius:12px;border:2px solid #e8e8ea}
+    #agend-pix-code-wrap{background:#f4f4f6;border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:8px;margin-bottom:16px}
+    #agend-pix-code-txt{flex:1;font-size:10px;color:#444;word-break:break-all;line-height:1.5;font-family:monospace}
+    #agend-pix-copy-btn{flex-shrink:0;padding:8px 14px;border-radius:10px;background:#1a6cff;color:#fff;font-size:12px;font-weight:700;border:none;cursor:pointer;font-family:Inter,sans-serif;white-space:nowrap}
+    #agend-pix-copy-btn:hover{background:#0057e6}
+    #agend-pix-status{text-align:center;font-size:13px;font-weight:600;color:#888;padding:10px 0}
+    #agend-pix-countdown{text-align:center;font-size:12px;color:#aaa;margin-top:4px}
+    #agend-pix-success{display:none;text-align:center;padding:16px 0}
   `;
   document.head.appendChild(css);
 
@@ -1004,6 +1016,39 @@
       document.body.appendChild(tcOvl);
       // Close on overlay click
       tcOvl.addEventListener('click', e => { if (e.target === tcOvl) window.agendCloseTermosContent(); });
+    }
+
+    // PIX payment overlay
+    if (!document.getElementById('agend-pix-overlay')) {
+      const pixOvl = document.createElement('div');
+      pixOvl.id = 'agend-pix-overlay';
+      pixOvl.innerHTML = `<div id="agend-pix-box">
+        <div style="text-align:center;margin-bottom:18px">
+          <div style="width:52px;height:52px;border-radius:50%;background:#e8f0ff;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:26px">💳</div>
+          <h3 style="font-size:17px;font-weight:800;margin:0 0 4px;color:#1a1a1a">Pague a entrada via PIX</h3>
+          <p style="font-size:13px;color:#888;margin:0" id="agend-pix-valor-legenda">Carregando...</p>
+        </div>
+        <img id="agend-pix-qr" src="" alt="QR Code PIX" style="display:none">
+        <p style="font-size:11px;font-weight:700;color:#888;text-align:center;margin:6px 0 4px;text-transform:uppercase;letter-spacing:.05em">Ou copie o código PIX</p>
+        <div id="agend-pix-code-wrap">
+          <span id="agend-pix-code-txt">—</span>
+          <button id="agend-pix-copy-btn" onclick="window.agendPixCopyCodigo()">Copiar</button>
+        </div>
+        <a id="agend-pix-link" href="#" target="_blank" rel="noopener" style="display:none;width:100%;box-sizing:border-box;padding:12px;border-radius:12px;background:#1a6cff;color:#fff;font-size:13px;font-weight:700;text-align:center;text-decoration:none;margin-bottom:12px;font-family:Inter,sans-serif">🔗 Abrir link de pagamento</a>
+        <button id="agend-pix-link-copy" onclick="window.agendPixCopyLink()" style="display:none;width:100%;box-sizing:border-box;padding:10px;border-radius:12px;background:#f0f0f2;color:#1a1a1a;font-size:12px;font-weight:700;border:none;cursor:pointer;font-family:Inter,sans-serif;margin-bottom:14px">📋 Copiar link para enviar ao cliente</button>
+        <div id="agend-pix-status">⏳ Aguardando pagamento...</div>
+        <div id="agend-pix-countdown"></div>
+        <div id="agend-pix-success">
+          <div style="font-size:48px;margin-bottom:10px">✅</div>
+          <p style="font-size:16px;font-weight:800;color:#16a34a;margin:0 0 6px">Pagamento confirmado!</p>
+          <p style="font-size:13px;color:#555;margin:0 0 18px">Seu agendamento foi registrado. Aguarde o contato da iPro.</p>
+          <button onclick="window.agendClosePix()" style="width:100%;padding:14px;border-radius:14px;background:#16a34a;color:#fff;font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:Inter,sans-serif">Fechar</button>
+        </div>
+        <div style="background:#fffbeb;border:1.5px solid #fde68a;border-radius:12px;padding:12px 14px;font-size:12px;color:#78350f;margin-top:14px;line-height:1.7" id="agend-pix-aviso">
+          <strong>⚠️ Atenção:</strong> O agendamento só será confirmado após a identificação do pagamento. O código PIX expira em <strong>30 minutos</strong>.
+        </div>
+      </div>`;
+      document.body.appendChild(pixOvl);
     }
   };
   window._createAgendOverlays();
@@ -2143,6 +2188,29 @@
         Object.assign(body, window._termosAceiteData);
         window._termosAceiteData = null;
       }
+
+      // ── Asaas PIX payment — intercept when price is known ──
+      const precoNum   = parseFloat(body.opcao_preco) || 0;
+      const isOrcamento = body.tipo_solicitacao === 'orcamento';
+      if (precoNum > 0 && !isOrcamento) {
+        btn.textContent = 'Gerando PIX...';
+        const asaasRes = await fetch('/api/asaas/criar-cobranca', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ booking_data: body, preco_total: precoNum })
+        });
+        if (!asaasRes.ok) {
+          const d = await asaasRes.json();
+          throw new Error(d.error || 'Erro ao gerar pagamento PIX');
+        }
+        const pixData = await asaasRes.json();
+        window.closeAgendamento();
+        window.agendShowPix(pixData);
+        btn.disabled = false; btn.textContent = 'Prosseguir →';
+        return;
+      }
+      // ────────────────────────────────────────────────────────
+
       const res = await fetch('/api/agendamentos', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
       if (!res.ok) {
         const d = await res.json();
@@ -2176,6 +2244,130 @@
       errDiv.style.display = 'block';
       btn.disabled = false; btn.textContent = 'Prosseguir →';
     }
+  };
+
+  // ─── PIX overlay handlers ────────────────────────────────
+  let _pixPollTimer = null;
+  let _pixCountdownTimer = null;
+
+  window.agendShowPix = function(pixData) {
+    window._agendCurrentPixId = pixData.payment_id;
+
+    // Populate values
+    const legenda = document.getElementById('agend-pix-valor-legenda');
+    if (legenda) {
+      const ent = parseFloat(pixData.valor_entrada).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+      const tot = parseFloat(pixData.valor_total).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+      legenda.textContent = `Entrada: ${ent} (20% de ${tot})`;
+    }
+
+    // QR Code image (base64)
+    const qrImg = document.getElementById('agend-pix-qr');
+    if (qrImg && pixData.pix_qrcode_image) {
+      qrImg.src = 'data:image/png;base64,' + pixData.pix_qrcode_image;
+      qrImg.style.display = 'block';
+    }
+
+    // PIX code
+    const codeTxt = document.getElementById('agend-pix-code-txt');
+    if (codeTxt) codeTxt.textContent = pixData.pix_code || '—';
+    window._agendCurrentPixCode = pixData.pix_code || '';
+
+    // Invoice link (link de pagamento)
+    const linkEl = document.getElementById('agend-pix-link');
+    const linkCopyBtn = document.getElementById('agend-pix-link-copy');
+    window._agendCurrentPixLink = pixData.invoice_url || '';
+    if (linkEl && pixData.invoice_url) {
+      linkEl.href = pixData.invoice_url;
+      linkEl.style.display = 'block';
+    }
+    if (linkCopyBtn && pixData.invoice_url) linkCopyBtn.style.display = 'block';
+
+    // Reset to waiting state
+    const statusEl = document.getElementById('agend-pix-status');
+    const successEl = document.getElementById('agend-pix-success');
+    const avisEl = document.getElementById('agend-pix-aviso');
+    const codeWrap = document.getElementById('agend-pix-code-wrap');
+    if (statusEl) { statusEl.style.display = 'block'; statusEl.textContent = '⏳ Aguardando pagamento...'; statusEl.style.color = '#888'; }
+    if (successEl) successEl.style.display = 'none';
+    if (avisEl) avisEl.style.display = 'block';
+    if (codeWrap) codeWrap.style.display = 'flex';
+    if (qrImg) qrImg.style.display = pixData.pix_qrcode_image ? 'block' : 'none';
+
+    // Countdown 30 min
+    let secondsLeft = 30 * 60;
+    const countdownEl = document.getElementById('agend-pix-countdown');
+    function updateCountdown() {
+      if (!countdownEl) return;
+      if (secondsLeft <= 0) { countdownEl.textContent = 'PIX expirado.'; return; }
+      const m = Math.floor(secondsLeft / 60).toString().padStart(2, '0');
+      const s = (secondsLeft % 60).toString().padStart(2, '0');
+      countdownEl.textContent = `Expira em: ${m}:${s}`;
+      secondsLeft--;
+    }
+    updateCountdown();
+    clearInterval(_pixCountdownTimer);
+    _pixCountdownTimer = setInterval(updateCountdown, 1000);
+
+    // Start polling
+    clearInterval(_pixPollTimer);
+    _pixPollTimer = setInterval(async function() {
+      try {
+        const r = await fetch('/api/asaas/status/' + window._agendCurrentPixId);
+        if (!r.ok) return;
+        const d = await r.json();
+        if (d.status === 'pago' || d.status === 'CONFIRMED' || d.status === 'RECEIVED') {
+          clearInterval(_pixPollTimer); clearInterval(_pixCountdownTimer);
+          if (statusEl) statusEl.style.display = 'none';
+          if (countdownEl) countdownEl.style.display = 'none';
+          if (avisEl) avisEl.style.display = 'none';
+          if (codeWrap) codeWrap.style.display = 'none';
+          if (qrImg) qrImg.style.display = 'none';
+          if (linkEl) linkEl.style.display = 'none';
+          if (linkCopyBtn) linkCopyBtn.style.display = 'none';
+          if (successEl) successEl.style.display = 'block';
+        }
+      } catch(e) { /* silent */ }
+    }, 3000);
+
+    // Show overlay
+    const ovl = document.getElementById('agend-pix-overlay');
+    if (ovl) ovl.classList.add('pix-open');
+  };
+
+  window.agendClosePix = function() {
+    clearInterval(_pixPollTimer); clearInterval(_pixCountdownTimer);
+    const ovl = document.getElementById('agend-pix-overlay');
+    if (ovl) ovl.classList.remove('pix-open');
+  };
+
+  window.agendPixCopyLink = function() {
+    const link = window._agendCurrentPixLink || '';
+    if (!link) return;
+    navigator.clipboard.writeText(link).then(() => {
+      const btn = document.getElementById('agend-pix-link-copy');
+      if (btn) { const orig = btn.textContent; btn.textContent = '✓ Link copiado!'; setTimeout(() => btn.textContent = orig, 2500); }
+    }).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = link; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+      document.body.removeChild(ta);
+    });
+  };
+
+  window.agendPixCopyCodigo = function() {
+    const code = window._agendCurrentPixCode || '';
+    if (!code) return;
+    navigator.clipboard.writeText(code).then(() => {
+      const btn = document.getElementById('agend-pix-copy-btn');
+      if (btn) { const orig = btn.textContent; btn.textContent = '✓ Copiado!'; setTimeout(() => btn.textContent = orig, 2000); }
+    }).catch(() => {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = code; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+      document.body.removeChild(ta);
+    });
   };
 
 })();

@@ -274,3 +274,29 @@ CREATE POLICY "Escrita total service notebook_config" ON notebook_config FOR ALL
 -- ═══════════════════════════════════════════════════════════
 ALTER TABLE service_faq ADD COLUMN IF NOT EXISTS notebook_id INT REFERENCES notebook_config(id) ON DELETE CASCADE;
 ALTER TABLE service_faq ADD COLUMN IF NOT EXISTS nb_servico_id UUID REFERENCES notebook_servicos(id) ON DELETE CASCADE;
+
+-- ═══════════════════════════════════════════════════════════
+-- 13. MIGRATION: Integração Asaas — Pagamentos PIX
+-- Execute este bloco no SQL Editor do Supabase
+-- ═══════════════════════════════════════════════════════════
+
+CREATE TABLE IF NOT EXISTS pagamentos_pendentes (
+  id                uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  asaas_payment_id  text UNIQUE NOT NULL,
+  asaas_customer_id text,
+  booking_data      jsonb NOT NULL,
+  valor_total       numeric(10,2) NOT NULL DEFAULT 0,
+  valor_entrada     numeric(10,2) NOT NULL DEFAULT 0,
+  status            text DEFAULT 'aguardando_pagamento',
+  agendamento_id    uuid REFERENCES agendamentos(id),
+  created_at        timestamptz DEFAULT now(),
+  expires_at        timestamptz
+);
+
+ALTER TABLE pagamentos_pendentes ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Escrita total service pagamentos_pendentes" ON pagamentos_pendentes
+  FOR ALL USING (auth.role() = 'service_role');
+
+-- Novas colunas em agendamentos para rastreio de pagamento
+ALTER TABLE agendamentos ADD COLUMN IF NOT EXISTS asaas_payment_id  text;
+ALTER TABLE agendamentos ADD COLUMN IF NOT EXISTS valor_entrada_pago numeric(10,2);

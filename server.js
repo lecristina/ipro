@@ -104,7 +104,6 @@ function buildTermosEmailHtml(info) {
         <tr><td style="color:#888;width:40%">Nome completo</td><td style="font-weight:600;color:#1a1a1a">${info.nome || '—'}</td></tr>
         <tr><td style="color:#888">CPF</td><td style="font-weight:600;color:#1a1a1a">${info.cpf || '—'}</td></tr>
         <tr><td style="color:#888">E-mail</td><td style="font-weight:600;color:#1a1a1a">${info.email || '—'}</td></tr>
-        <tr><td style="color:#888">IP do dispositivo</td><td style="font-weight:600;color:#1a1a1a">${info.ip || '—'}</td></tr>
         <tr><td style="color:#888">Data e hora do aceite</td><td style="font-weight:600;color:#1a1a1a">${info.dataAceite || '—'}</td></tr>
       </table>
 

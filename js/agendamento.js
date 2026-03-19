@@ -1067,7 +1067,7 @@
     ['agend-check-garantia','agend-check-pecas','agend-check-agendamento'].forEach(id => {
       const el = document.getElementById(id); if (el) el.checked = false;
     });
-    // Prefill name and CPF from form data
+    // Prefill name and CPF from form dataaa
     const nomeEl = document.getElementById('agend-termos-nome');
     const cpfEl = document.getElementById('agend-termos-cpf');
     const formNome = document.getElementById('agend-nome');

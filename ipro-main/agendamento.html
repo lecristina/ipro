@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Agendamento de reparo Apple em Campinas - iPro Assistência" />
+  <title>Agendamento | iPro Assistência Apple</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      /* Full-page deep blue gradient */
+      background: linear-gradient(170deg, #040e22 0%, #0a1f4a 35%, #0f3080 70%, #1a5eff 100%);
+      background-attachment: fixed;
+    }
+
+    /* ── Subtle animated orbs for depth ── */
+    body::before, body::after {
+      content: '';
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    body::before {
+      width: 500px; height: 500px;
+      top: -120px; right: -140px;
+      background: radial-gradient(circle, rgba(60,120,255,0.18) 0%, transparent 70%);
+    }
+    body::after {
+      width: 400px; height: 400px;
+      bottom: -80px; left: -100px;
+      background: radial-gradient(circle, rgba(100,60,255,0.14) 0%, transparent 70%);
+    }
+
+    /* ── Top bar ── */
+    .agend-topbar {
+      position: relative; z-index: 10;
+      max-width: 640px; margin: 0 auto;
+      padding: 0 16px;
+      height: 54px;
+      display: flex; align-items: center;
+    }
+    .agend-back-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: rgba(255,255,255,0.65);
+      text-decoration: none; font-size: 13px; font-weight: 600;
+      transition: color 0.2s;
+    }
+    .agend-back-link:hover { color: #fff; }
+    .agend-back-circle {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .agend-back-link:hover .agend-back-circle { background: rgba(255,255,255,0.2); }
+
+    /* ── Hero ── */
+    .agend-hero {
+      position: relative; z-index: 10;
+      text-align: center;
+      padding: 8px 13px 25px;
+    }
+    .agend-hero-logo {
+      height: 65px; width: auto;
+      display: block; margin: 0 auto 16px;
+      filter: brightness(0) invert(1);
+      object-fit: contain;
+    }
+    .agend-hero-title {
+      font-size: 24px; font-weight: 800;
+      color: #fff; margin-bottom: 4px;
+      letter-spacing: -0.5px; line-height: 1.2;
+    }
+    .agend-hero-sub {
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* ── Card ── */
+    .agend-card-wrap {
+      position: relative; z-index: 10;
+      max-width: 640px; margin: 0 auto;
+      padding: 0 12px 64px;
+    }
+    #agend-box {
+      max-height: none !important;
+      overflow-y: visible !important;
+    }
+
+    /* ── Footer note ── */
+    .agend-footer-note {
+      text-align: center;
+      font-size: 11px; color: rgba(255,255,255,0.3);
+      padding: 0 16px 24px;
+      position: relative; z-index: 10;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top navigation bar -->
+  <nav class="agend-topbar">
+    <a href="index.html" class="agend-back-link" title="Voltar ao site">
+      <span class="agend-back-circle">
+        <i class="fa-solid fa-arrow-left" style="font-size:10px"></i>
+      </span>
+      Voltar ao site
+    </a>
+  </nav>
+
+  <!-- Hero -->
+  <div class="agend-hero">
+    <img loading="lazy" src="images/logonova.png" alt="iPro" class="agend-hero-logo">
+    <h1 class="agend-hero-title">Agende seu atendimento</h1>
+    <p class="agend-hero-sub">Assistência Apple especializada · Campinas — SP</p>
+  </div>
+
+  <!-- Booking card -->
+  <div class="agend-card-wrap">
+    <div id="agendamento-root"></div>
+  </div>
+
+  <!-- Footer -->
+  <p class="agend-footer-note">iPro Assistência Apple · Vila Itapura, Campinas · (19) 99406-3782</p>
+
+  <script defer src="js/agendamento.js?v=7"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', function() {
+      if (window.__agendLoaded && window.renderStandaloneAgendamento) {
+        window.renderStandaloneAgendamento();
+      }
+    });
+  </script>
+</body>
+</html>

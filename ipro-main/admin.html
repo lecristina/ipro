@@ -1,0 +1,2848 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — iPro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif']}}}}</script>
+  <style>
+    .tab-btn{transition:all .2s}.tab-btn.active{background:#1a6cff;color:#fff}
+    .fade-in{animation:fadeIn .3s ease}@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    .modal-bg{background:rgba(0,0,0,.6);backdrop-filter:blur(8px)}
+    input:focus,select:focus,textarea:focus{border-color:#1a6cff!important;box-shadow:0 0 0 3px rgba(26,108,255,.15)!important}
+    .accordion-body{display:none}.accordion-body.open{display:block}
+    .accordion-chevron{transition:transform .25s}.accordion-chevron.open{transform:rotate(90deg)}
+    /* Admin remarcar calendar — mesmos estilos do calendário de agendamento */
+    .agend-cal-day{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;margin:0 auto}
+    .agend-cal-day.selected{background:#1a6cff!important;color:#fff!important;font-weight:700;border-radius:12px}
+    .agend-cal-day.available{background:#dbeafe;color:#1a6cff;font-weight:600}
+    .agend-cal-day.available:hover:not(.selected){background:#93c5fd;color:#1e40af}
+    .agend-cal-day.available.today{box-shadow:inset 0 0 0 2px #1a6cff}
+    .agend-cal-day.unavailable{background:#fee2e2;color:#dc2626;cursor:not-allowed;font-weight:600}
+    .agend-cal-day.blocked{background:#fecaca;color:#b91c1c;cursor:not-allowed;font-weight:600;opacity:.85}
+    .agend-cal-day.no-slots{background:#f5f5f5;color:#d1d5db;cursor:default}
+    .agend-cal-day.excecao{background:#fed7aa;color:#c2410c;font-weight:700;cursor:pointer;box-shadow:inset 0 0 0 2px #fb923c}
+    .agend-cal-day.excecao:hover:not(.selected){background:#fdba74;color:#9a3412}
+    .agend-cal-day.past{color:#d1d5db;cursor:default}
+    .agend-cal-day.empty{cursor:default}
+    /* Admin time slots */
+    .rslot{padding:8px 10px;border-radius:10px;border:2px solid #dbeafe;font-size:12px;font-weight:700;cursor:pointer;background:#f0f4ff;color:#1a6cff;transition:all .15s}
+    .rslot:hover{background:#1a6cff;color:#fff;border-color:#1a6cff}
+    .rslot.selected{background:#1a6cff;color:#fff;border-color:#1a6cff}
+    /* Inline FAQ form */
+    .faq-inline-form{background:#f0f4ff;border:1px solid #c7d9f7;border-radius:12px;padding:10px 12px}
+    .faq-inline-form input,.faq-inline-form textarea{background:#fff;border:1.5px solid #c7d9f7;border-radius:8px;padding:7px 10px;font-size:12px;width:100%;outline:none;font-family:Inter,sans-serif;box-sizing:border-box}
+    .faq-inline-form input:focus,.faq-inline-form textarea:focus{border-color:#1a6cff}
+    .svc-new-form{background:#f0f8ff;border:1.5px dashed #93c5fd;border-radius:14px;padding:14px 16px}
+    .svc-new-form input,.svc-new-form select{background:#fff;border:1.5px solid #c7d9f7;border-radius:9px;padding:8px 12px;font-size:13px;outline:none;font-family:Inter,sans-serif;width:100%;box-sizing:border-box}
+    .svc-new-form input:focus,.svc-new-form select:focus{border-color:#1a6cff}
+    .inner-tab-btn{font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;cursor:pointer;transition:all .15s;color:#777;background:transparent;border:none}
+    .inner-tab-btn.active{background:#1a6cff;color:#fff}
+  </style>
+</head>
+<body class="bg-[#f0eeeb] text-[#1a1a1a] font-sans antialiased min-h-screen">
+
+<!-- ═══ LOGIN ═══ -->
+<div id="login-screen" class="min-h-screen flex items-center justify-center p-6">
+  <div class="bg-white rounded-3xl shadow-xl p-8 w-full max-w-sm">
+    <div class="text-center mb-8">
+      <img loading="lazy" src="images/logonova.png" alt="iPro" class="h-12 mx-auto mb-4">
+      <h1 class="text-2xl font-bold tracking-tight">Painel Admin</h1>
+      <p class="text-sm text-[#999] mt-1">Gerencie produtos, serviços e agendamentos</p>
+    </div>
+    <form id="login-form" class="space-y-4">
+      <div>
+        <label class="block text-xs font-semibold text-[#555] mb-1.5">Senha</label>
+        <input type="password" id="login-pass" required class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] outline-none text-sm" placeholder="••••••">
+      </div>
+      <div id="login-error" class="hidden text-red-500 text-xs font-medium bg-red-50 px-4 py-2 rounded-lg"></div>
+      <button type="submit" class="w-full bg-[#1a1a1a] hover:bg-[#1a6cff] text-white font-semibold py-3.5 rounded-xl transition-colors text-sm">Entrar</button>
+    </form>
+  </div>
+</div>
+
+<!-- ═══ ADMIN PANEL ═══ -->
+<div id="admin-panel" class="hidden">
+  <!-- Top Bar -->
+  <div class="bg-white border-b border-[#e0ddd9] sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <img loading="lazy" src="images/logonova.png" alt="iPro" class="h-8">
+        <span class="text-sm font-semibold hidden sm:inline">Admin</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <a href="index.html" target="_blank" class="text-sm text-[#1a6cff] hover:underline font-medium hidden sm:inline">Ver site →</a>
+        <button onclick="doLogout()" class="text-sm text-[#999] hover:text-red-500 font-medium ml-3">Sair</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="bg-white border-b border-[#e0ddd9] sticky top-16 z-40 overflow-x-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex gap-2 py-3">
+      <button class="tab-btn active px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" data-tab="produtos">Produtos & Serviços</button>
+      <button class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap bg-[#f5f5f7] text-[#555]" data-tab="seminovos">Seminovos</button>
+      <button class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap bg-[#f5f5f7] text-[#555]" data-tab="agenda">Agenda</button>
+      <button class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap bg-[#f5f5f7] text-[#555]" data-tab="agendamentos">Agendamentos</button>
+      <!-- <button class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap bg-[#f5f5f7] text-[#555]" data-tab="testes">🧪 Testes</button> -->
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+    <!-- ═══ TAB: PRODUTOS & SERVIÇOS ═══ -->
+    <div id="tab-produtos" class="tab-content fade-in">
+      <!-- Breadcrumb navigation -->
+      <div id="admin-breadcrumb" class="flex items-center gap-2 text-sm mb-5 flex-wrap"></div>
+      <!-- Dynamic content area -->
+      <div id="admin-drill-content"></div>
+    </div>
+
+    <!-- ═══ TAB: SEMINOVOS ═══ -->
+    <div id="tab-seminovos" class="tab-content hidden">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold tracking-tight">Seminovos</h2>
+        <button onclick="openSeminovoModal()" class="bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold px-5 py-2.5 rounded-xl text-sm flex items-center gap-2">
+          <i class="fa-solid fa-plus text-xs"></i> Seminovo
+        </button>
+      </div>
+      <div id="seminovos-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+      <div id="seminovos-empty" class="hidden bg-white rounded-2xl p-12 text-center border border-[#e0ddd9]">
+        <p class="text-[#999]">Nenhum seminovo cadastrado.</p>
+      </div>
+    </div>
+
+    <!-- ═══ TAB: AGENDA ═══ -->
+    <div id="tab-agenda" class="tab-content hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Horários -->
+        <div>
+          <h2 class="text-xl font-bold tracking-tight mb-4">Horários por dia da semana</h2>
+          <!-- Quick Setup -->
+          <div class="bg-white rounded-2xl border-2 border-[#1a6cff]/20 p-5 space-y-4 mb-4">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 bg-[#1a6cff] text-white text-xs font-bold rounded-lg flex items-center justify-center flex-shrink-0">⚡</div>
+              <span class="font-bold text-sm">Configuração rápida</span>
+              <span class="text-xs bg-[#e8f0ff] text-[#1a6cff] px-2 py-0.5 rounded-full font-semibold">Aplica em vários dias</span>
+            </div>
+            <div>
+              <p class="text-xs font-bold text-[#555] mb-2">1. Defina os horários do dia</p>
+              <div class="flex gap-2 mb-2">
+                <input type="time" id="tmpl-hora" class="flex-1 px-3 py-2.5 rounded-xl border border-[#e0ddd9] text-sm outline-none">
+                <button onclick="addTemplateSlot()" class="bg-[#1a6cff] text-white px-4 rounded-xl text-sm font-semibold hover:bg-[#0057e6] whitespace-nowrap">+ Horário</button>
+              </div>
+              <div id="tmpl-slots" class="flex flex-wrap gap-1.5 min-h-[28px] items-center">
+                <span id="tmpl-empty" class="text-xs text-[#ccc] italic">Nenhum horário adicionado</span>
+              </div>
+            </div>
+            <div>
+              <p class="text-xs font-bold text-[#555] mb-2">2. Aplicar para quais dias?</p>
+              <div class="flex flex-wrap gap-x-4 gap-y-2">
+                <label class="flex items-center gap-1.5 cursor-pointer select-none"><input type="checkbox" class="day-check w-4 h-4 accent-[#1a6cff]" value="1"><span class="text-sm font-medium">Seg</span></label>
+                <label class="flex items-center gap-1.5 cursor-pointer select-none"><input type="checkbox" class="day-check w-4 h-4 accent-[#1a6cff]" value="2"><span class="text-sm font-medium">Ter</span></label>
+                <label class="flex items-center gap-1.5 cursor-pointer select-none"><input type="checkbox" class="day-check w-4 h-4 accent-[#1a6cff]" value="3"><span class="text-sm font-medium">Qua</span></label>
+                <label class="flex items-center gap-1.5 cursor-pointer select-none"><input type="checkbox" class="day-check w-4 h-4 accent-[#1a6cff]" value="4"><span class="text-sm font-medium">Qui</span></label>
+                <label class="flex items-center gap-1.5 cursor-pointer select-none"><input type="checkbox" class="day-check w-4 h-4 accent-[#1a6cff]" value="5"><span class="text-sm font-medium">Sex</span></label>
+                <label class="flex items-center gap-1.5 cursor-pointer select-none"><input type="checkbox" class="day-check w-4 h-4 accent-[#1a6cff]" value="6"><span class="text-sm font-medium">Sáb</span></label>
+                <label class="flex items-center gap-1.5 cursor-pointer select-none"><input type="checkbox" class="day-check w-4 h-4 accent-[#1a6cff]" value="0"><span class="text-sm font-medium">Dom</span></label>
+              </div>
+            </div>
+            <button id="apply-tmpl-btn" onclick="applyTemplate()" class="w-full bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold py-3 rounded-xl text-sm transition-colors">⚡ Aplicar horários nos dias selecionados</button>
+          </div>
+          <!-- Manual add -->
+          <div class="bg-white rounded-2xl border border-[#e0ddd9] p-5 space-y-4">
+            <p class="text-xs font-bold text-[#aaa] uppercase tracking-wider">Adicionar horário individual</p>
+            <div class="flex gap-2">
+              <select id="horario-dia" class="flex-1 px-3 py-2.5 rounded-xl border border-[#e0ddd9] text-sm outline-none">
+                <option value="1">Segunda</option><option value="2">Terça</option><option value="3">Quarta</option>
+                <option value="4">Quinta</option><option value="5">Sexta</option><option value="6">Sábado</option><option value="0">Domingo</option>
+              </select>
+              <input type="time" id="horario-hora" class="px-3 py-2.5 rounded-xl border border-[#e0ddd9] text-sm outline-none">
+              <button onclick="addHorario()" class="bg-[#1a6cff] text-white px-4 rounded-xl text-sm font-semibold hover:bg-[#0057e6]">+</button>
+            </div>
+            <div id="horarios-list" class="space-y-2 max-h-80 overflow-y-auto"></div>
+          </div>
+        </div>
+        <!-- Restrições de calendário -->
+        <div>
+          <h2 class="text-xl font-bold tracking-tight mb-4">Restrições de calendário</h2>
+          <!-- Interactive calendar -->
+          <div class="bg-white rounded-2xl border border-[#e0ddd9] p-5 space-y-4">
+            <div class="flex items-center justify-between">
+              <button onclick="restricPrevMonth()" class="w-9 h-9 rounded-xl bg-[#f5f5f7] hover:bg-[#e0ddd9] flex items-center justify-center text-lg font-bold transition-colors">‹</button>
+              <span id="restric-month-label" class="font-bold text-sm"></span>
+              <button onclick="restricNextMonth()" class="w-9 h-9 rounded-xl bg-[#f5f5f7] hover:bg-[#e0ddd9] flex items-center justify-center text-lg font-bold transition-colors">›</button>
+            </div>
+            <div class="grid grid-cols-7 gap-1 text-center">
+              <div class="text-xs font-bold text-[#aaa] py-1">D</div><div class="text-xs font-bold text-[#aaa] py-1">S</div>
+              <div class="text-xs font-bold text-[#aaa] py-1">T</div><div class="text-xs font-bold text-[#aaa] py-1">Q</div>
+              <div class="text-xs font-bold text-[#aaa] py-1">Q</div><div class="text-xs font-bold text-[#aaa] py-1">S</div>
+              <div class="text-xs font-bold text-[#aaa] py-1">S</div>
+            </div>
+            <div id="restric-cal" class="grid grid-cols-7 gap-1 text-center"></div>
+            <div class="flex items-center gap-4 text-xs text-[#777]">
+              <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-red-200 inline-block"></span>Bloqueado</div>
+              <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-orange-200 inline-block"></span>Exceção</div>
+              <span class="text-[#bbb]">Clique em qualquer dia para definir</span>
+            </div>
+            <!-- Selected day panel -->
+            <div id="restric-panel" class="hidden border-t border-[#f0eeeb] pt-4 space-y-3">
+              <p class="text-sm font-bold text-[#1a1a1a]" id="restric-day-label"></p>
+              <div class="flex gap-6">
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input type="radio" name="restric-tipo" value="bloqueado" class="accent-red-500 w-4 h-4">
+                  <span class="text-sm font-medium">Bloquear dia</span>
+                  <span class="text-xs text-[#aaa]">(sem agendamentos)</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input type="radio" name="restric-tipo" value="excecao" checked class="accent-orange-400 w-4 h-4">
+                  <span class="text-sm font-medium">Exceção</span>
+                  <span class="text-xs text-[#aaa]">(ainda agendável)</span>
+                </label>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-[#555] mb-1.5">Observação <span class="text-[#aaa] font-normal">(será visível apenas no admin)</span></label>
+                <textarea id="restric-motivo" rows="2" class="w-full px-3 py-2.5 rounded-xl border border-[#e0ddd9] text-sm outline-none resize-none" placeholder="Ex: Somente agendamento pré-aprovado | Atendimento reduzido"></textarea>
+              </div>
+              <div class="flex gap-2">
+                <button onclick="saveRestricao()" class="flex-1 bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold py-2.5 rounded-xl text-sm transition-colors">Salvar</button>
+                <button id="restric-delete-btn" onclick="deleteRestricaoSelected()" class="hidden px-4 bg-red-50 hover:bg-red-500 hover:text-white text-red-500 font-semibold py-2.5 rounded-xl text-sm transition-colors">Remover</button>
+                <button onclick="cancelRestricPanel()" class="px-4 bg-[#f5f5f7] hover:bg-[#e0ddd9] text-[#555] font-semibold py-2.5 rounded-xl text-sm transition-colors">Cancelar</button>
+              </div>
+            </div>
+          </div>
+          <!-- List of restrictions -->
+          <div class="bg-white rounded-2xl border border-[#e0ddd9] p-5 space-y-2 mt-4">
+            <p class="text-xs font-bold text-[#aaa] uppercase tracking-wider mb-3">Restrições cadastradas</p>
+            <div id="bloqueios-list" class="space-y-2 max-h-72 overflow-y-auto"></div>
+          </div>
+          <!-- Regras semanais recorrentes -->
+          <div class="bg-white rounded-2xl border-2 border-amber-200 p-5 space-y-4 mt-4">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 bg-amber-400 text-white text-xs font-bold rounded-lg flex items-center justify-center flex-shrink-0">↻</div>
+              <span class="font-bold text-sm">Regras semanais recorrentes</span>
+            </div>
+            <p class="text-xs text-[#888]">Bloqueia ou marca como exceção um dia da semana <strong>em todos os meses automaticamente</strong>. Regras por data específica têm prioridade e sobrepõem a regra semanal.</p>
+            <div class="border border-[#f0eeeb] rounded-2xl p-4 bg-[#fafaf8] space-y-3">
+              <div>
+                <p class="text-xs font-bold text-[#555] mb-2">Selecione o dia da semana</p>
+                <div class="flex flex-wrap gap-1.5" id="regra-dias-btns"></div>
+              </div>
+              <div class="flex gap-6">
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input type="radio" name="regra-tipo" value="bloqueado" checked class="accent-red-500 w-4 h-4">
+                  <span class="text-sm font-medium">Bloquear</span>
+                  <span class="text-xs text-[#aaa]">(sem agendamentos)</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input type="radio" name="regra-tipo" value="excecao" class="accent-orange-400 w-4 h-4">
+                  <span class="text-sm font-medium">Exceção</span>
+                  <span class="text-xs text-[#aaa]">(ainda agendável)</span>
+                </label>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-[#555] mb-1.5">Observação <span class="text-[#aaa] font-normal">(ex: Sem atendimento aos domingos)</span></label>
+                <textarea id="regra-motivo" rows="2" class="w-full px-3 py-2.5 rounded-xl border border-[#e0ddd9] text-sm outline-none resize-none" placeholder="Ex: Sem atendimento | Sábado com horários reduzidos"></textarea>
+              </div>
+              <button onclick="saveRegra()" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2.5 rounded-xl text-sm transition-colors">↻ Salvar regra recorrente</button>
+            </div>
+            <div id="regras-list" class="space-y-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ TAB: AGENDAMENTOS ═══ -->
+    <div id="tab-agendamentos" class="tab-content hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <!-- Calendário -->
+        <div>
+          <h2 class="text-xl font-bold tracking-tight mb-4">Calendário</h2>
+          <div class="bg-white rounded-2xl border border-[#e0ddd9] p-6">
+            <div class="flex items-center justify-between mb-5">
+              <button onclick="calPrevMonth()" class="w-9 h-9 rounded-xl bg-[#f5f5f7] hover:bg-[#e0ddd9] flex items-center justify-center text-lg font-bold transition-colors">‹</button>
+              <span id="cal-month-label" class="font-bold text-base"></span>
+              <button onclick="calNextMonth()" class="w-9 h-9 rounded-xl bg-[#f5f5f7] hover:bg-[#e0ddd9] flex items-center justify-center text-lg font-bold transition-colors">›</button>
+            </div>
+            <div class="grid grid-cols-7 gap-1 text-center mb-2">
+              <div class="text-xs font-bold text-[#aaa] py-1">D</div><div class="text-xs font-bold text-[#aaa] py-1">S</div>
+              <div class="text-xs font-bold text-[#aaa] py-1">T</div><div class="text-xs font-bold text-[#aaa] py-1">Q</div>
+              <div class="text-xs font-bold text-[#aaa] py-1">Q</div><div class="text-xs font-bold text-[#aaa] py-1">S</div>
+              <div class="text-xs font-bold text-[#aaa] py-1">S</div>
+            </div>
+            <div id="cal-grid" class="grid grid-cols-7 gap-1 text-center"></div>
+            <div class="flex items-center gap-4 mt-4 text-xs text-[#777]">
+              <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-yellow-200 inline-block"></span>Pendente</div>
+              <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-green-200 inline-block"></span>Aprovado</div>
+              <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-[#1a6cff] inline-block rounded-full"></span>Hoje</div>
+            </div>
+          </div>
+        </div>
+        <!-- Pendentes (lado direito do dashboard) -->
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xl font-bold tracking-tight">Pendentes de aprovação</h2>
+            <span id="pendentes-count" class="text-xs font-bold bg-yellow-100 text-yellow-800 px-2.5 py-1 rounded-full"></span>
+          </div>
+          <div id="pendentes-list" class="space-y-3 max-h-[380px] overflow-y-auto pr-1"></div>
+          <div id="pendentes-empty" class="hidden bg-white rounded-2xl p-8 text-center border border-[#e0ddd9]">
+            <p class="text-[#999] text-sm">Nenhum agendamento pendente.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lista completa -->
+      <div>
+        <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
+          <h2 class="text-xl font-bold tracking-tight">Todos os agendamentos</h2>
+          <div class="flex gap-2">
+            <button class="agend-filter active px-4 py-2 rounded-xl text-sm font-semibold bg-[#1a6cff] text-white" data-status="">Todos</button>
+            <button class="agend-filter px-4 py-2 rounded-xl text-sm font-semibold bg-[#f5f5f7] text-[#555]" data-status="pendente">Pendentes</button>
+            <button class="agend-filter px-4 py-2 rounded-xl text-sm font-semibold bg-[#f5f5f7] text-[#555]" data-status="aprovado">Aprovados</button>
+            <button class="agend-filter px-4 py-2 rounded-xl text-sm font-semibold bg-[#f5f5f7] text-[#555]" data-status="recusado">Recusados</button>
+          </div>
+        </div>
+        <div id="agendamentos-list" class="space-y-3"></div>
+        <div id="agendamentos-empty" class="hidden bg-white rounded-2xl p-12 text-center border border-[#e0ddd9]">
+          <p class="text-[#999]">Nenhum agendamento encontrado.</p>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+<div id="agend-detail-modal" class="fixed inset-0 z-[9999] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300 modal-bg">
+  <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto relative p-8 transform scale-95 transition-transform duration-300" id="agend-detail-modal-inner">
+    <button onclick="closeAgendDetail()" class="absolute top-4 right-4 w-9 h-9 bg-[#f5f5f7] hover:bg-[#e0e0e0] rounded-full flex items-center justify-center z-10">
+      <i class="fa-solid fa-xmark text-[#1a1a1a]"></i>
+    </button>
+    <h3 class="text-xl font-bold mb-6">Detalhes do agendamento</h3>
+    <div id="agend-detail-content"></div>
+  </div>
+</div>
+
+<!-- ═══ MODAL GENÉRICO ═══ -->
+<div id="generic-modal" class="fixed inset-0 z-[9999] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300 modal-bg">
+  <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto relative p-8 transform scale-95 transition-transform duration-300" id="generic-modal-inner">
+    <button onclick="closeModal()" class="absolute top-4 right-4 w-9 h-9 bg-[#f5f5f7] hover:bg-[#e0e0e0] rounded-full flex items-center justify-center z-10">
+      <i class="fa-solid fa-xmark text-[#1a1a1a]"></i>
+    </button>
+    <h3 id="modal-title" class="text-xl font-bold mb-6"></h3>
+    <div id="modal-err" class="hidden mb-4 text-sm font-semibold text-red-600 bg-red-50 border border-red-200 rounded-xl px-4 py-2.5"></div>
+    <form id="modal-form" class="space-y-4"></form>
+  </div>
+</div>
+    <!-- ═══ TAB: TESTES ═══ -->
+   <!-- <div id="tab-testes" class="tab-content hidden">
+      <div class="max-w-2xl">
+        <h2 class="text-2xl font-bold tracking-tight mb-1">🧪 Testes Evolution API</h2>
+        <p class="text-sm text-[#888] mb-6">Dispare uma mensagem de teste para qualquer número para validar a integração WhatsApp.</p>
+
+
+        <div class="bg-white rounded-2xl border border-[#e0ddd9] p-5 mb-6">
+          <h3 class="font-bold text-sm mb-3 text-[#333]">Configuração atual</h3>
+          <div class="space-y-1.5 text-sm">
+            <div class="flex gap-2"><span class="text-[#aaa] w-20">URL</span><code class="text-[#1a6cff] font-mono text-xs bg-[#f5f5f7] px-2 py-0.5 rounded-lg">https://evolution.cosmosomsoc.lat</code></div>
+            <div class="flex gap-2"><span class="text-[#aaa] w-20">Instância</span><code class="text-[#1a6cff] font-mono text-xs bg-[#f5f5f7] px-2 py-0.5 rounded-lg">sv distribuidora</code></div>
+            <div class="flex gap-2"><span class="text-[#aaa] w-20">API Key</span><code class="text-[#1a6cff] font-mono text-xs bg-[#f5f5f7] px-2 py-0.5 rounded-lg">D3CAE83B749A-4871-...</code></div>
+          </div>
+        </div>
+
+
+        <div class="bg-white rounded-2xl border border-[#e0ddd9] p-6 mb-6">
+          <h3 class="font-bold text-sm mb-4 text-[#333]">Enviar mensagem de teste</h3>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-xs font-semibold text-[#555] mb-1.5">Número do destinatário</label>
+              <input type="tel" id="test-phone" placeholder="Ex: 11999998888 ou 5511999998888"
+                class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] text-sm outline-none focus:border-[#1a6cff]">
+              <p class="text-xs text-[#aaa] mt-1">Pode colocar com ou sem o 55. Apenas dígitos ou com parênteses/traços.</p>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-[#555] mb-1.5">Mensagem</label>
+              <textarea id="test-msg" rows="4" placeholder="Digite a mensagem de teste..."
+                class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] text-sm outline-none focus:border-[#1a6cff] resize-none">Olá! Esta é uma mensagem de teste da iPro Assistência Apple. 🍎</textarea>
+            </div>
+            <button onclick="runEvolutionTest()" id="test-send-btn"
+              class="w-full bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold py-3.5 rounded-xl text-sm flex items-center justify-center gap-2 transition-colors">
+              <i class="fa-brands fa-whatsapp text-base"></i> Disparar mensagem de teste
+            </button>
+          </div>
+        </div>
+      -->
+
+        <!-- Resultado -->
+        <div id="test-result" class="hidden bg-white rounded-2xl border border-[#e0ddd9] p-6">
+          <h3 class="font-bold text-sm mb-3 text-[#333]">Resultado</h3>
+          <div id="test-result-badge" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold mb-4"></div>
+          <pre id="test-result-body" class="bg-[#f9f9fb] rounded-xl p-4 text-xs font-mono overflow-x-auto whitespace-pre-wrap text-[#333] max-h-72 overflow-y-auto"></pre>
+          <div id="test-curl" class="mt-4">
+            <p class="text-xs font-semibold text-[#555] mb-2">Comando cURL equivalente:</p>
+            <pre id="test-curl-cmd" class="bg-[#1e1e2e] text-[#cdd6f4] rounded-xl p-4 text-xs font-mono overflow-x-auto whitespace-pre-wrap"></pre>
+            <button onclick="copyTestCurl()" class="mt-2 text-xs text-[#1a6cff] hover:underline font-semibold">📋 Copiar cURL</button>
+          </div>
+        </div>
+      </div>
+    </div> 
+
+<!-- ═══ MODAL REMARCAR AGENDAMENTO ═══ -->
+<div id="recusar-modal" class="fixed inset-0 z-[9999] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300 modal-bg">
+  <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg max-h-[92vh] overflow-y-auto relative p-6" id="recusar-modal-inner" style="transform:scale(.95);transition:transform .3s">
+    <div class="flex items-center justify-between mb-4">
+      <div class="flex items-center gap-2">
+        <div class="w-9 h-9 bg-[#fff7ed] rounded-xl flex items-center justify-center"><i class="fa-solid fa-calendar-days text-amber-500"></i></div>
+        <h3 class="text-lg font-bold">Remarcar agendamento</h3>
+      </div>
+      <button onclick="closeRecusarModal()" class="w-9 h-9 bg-[#f5f5f7] hover:bg-[#e0e0e0] rounded-full flex items-center justify-center">
+        <i class="fa-solid fa-xmark text-sm text-[#1a1a1a]"></i>
+      </button>
+    </div>
+    <div id="recusar-agend-info" class="bg-[#f0f4ff] rounded-xl p-3 mb-4 text-sm text-[#1a4080]"></div>
+    <div class="mb-3">
+      <p class="text-xs font-bold text-[#555] mb-2 uppercase tracking-wider">Escolha a nova data e horário <span class="text-red-400 font-normal normal-case">*obrigatório</span></p>
+      <div id="recusar-calendar" class="mb-3"></div>
+      <div id="recusar-slots-section" style="display:none">
+        <p class="text-xs font-semibold text-[#888] mb-2">Horários disponíveis</p>
+        <div id="recusar-slots" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:6px"></div>
+      </div>
+    </div>
+    <div id="recusar-selected-info" style="display:none" class="bg-[#f0fff4] border border-green-200 rounded-xl px-3 py-2 mb-3 text-xs text-green-700 font-semibold"></div>
+    <div class="mb-4">
+      <label class="block text-xs font-semibold text-[#555] mb-1.5">Mensagem para o cliente <span class="font-normal text-[#aaa]">(opcional)</span></label>
+      <textarea id="recusar-motivo" rows="2" class="w-full px-3 py-2 rounded-xl border border-[#e0ddd9] outline-none text-sm resize-none" placeholder="Ex: Nosso técnico estará em horário diferente nessa data..."></textarea>
+    </div>
+    <div class="flex gap-3">
+      <button onclick="confirmRemarcarAgend()" class="confirm-btn flex-1 bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold py-3 rounded-xl text-sm transition-colors flex items-center justify-center gap-2"><i class="fa-brands fa-whatsapp text-base"></i>Propor via WhatsApp</button>
+      <button onclick="closeRecusarModal()" class="flex-1 bg-[#f5f5f7] hover:bg-[#e0ddd9] text-[#555] font-semibold py-3 rounded-xl text-sm transition-colors">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL SEMINOVO ═══ -->
+<div id="seminovo-modal" class="fixed inset-0 z-[9999] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300 modal-bg">
+  <div class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[92vh] overflow-y-auto relative p-8 transform scale-95 transition-transform duration-300" id="seminovo-modal-inner">
+    <button onclick="closeSeminovoModal()" class="absolute top-4 right-4 w-9 h-9 bg-[#f5f5f7] hover:bg-[#e0e0e0] rounded-full flex items-center justify-center z-10">
+      <i class="fa-solid fa-xmark text-[#1a1a1a]"></i>
+    </button>
+    <h3 id="seminovo-modal-title" class="text-xl font-bold mb-6">Adicionar seminovo</h3>
+    <form id="seminovo-form" class="space-y-5">
+      <input type="hidden" id="sem-edit-id" value="">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-semibold text-[#555] mb-1.5">Título *</label>
+          <input type="text" id="sem-titulo" required class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] outline-none text-sm" placeholder="iPhone 14 Pro 128GB">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-[#555] mb-1.5">Categoria</label>
+          <select id="sem-categoria" class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] outline-none text-sm bg-white">
+            <option>iPhone</option><option>MacBook</option><option>iPad</option><option>Apple Watch</option><option>iMac</option><option>Mac Mini</option><option>Outros</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="block text-xs font-semibold text-[#555] mb-1.5">Descrição</label>
+        <textarea id="sem-descricao" rows="3" class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] outline-none text-sm resize-none" placeholder="Descreva o produto..."></textarea>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-semibold text-[#555] mb-1.5">Preço (R$) *</label>
+          <input type="number" id="sem-preco" step="0.01" min="0" required class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] outline-none text-sm" placeholder="4299.90">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-[#555] mb-1.5">Preço original (R$)</label>
+          <input type="number" id="sem-preco-original" step="0.01" min="0" class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] outline-none text-sm" placeholder="7299.00">
+        </div>
+      </div>
+      <!-- Especificações -->
+      <div>
+        <label class="block text-xs font-semibold text-[#555] mb-2">Especificações</label>
+        <div id="sem-specs" class="space-y-2"></div>
+        <button type="button" onclick="addSemSpec()" class="mt-2 text-sm text-[#1a6cff] hover:underline font-medium">+ Adicionar especificação</button>
+      </div>
+      <!-- Imagens -->
+      <div>
+        <label class="block text-xs font-semibold text-[#555] mb-2">Imagens (até 8)</label>
+        <div id="sem-images-preview" class="flex flex-wrap gap-2 mb-3"></div>
+        <input type="file" id="sem-img-upload" accept="image/*,video/*" multiple class="text-sm file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:bg-[#f5f5f7] file:text-sm file:font-semibold file:text-[#555] hover:file:bg-[#e0ddd9] file:cursor-pointer cursor-pointer">
+      </div>
+      <div class="pt-4 border-t border-[#eee] flex gap-3">
+        <button type="submit" class="flex-1 bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold py-3.5 rounded-xl text-sm">Salvar</button>
+        <button type="button" onclick="closeSeminovoModal()" class="px-6 py-3.5 border border-[#e0ddd9] rounded-xl text-sm font-semibold text-[#555] hover:bg-[#f5f5f7]">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════
+let TOKEN = sessionStorage.getItem('ipro-token') || '';
+let produtos = [], modelos = [], servicos = [], opcoes = [];
+let seminovos = [], semImages = [];
+let horarios = [], bloqueios = [], agendamentos = [];
+let selectedProdutoId = null, selectedModeloId = null, selectedServicoId = null;
+let currentAgendFilter = '';
+// track which product accordions are open (by produto id)
+let openProdutos = new Set();
+// track which model accordions are open (by model id) — expands to show services
+let openModelos = new Set();
+// track which service option accordions are open (by servico id)
+let openServicos = new Set();
+// template time slots for bulk schedule setup
+let templateSlots = [];
+let _faqCache = {};
+
+// ── Admin drill-down state ──
+let adminDrill = { level: 'produtos', produto: null, modelo: null, servico: null };
+
+const API_BASE = (location.port === '5501' || location.port === '5500') ? 'http://localhost:3000' : '';
+
+const API = (path, opts = {}) => {
+  const headers = { ...opts.headers };
+  if (TOKEN) headers['Authorization'] = 'Bearer ' + TOKEN;
+  if (opts.body && !(opts.body instanceof FormData)) {
+    headers['Content-Type'] = 'application/json';
+    opts.body = JSON.stringify(opts.body);
+  }
+  return fetch(API_BASE + path, { ...opts, headers }).then(async r => {
+    if (r.status === 401 && TOKEN) { TOKEN = ''; sessionStorage.removeItem('ipro-token'); throw new Error('Sessão expirada'); }
+    if (r.status === 401) throw new Error('Senha incorreta');
+    const text = await r.text();
+    let d;
+    try { d = JSON.parse(text); } catch { throw new Error('Servidor indisponível. Reinicie o servidor e tente novamente.'); }
+    if (!r.ok) throw new Error(d.error || 'Erro');
+    return d;
+  });
+};
+
+// ═══════════════════════════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════════════════════════
+if (TOKEN) showAdmin();
+
+document.getElementById('login-form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const errDiv = document.getElementById('login-error');
+  errDiv.classList.add('hidden');
+  const senha = document.getElementById('login-pass').value.trim();
+  if (!senha) { errDiv.textContent = 'Digite a senha.'; errDiv.classList.remove('hidden'); return; }
+  try {
+    const r = await fetch(API_BASE + '/api/admin/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: senha })
+    });
+    const data = await r.json();
+    if (!r.ok) { errDiv.textContent = data.error || 'Senha incorreta'; errDiv.classList.remove('hidden'); return; }
+    TOKEN = data.token;
+    sessionStorage.setItem('ipro-token', data.token);
+    showAdmin();
+  } catch (err) {
+    errDiv.textContent = 'Erro de conexão com o servidor.';
+    errDiv.classList.remove('hidden');
+  }
+});
+
+function showAdmin() {
+  document.getElementById('login-screen').classList.add('hidden');
+  document.getElementById('admin-panel').classList.remove('hidden');
+  loadNbConfig().catch(()=>{});
+  loadNbServicos().catch(()=>{});
+  loadProdutos().catch(()=>{});
+  loadSeminovos().catch(()=>{});
+  loadHorarios().catch(()=>{});
+  loadBloqueios().catch(()=>{});
+  loadRegras().catch(()=>{});
+  loadAgendamentos().catch(()=>{});
+}
+
+function showToast(msg, type = 'success') {
+  const el = document.createElement('div');
+  const colors = type === 'success'
+    ? 'background:#22c55e;color:#fff'
+    : type === 'warning'
+    ? 'background:#f59e0b;color:#fff'
+    : 'background:#ef4444;color:#fff';
+  el.style.cssText = `position:fixed;bottom:24px;right:24px;${colors};padding:14px 20px;border-radius:14px;font-size:14px;font-weight:600;box-shadow:0 4px 24px rgba(0,0,0,.18);z-index:99999;max-width:340px;line-height:1.4;`;
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(() => { el.style.transition = 'opacity .4s'; el.style.opacity = '0'; setTimeout(() => el.remove(), 400); }, 4000);
+}
+
+function doLogout() {
+  TOKEN = '';
+  sessionStorage.removeItem('ipro-token');
+  location.reload();
+}
+
+// ═══════════════════════════════════════════════════════════
+// NOTEBOOK SERVIÇOS
+// ═══════════════════════════════════════════════════════════
+let nbServicos = [];
+let nbConfig = { nome: 'Notebook em geral', imagem: '' };
+
+async function loadNbConfig() {
+  try { nbConfig = await API('/api/notebook-config'); } catch { nbConfig = { nome: 'Notebook em geral', imagem: '' }; }
+}
+
+async function loadNbServicos() {
+  try {
+    nbServicos = await API('/api/notebook-servicos');
+  } catch { nbServicos = []; }
+  // If we're currently viewing notebook services, re-render
+  if (adminDrill.level === 'notebook-servicos') renderAdminView();
+}
+
+function openEditNbConfig() {
+  modalType = 'notebook-config';
+  modalEditId = null;
+  const title = document.getElementById('modal-title');
+  const form = document.getElementById('modal-form');
+  title.textContent = 'Editar Notebook em geral';
+  document.getElementById('modal-err').classList.add('hidden');
+  form.innerHTML = `
+    <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Nome *</label>
+    <input type="text" id="m-nome" required class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] outline-none text-sm" value="${nbConfig.nome || 'Notebook em geral'}" placeholder="Ex: Notebook em geral"></div>
+    <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Imagem</label>
+    <input type="file" id="m-img-file" accept="image/*" class="text-sm file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:bg-[#f5f5f7] file:text-sm file:font-semibold file:text-[#555] hover:file:bg-[#e0ddd9] file:cursor-pointer">
+    ${nbConfig.imagem ? `<img loading="lazy" src="${nbConfig.imagem}" class="w-16 h-16 rounded-xl object-cover mt-2">` : ''}
+    <input type="hidden" id="m-img-url" value="${nbConfig.imagem || ''}"></div>
+    <button type="submit" class="w-full bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold py-3.5 rounded-xl text-sm">Salvar</button>`;
+  showPopup('generic-modal');
+}
+
+function openAddNbServico() {
+  modalType = 'nb-servico';
+  modalEditId = null;
+  document.getElementById('modal-title').textContent = 'Novo tipo de serviço';
+  document.getElementById('modal-err').classList.add('hidden');
+  document.getElementById('modal-form').innerHTML = `
+    <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Nome *</label>
+    <input type="text" id="m-nome" required class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] text-sm outline-none focus:border-[#1a6cff]" placeholder="Ex: Troca de tela"></div>
+    <div class="grid grid-cols-2 gap-4">
+      <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Ordem</label>
+      <input type="number" id="m-ordem" class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] text-sm outline-none focus:border-[#1a6cff]" value="${nbServicos.length + 1}" min="1"></div>
+      <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Status</label>
+      <select id="m-ativo" class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] outline-none text-sm bg-white">
+        <option value="true" selected>Ativo</option>
+        <option value="false">Inativo</option>
+      </select></div>
+    </div>
+    <button type="submit" class="w-full bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold py-3.5 rounded-xl text-sm transition-colors">Salvar</button>
+  `;
+  showPopup('generic-modal');
+}
+
+function editNbServico(id) {
+  const s = nbServicos.find(x => x.id === id);
+  if (!s) return;
+  modalType = 'nb-servico';
+  modalEditId = id;
+  document.getElementById('modal-title').textContent = 'Editar tipo de serviço';
+  document.getElementById('modal-err').classList.add('hidden');
+  document.getElementById('modal-form').innerHTML = `
+    <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Nome *</label>
+    <input type="text" id="m-nome" required class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] text-sm outline-none focus:border-[#1a6cff]" value="${s.nome}"></div>
+    <div class="grid grid-cols-2 gap-4">
+      <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Ordem</label>
+      <input type="number" id="m-ordem" class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] text-sm outline-none focus:border-[#1a6cff]" value="${s.ordem}" min="1"></div>
+      <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Status</label>
+      <select id="m-ativo" class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] outline-none text-sm bg-white">
+        <option value="true" ${s.ativo ? 'selected' : ''}>Ativo</option>
+        <option value="false" ${!s.ativo ? 'selected' : ''}>Inativo</option>
+      </select></div>
+    </div>
+    <button type="submit" class="w-full bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold py-3.5 rounded-xl text-sm transition-colors">Salvar alterações</button>
+  `;
+  showPopup('generic-modal');
+}
+
+async function deleteNbServico(id) {
+  if (!confirm('Excluir este tipo de serviço?')) return;
+  await API('/api/notebook-servicos/' + id, { method: 'DELETE' });
+  await loadNbServicos();
+}
+
+// ═══════════════════════════════════════════════════════════
+// TABS
+// ═══════════════════════════════════════════════════════════
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('active'); b.classList.add('bg-[#f5f5f7]', 'text-[#555]'); });
+    btn.classList.add('active'); btn.classList.remove('bg-[#f5f5f7]', 'text-[#555]');
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+    document.getElementById('tab-' + btn.dataset.tab).classList.remove('hidden');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('fade-in');
+  });
+});
+
+
+
+// ═══════════════════════════════════════════════════════════
+// PRODUTOS
+// ═══════════════════════════════════════════════════════════
+async function loadProdutos() {
+  produtos = await API('/api/produtos');
+  adminDrill = { level: 'produtos', produto: null, modelo: null, servico: null };
+  renderAdminView();
+}
+
+// ─── Drill-down navigation ────────────────────────────────
+function navigateAdmin(level, data) {
+  if (level === 'produtos') {
+    adminDrill = { level: 'produtos', produto: null, modelo: null, servico: null };
+  } else if (level === 'modelos') {
+    adminDrill = { level: 'modelos', produto: data, modelo: null, servico: null };
+    selectedProdutoId = data.id;
+  } else if (level === 'servicos') {
+    adminDrill = { ...adminDrill, level: 'servicos', modelo: data, servico: null };
+    selectedModeloId = data.id;
+  } else if (level === 'opcoes') {
+    adminDrill = { ...adminDrill, level: 'opcoes', servico: data };
+    selectedServicoId = data.id;
+  } else if (level === 'notebook-servicos') {
+    adminDrill = { level: 'notebook-servicos', produto: null, modelo: null, servico: null };
+  }
+  renderAdminView();
+}
+
+function renderAdminBreadcrumb() {
+  const bc = document.getElementById('admin-breadcrumb');
+  if (!bc) return;
+  const crumbs = [];
+  crumbs.push({ label: 'Produtos', level: 'produtos', data: null, icon: 'fa-mobile-screen-button' });
+  if (adminDrill.level === 'notebook-servicos') {
+    crumbs.push({ label: nbConfig.nome || 'Notebook em geral', level: 'notebook-servicos', data: null, icon: 'fa-laptop' });
+  }
+  if (adminDrill.produto) {
+    crumbs.push({ label: adminDrill.produto.nome, level: 'modelos', data: adminDrill.produto, icon: 'fa-mobile-screen' });
+  }
+  if (adminDrill.modelo) {
+    crumbs.push({ label: adminDrill.modelo.nome, level: 'servicos', data: adminDrill.modelo, icon: 'fa-wrench' });
+  }
+  if (adminDrill.servico) {
+    crumbs.push({ label: adminDrill.servico.nome, level: 'opcoes', data: adminDrill.servico, icon: 'fa-tag' });
+  }
+  bc.innerHTML = crumbs.map((c, i) => {
+    const isLast = i === crumbs.length - 1;
+    const sep = i > 0 ? '<i class="fa-solid fa-chevron-right text-[10px] text-[#ccc] mx-1"></i>' : '';
+    if (isLast) {
+      return sep + `<span class="inline-flex items-center gap-1.5 bg-[#1a6cff] text-white px-3 py-1.5 rounded-lg text-xs font-bold"><i class="fa-solid ${c.icon}" style="font-size:10px"></i>${c.label}</span>`;
+    }
+    return sep + `<button onclick="navigateAdmin('${c.level}'${c.data ? ','+JSON.stringify(c.data).replace(/"/g,'&quot;') : ''})" class="inline-flex items-center gap-1.5 text-[#1a6cff] hover:bg-[#f0f4ff] px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors"><i class="fa-solid ${c.icon}" style="font-size:10px"></i>${c.label}</button>`;
+  }).join('');
+}
+
+async function renderAdminView() {
+  renderAdminBreadcrumb();
+  const content = document.getElementById('admin-drill-content');
+  if (!content) return;
+  if (adminDrill.level === 'produtos') renderProdutosView(content);
+  else if (adminDrill.level === 'notebook-servicos') await renderNotebookServicosView(content);
+  else if (adminDrill.level === 'modelos') await renderModelosView(content);
+  else if (adminDrill.level === 'servicos') await renderServicosView(content);
+  else if (adminDrill.level === 'opcoes') await renderOpcoesView(content);
+}
+
+// ─── Level: Produtos ──────────────────────────────────────
+function renderProdutosView(container) {
+  if (!produtos.length) {
+    container.innerHTML = '<div class="bg-white rounded-2xl p-12 text-center border border-[#e0ddd9]"><p class="text-[#999]">Nenhum produto cadastrado.</p></div>';
+    container.innerHTML += `<div class="mt-4 flex justify-end"><button onclick="openModal('produto')" class="bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold px-5 py-2.5 rounded-xl text-sm flex items-center gap-2"><i class="fa-solid fa-plus text-xs"></i> Novo Produto</button></div>`;
+    return;
+  }
+  let html = '<div class="flex items-center justify-between mb-5"><h2 class="text-xl font-bold tracking-tight">Dispositivos</h2><button onclick="openModal(\'produto\')" class="bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold px-4 py-2 rounded-xl text-sm flex items-center gap-2"><i class="fa-solid fa-plus text-xs"></i> Novo Produto</button></div>';
+  html += '<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">';
+  produtos.forEach(p => {
+    html += `<div class="bg-white rounded-2xl border border-[#e0ddd9] hover:shadow-lg transition-all group">
+      <div class="p-5 cursor-pointer" onclick="navigateAdmin('modelos',${JSON.stringify(p).replace(/"/g,'&quot;')})">
+        <div class="flex items-center gap-4 mb-3">
+          ${p.imagem ? `<img loading="lazy" src="${p.imagem}" class="w-16 h-16 rounded-xl object-cover shrink-0">` : `<div class="w-16 h-16 rounded-xl bg-[#f5f5f7] flex items-center justify-center shrink-0"><i class="fa-solid fa-mobile-screen-button text-2xl text-[#ccc]"></i></div>`}
+          <div class="min-w-0">
+            <h4 class="font-bold text-base group-hover:text-[#1a6cff] transition-colors">${p.nome}</h4>
+            <span class="text-xs px-2 py-0.5 rounded-full ${p.ativo ? 'bg-green-100 text-green-700' : 'bg-[#f0f0f0] text-[#aaa]'}">${p.ativo ? 'Ativo' : 'Inativo'}</span>
+          </div>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-xs text-[#aaa]">Ordem: ${p.ordem}</span>
+          <div class="flex gap-1.5" onclick="event.stopPropagation()">
+            <button onclick="editProduto('${p.id}')" class="w-8 h-8 bg-[#f0f4ff] hover:bg-[#1a6cff] hover:text-white rounded-lg flex items-center justify-center text-[#1a6cff] transition-colors" title="Editar"><i class="fa-solid fa-pen text-xs"></i></button>
+            <button onclick="deleteProduto('${p.id}')" class="w-8 h-8 bg-red-50 hover:bg-red-500 hover:text-white rounded-lg flex items-center justify-center text-red-500 transition-colors" title="Excluir"><i class="fa-solid fa-trash text-xs"></i></button>
+          </div>
+        </div>
+      </div>
+      <!-- FAQ inline per product -->
+      <div class="border-t border-[#f0eeeb] px-4 py-3 bg-[#fafafa]">
+        <div class="flex items-center justify-between mb-1">
+          <button onclick="event.stopPropagation();toggleCardFaq('produto-${p.id}')" class="text-xs font-semibold text-[#1a6cff] flex items-center gap-1 hover:underline"><i class="fa-solid fa-circle-question" style="font-size:10px"></i> FAQ</button>
+          <button onclick="event.stopPropagation();toggleFaqAdd('produto-${p.id}')" class="text-xs bg-[#f0f4ff] hover:bg-[#1a6cff] hover:text-white text-[#1a6cff] font-semibold px-2 py-1 rounded-lg transition-colors">+ Pergunta</button>
+        </div>
+        <div id="card-faq-produto-${p.id}" class="hidden mt-2">
+          <div id="faq-list-produto-${p.id}" class="space-y-1.5 mb-2"></div>
+          <div id="faq-add-produto-${p.id}" class="hidden faq-inline-form space-y-2 mt-2 bg-white rounded-xl p-3 border border-[#e8e8ea]">
+            <input id="faq-q-produto-${p.id}" type="text" placeholder="Pergunta..." class="w-full px-3 py-2 border border-[#e0ddd9] rounded-xl text-sm focus:outline-none focus:border-[#1a6cff]">
+            <textarea id="faq-a-produto-${p.id}" rows="2" placeholder="Resposta..." style="resize:none" class="w-full px-3 py-2 border border-[#e0ddd9] rounded-xl text-sm focus:outline-none focus:border-[#1a6cff]"></textarea>
+            <div class="flex gap-2">
+              <button type="button" onclick="saveFaqInline('produto','${p.id}')" class="flex-1 bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold py-1.5 rounded-xl text-xs transition-colors">Salvar</button>
+              <button type="button" onclick="toggleFaqAdd('produto-${p.id}')" class="px-3 py-1.5 bg-white border border-[#c7d9f7] text-[#888] rounded-xl text-xs hover:bg-[#f5f5f7] transition-colors">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-[#f0eeeb] px-5 py-2.5 flex items-center justify-between bg-[#fafafa] rounded-b-2xl cursor-pointer" onclick="navigateAdmin('modelos',${JSON.stringify(p).replace(/"/g,'&quot;')})">
+        <span class="text-xs text-[#aaa] font-medium">Ver modelos e serviços</span>
+        <i class="fa-solid fa-arrow-right text-xs text-[#1a6cff] group-hover:translate-x-1 transition-transform"></i>
+      </div>
+    </div>`;
+  });
+  // ─── Notebook em geral card ─────────────────────────────
+  html += `<div class="bg-white rounded-2xl border border-[#e0ddd9] hover:shadow-lg transition-all group">
+    <div class="p-5 cursor-pointer" onclick="navigateAdmin('notebook-servicos')">
+      <div class="flex items-center gap-4 mb-3">
+        ${nbConfig.imagem ? `<img loading="lazy" src="${nbConfig.imagem}" class="w-16 h-16 rounded-xl object-cover shrink-0">` : `<div class="w-16 h-16 rounded-xl bg-[#f5f5f7] flex items-center justify-center shrink-0"><span class="text-2xl">💻</span></div>`}
+        <div class="min-w-0">
+          <h4 class="font-bold text-base group-hover:text-[#1a6cff] transition-colors">${nbConfig.nome || 'Notebook em geral'}</h4>
+          <span class="text-xs px-2 py-0.5 rounded-full bg-blue-100 text-blue-700">Notebook</span>
+        </div>
+      </div>
+      <div class="flex items-center justify-between">
+        <span class="text-xs text-[#aaa]">${nbServicos.length} tipo(s) de serviço</span>
+        <div class="flex gap-1.5" onclick="event.stopPropagation()">
+          <button onclick="openEditNbConfig()" class="w-8 h-8 bg-[#f0f4ff] hover:bg-[#1a6cff] hover:text-white rounded-lg flex items-center justify-center text-[#1a6cff] transition-colors" title="Editar"><i class="fa-solid fa-pen text-xs"></i></button>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-[#f0eeeb] px-4 py-3 bg-[#fafafa]" onclick="event.stopPropagation()">
+      <div class="flex items-center justify-between mb-1">
+        <button onclick="event.stopPropagation();toggleCardFaq('notebook-1')" class="text-xs font-semibold text-[#1a6cff] flex items-center gap-1 hover:underline"><i class="fa-solid fa-circle-question" style="font-size:10px"></i> FAQ</button>
+        <button onclick="event.stopPropagation();toggleFaqAdd('notebook-1')" class="text-xs bg-[#f0f4ff] hover:bg-[#1a6cff] hover:text-white text-[#1a6cff] font-semibold px-2 py-1 rounded-lg transition-colors">+ Pergunta</button>
+      </div>
+      <div id="card-faq-notebook-1" class="hidden mt-2">
+        <div id="faq-list-notebook-1" class="space-y-1.5 mb-2"></div>
+        <div id="faq-add-notebook-1" class="hidden faq-inline-form space-y-2 mt-2 bg-white rounded-xl p-3 border border-[#e8e8ea]">
+          <input id="faq-q-notebook-1" type="text" placeholder="Pergunta..." class="w-full px-3 py-2 border border-[#e0ddd9] rounded-xl text-sm focus:outline-none focus:border-[#1a6cff]">
+          <textarea id="faq-a-notebook-1" rows="2" placeholder="Resposta..." style="resize:none" class="w-full px-3 py-2 border border-[#e0ddd9] rounded-xl text-sm focus:outline-none focus:border-[#1a6cff]"></textarea>
+          <div class="flex gap-2">
+            <button type="button" onclick="saveFaqInline('notebook','1')" class="flex-1 bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold py-1.5 rounded-xl text-xs transition-colors">Salvar</button>
+            <button type="button" onclick="toggleFaqAdd('notebook-1')" class="px-3 py-1.5 bg-white border border-[#c7d9f7] text-[#888] rounded-xl text-xs hover:bg-[#f5f5f7] transition-colors">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-[#f0eeeb] px-5 py-2.5 flex items-center justify-between bg-[#fafafa] rounded-b-2xl cursor-pointer" onclick="navigateAdmin('notebook-servicos')">
+      <span class="text-xs text-[#aaa] font-medium">Ver tipos de serviço</span>
+      <i class="fa-solid fa-arrow-right text-xs text-[#1a6cff] group-hover:translate-x-1 transition-transform"></i>
+    </div>
+  </div>`;
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+// ─── Level: Notebook Serviços ─────────────────────────────
+async function renderNotebookServicosView(container) {
+  let html = `<div class="flex items-center justify-between mb-5">
+    <h2 class="text-xl font-bold tracking-tight">Tipos de serviço — ${nbConfig.nome || 'Notebook em geral'}</h2>
+    <button onclick="openAddNbServico()" class="bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold px-4 py-2 rounded-xl text-sm flex items-center gap-2"><i class="fa-solid fa-plus text-xs"></i> Novo tipo de serviço</button>
+  </div>`;
+  if (!nbServicos.length) {
+    html += '<div class="bg-white rounded-2xl p-8 text-center border border-[#e0ddd9]"><p class="text-[#999] text-sm">Nenhum tipo de serviço cadastrado.</p></div>';
+  } else {
+    html += '<div class="space-y-3">';
+    nbServicos.forEach((s, idx) => {
+      html += `<div class="bg-white rounded-xl border border-[#e0ddd9] overflow-hidden">
+        <div class="flex items-center gap-3 px-4 py-3">
+          <span class="text-xs font-bold text-[#aaa] w-6 text-center">${idx + 1}</span>
+          <div class="flex-1 min-w-0">
+            <span class="text-sm font-semibold">${s.nome}</span>
+            ${!s.ativo ? '<span class="ml-2 text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-700">Inativo</span>' : '<span class="ml-2 text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700">Ativo</span>'}
+          </div>
+          <div class="flex gap-1.5 shrink-0">
+            <button onclick="editNbServico('${s.id}')" class="w-7 h-7 bg-[#f0f4ff] hover:bg-[#1a6cff] hover:text-white rounded-lg flex items-center justify-center text-[#1a6cff] transition-colors" title="Editar"><i class="fa-solid fa-pen" style="font-size:10px"></i></button>
+            <button onclick="deleteNbServico('${s.id}')" class="w-7 h-7 bg-red-50 hover:bg-red-500 hover:text-white rounded-lg flex items-center justify-center text-red-400 transition-colors" title="Excluir"><i class="fa-solid fa-trash" style="font-size:10px"></i></button>
+          </div>
+        </div>
+        <div class="border-t border-[#f0eeeb] px-4 py-2.5 bg-[#fafafa]">
+          <div class="flex items-center justify-between">
+            <button onclick="toggleCardFaq('nb_servico-${s.id}')" class="text-xs font-semibold text-[#1a6cff] flex items-center gap-1 hover:underline"><i class="fa-solid fa-circle-question" style="font-size:10px"></i> FAQ</button>
+            <button onclick="toggleFaqAdd('nb_servico-${s.id}')" class="text-xs bg-[#f0f4ff] hover:bg-[#1a6cff] hover:text-white text-[#1a6cff] font-semibold px-2 py-1 rounded-lg transition-colors">+ Pergunta</button>
+          </div>
+          <div id="card-faq-nb_servico-${s.id}" class="hidden mt-2">
+            <div id="faq-list-nb_servico-${s.id}" class="space-y-1.5 mb-2"></div>
+            <div id="faq-add-nb_servico-${s.id}" class="hidden faq-inline-form space-y-2 mt-2 bg-white rounded-xl p-3 border border-[#e8e8ea]">
+              <input id="faq-q-nb_servico-${s.id}" type="text" placeholder="Pergunta..." class="w-full px-3 py-2 border border-[#e0ddd9] rounded-xl text-sm focus:outline-none focus:border-[#1a6cff]">
+              <textarea id="faq-a-nb_servico-${s.id}" rows="2" placeholder="Resposta..." style="resize:none" class="w-full px-3 py-2 border border-[#e0ddd9] rounded-xl text-sm focus:outline-none focus:border-[#1a6cff]"></textarea>
+              <div class="flex gap-2">
+                <button type="button" onclick="saveFaqInline('nb_servico','${s.id}')" class="flex-1 bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold py-1.5 rounded-xl text-xs transition-colors">Salvar</button>
+                <button type="button" onclick="toggleFaqAdd('nb_servico-${s.id}')" class="px-3 py-1.5 bg-white border border-[#c7d9f7] text-[#888] rounded-xl text-xs hover:bg-[#f5f5f7] transition-colors">Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    });
+    html += '</div>';
+  }
+  container.innerHTML = html;
+}
+
+// ─── Level: Modelos ───────────────────────────────────────
+async function renderModelosView(container) {
+  const p = adminDrill.produto;
+  container.innerHTML = '<p class="text-xs text-[#ccc] py-4 italic">Carregando modelos...</p>';
+  const list = await API('/api/modelos?produto_id=' + p.id);
+  _modelosCache[p.id] = list;
+
+  let html = `<div class="flex items-center justify-between mb-5">
+    <h2 class="text-xl font-bold tracking-tight">Modelos — ${p.nome}</h2>
+    <button onclick="selectedProdutoId='${p.id}';openModal('modelo')" class="bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold px-4 py-2 rounded-xl text-sm flex items-center gap-2"><i class="fa-solid fa-plus text-xs"></i> Novo Modelo</button>
+  </div>`;
+
+  if (!list.length) {
+    html += '<div class="bg-white rounded-2xl p-8 text-center border border-[#e0ddd9] mb-5"><p class="text-[#999] text-sm">Nenhum modelo cadastrado para este produto.</p></div>';
+  } else {
+    html += '<div class="space-y-3 mb-6">';
+    list.forEach(m => {
+      html += `<div class="bg-white rounded-xl border border-[#e0ddd9] overflow-hidden">
+        <div class="flex items-center gap-3 px-4 py-3 hover:bg-[#f8fbff] cursor-pointer group" onclick="navigateAdmin('servicos',${JSON.stringify(m).replace(/"/g,'&quot;')})">
+          <div class="w-10 h-10 rounded-lg bg-[#e8eeff] flex items-center justify-center shrink-0"><i class="fa-solid fa-mobile-screen text-[#1a6cff] text-sm"></i></div>
+          <div class="flex-1 min-w-0">
+            <span class="text-sm font-semibold group-hover:text-[#1a6cff] transition-colors">${m.nome}</span>
+            <span class="ml-2 text-xs px-2 py-0.5 rounded-full ${m.ativo ? 'bg-green-100 text-green-700' : 'bg-[#f0f0f0] text-[#aaa]'}">${m.ativo ? 'Ativo' : 'Inativo'}</span>
+          </div>
+          <div class="flex gap-1.5 shrink-0" onclick="event.stopPropagation()">
+            <button onclick="editModelo('${m.id}')" class="w-7 h-7 bg-[#f0f4ff] hover:bg-[#1a6cff] hover:text-white rounded-lg flex items-center justify-center text-[#1a6cff] transition-colors" title="Editar"><i class="fa-solid fa-pen" style="font-size:10px"></i></button>
+            <button onclick="deleteModeloInline('${m.id}','${p.id}')" class="w-7 h-7 bg-red-50 hover:bg-red-500 hover:text-white rounded-lg flex items-center justify-center text-red-400 transition-colors" title="Excluir"><i class="fa-solid fa-trash" style="font-size:10px"></i></button>
+          </div>
+          <i class="fa-solid fa-arrow-right text-xs text-[#1a6cff] opacity-0 group-hover:opacity-100 transition-all"></i>
+        </div>
+        <!-- FAQ per modelo -->
+        <div class="border-t border-[#f0eeeb] px-4 py-2.5 bg-[#fafafa]" onclick="event.stopPropagation()">
+          <div class="flex items-center justify-between">
+            <button onclick="toggleCardFaq('modelo-${m.id}')" class="text-xs font-semibold text-[#1a6cff] flex items-center gap-1 hover:underline"><i class="fa-solid fa-circle-question" style="font-size:10px"></i> FAQ</button>
+            <button onclick="toggleFaqAdd('modelo-${m.id}')" class="text-xs bg-[#f0f4ff] hover:bg-[#1a6cff] hover:text-white text-[#1a6cff] font-semibold px-2 py-1 rounded-lg transition-colors">+ Pergunta</button>
+          </div>
+          <div id="card-faq-modelo-${m.id}" class="hidden mt-2">
+            <div id="faq-list-modelo-${m.id}" class="space-y-1.5 mb-2"></div>
+            <div id="faq-add-modelo-${m.id}" class="hidden faq-inline-form space-y-2 mt-2 bg-white rounded-xl p-3 border border-[#e8e8ea]">
+              <input id="faq-q-modelo-${m.id}" type="text" placeholder="Pergunta..." class="w-full px-3 py-2 border border-[#e0ddd9] rounded-xl text-sm focus:outline-none focus:border-[#1a6cff]">
+              <textarea id="faq-a-modelo-${m.id}" rows="2" placeholder="Resposta..." style="resize:none" class="w-full px-3 py-2 border border-[#e0ddd9] rounded-xl text-sm focus:outline-none focus:border-[#1a6cff]"></textarea>
+              <div class="flex gap-2">
+                <button type="button" onclick="saveFaqInline('modelo','${m.id}')" class="flex-1 bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold py-1.5 rounded-xl text-xs transition-colors">Salvar</button>
+                <button type="button" onclick="toggleFaqAdd('modelo-${m.id}')" class="px-3 py-1.5 bg-white border border-[#c7d9f7] text-[#888] rounded-xl text-xs hover:bg-[#f5f5f7] transition-colors">Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    });
+    html += '</div>';
+  }
+
+  container.innerHTML = html;
+}
+
+// ─── Level: Serviços ──────────────────────────────────────
+async function renderServicosView(container) {
+  const m = adminDrill.modelo;
+  container.innerHTML = '<p class="text-xs text-[#ccc] py-4 italic">Carregando serviços...</p>';
+  const list = await API('/api/servicos?modelo_id=' + m.id);
+  _servicosCache[m.id] = list;
+
+  let html = `<div class="flex items-center justify-between mb-5">
+    <h2 class="text-xl font-bold tracking-tight">Serviços — ${m.nome}</h2>
+    <button onclick="selectedModeloId='${m.id}';toggleSvcNewForm('${m.id}')" class="bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold px-4 py-2 rounded-xl text-sm flex items-center gap-2"><i class="fa-solid fa-plus text-xs"></i> Novo Serviço</button>
+  </div>`;
+
+  // Inline new service form
+  html += `<div id="svc-new-form-${m.id}" class="hidden bg-white rounded-2xl border-2 border-[#1a6cff] p-5 space-y-3 mb-5 fade-in">
+    <p class="text-sm font-bold text-[#1a4080]">Novo serviço</p>
+    <input type="text" id="svc-new-nome-${m.id}" placeholder="Nome do serviço *" class="w-full px-3 py-2 border border-[#e0ddd9] rounded-xl text-sm focus:outline-none focus:border-[#1a6cff]">
+    <div class="grid grid-cols-2 gap-3">
+      <div><label class="block text-xs text-[#777] mb-1 font-medium">Ordem</label><input type="number" id="svc-new-ordem-${m.id}" value="0" class="w-full px-3 py-2 border border-[#e0ddd9] rounded-xl text-sm focus:outline-none focus:border-[#1a6cff]"></div>
+      <div><label class="block text-xs text-[#777] mb-1 font-medium">Status</label><select id="svc-new-ativo-${m.id}" class="w-full px-3 py-2 border border-[#e0ddd9] rounded-xl text-sm focus:outline-none focus:border-[#1a6cff]"><option value="true">Ativo</option><option value="false">Inativo</option></select></div>
+    </div>
+    <div id="svc-new-err-${m.id}" class="hidden text-xs text-red-600 bg-red-50 rounded-lg px-3 py-1.5"></div>
+    <div class="flex gap-2 pt-1">
+      <button type="button" onclick="saveServicoInline('${m.id}')" class="flex-1 bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold py-2.5 rounded-xl text-sm transition-colors"><i class="fa-solid fa-check mr-1"></i>Criar serviço</button>
+      <button type="button" onclick="toggleSvcNewForm('${m.id}')" class="px-5 py-2.5 bg-white border border-[#e0ddd9] rounded-xl text-sm text-[#888] hover:bg-[#f5f5f7] transition-colors">Cancelar</button>
+    </div>
+  </div>`;
+
+  if (!list.length) {
+    html += '<div class="bg-white rounded-2xl p-8 text-center border border-[#e0ddd9] mb-5"><p class="text-[#999] text-sm">Nenhum serviço cadastrado para este modelo.</p></div>';
+  } else {
+    html += '<div class="space-y-3 mb-6">';
+    list.forEach(s => {
+      html += `<div class="bg-white rounded-xl border border-[#e0ddd9] overflow-hidden">
+        <div class="flex items-center gap-3 px-4 py-3 hover:bg-[#f8fbff] cursor-pointer group" onclick="navigateAdmin('opcoes',${JSON.stringify(s).replace(/"/g,'&quot;')})">
+          <div class="w-10 h-10 rounded-lg bg-[#e8f5e9] flex items-center justify-center shrink-0"><i class="fa-solid fa-wrench text-[#2e7d32] text-sm"></i></div>
+          <div class="flex-1 min-w-0">
+            <span class="text-sm font-semibold group-hover:text-[#1a6cff] transition-colors">${s.nome}</span>
+            <span class="ml-2 text-xs px-2 py-0.5 rounded-full ${s.ativo ? 'bg-green-100 text-green-700' : 'bg-[#f0f0f0] text-[#aaa]'}">${s.ativo ? 'Ativo' : 'Inativo'}</span>
+          </div>
+          <div class="flex gap-1.5 shrink-0" onclick="event.stopPropagation()">
+            <button onclick="editServico('${s.id}')" class="w-7 h-7 bg-[#f0f4ff] hover:bg-[#1a6cff] hover:text-white rounded-lg flex items-center justify-center text-[#1a6cff] transition-colors" title="Editar"><i class="fa-solid fa-pen" style="font-size:10px"></i></button>
+            <button onclick="deleteServicoInline('${s.id}','${m.id}')" class="w-7 h-7 bg-red-50 hover:bg-red-500 hover:text-white rounded-lg flex items-center justify-center text-red-400 transition-colors" title="Excluir"><i class="fa-solid fa-trash" style="font-size:10px"></i></button>
+          </div>
+          <i class="fa-solid fa-arrow-right text-xs text-[#1a6cff] opacity-0 group-hover:opacity-100 transition-all"></i>
+        </div>
+        <!-- FAQ per servico -->
+        <div class="border-t border-[#f0eeeb] px-4 py-2.5 bg-[#fafafa]" onclick="event.stopPropagation()">
+          <div class="flex items-center justify-between">
+            <button onclick="toggleCardFaq('servico-${s.id}')" class="text-xs font-semibold text-[#1a6cff] flex items-center gap-1 hover:underline"><i class="fa-solid fa-circle-question" style="font-size:10px"></i> FAQ</button>
+            <button onclick="toggleFaqAdd('servico-${s.id}')" class="text-xs bg-[#f0f4ff] hover:bg-[#1a6cff] hover:text-white text-[#1a6cff] font-semibold px-2 py-1 rounded-lg transition-colors">+ Pergunta</button>
+          </div>
+          <div id="card-faq-servico-${s.id}" class="hidden mt-2">
+            <div id="faq-list-${s.id}" class="space-y-1.5 mb-2"></div>
+            <div id="faq-add-servico-${s.id}" class="hidden faq-inline-form space-y-2 mt-2 bg-white rounded-xl p-3 border border-[#e8e8ea]">
+              <input id="faq-q-servico-${s.id}" type="text" placeholder="Pergunta..." class="w-full px-3 py-2 border border-[#e0ddd9] rounded-xl text-sm focus:outline-none focus:border-[#1a6cff]">
+              <textarea id="faq-a-servico-${s.id}" rows="2" placeholder="Resposta..." style="resize:none" class="w-full px-3 py-2 border border-[#e0ddd9] rounded-xl text-sm focus:outline-none focus:border-[#1a6cff]"></textarea>
+              <div class="flex gap-2">
+                <button type="button" onclick="saveFaqInline('servico','${s.id}')" class="flex-1 bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold py-1.5 rounded-xl text-xs transition-colors">Salvar</button>
+                <button type="button" onclick="toggleFaqAdd('servico-${s.id}')" class="px-3 py-1.5 bg-white border border-[#c7d9f7] text-[#888] rounded-xl text-xs hover:bg-[#f5f5f7] transition-colors">Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    });
+    html += '</div>';
+  }
+
+  container.innerHTML = html;
+}
+
+// ─── Level: Opções ────────────────────────────────────────
+async function renderOpcoesView(container) {
+  const s = adminDrill.servico;
+  container.innerHTML = '<p class="text-xs text-[#ccc] py-4 italic">Carregando opções...</p>';
+  const list = await API('/api/opcoes?servico_id=' + s.id);
+  _opcoesCache[s.id] = list;
+
+  let html = `<div class="flex items-center justify-between mb-5">
+    <h2 class="text-xl font-bold tracking-tight">Opções — ${s.nome}</h2>
+    <button onclick="toggleOpNewForm('${s.id}')" class="bg-[#2e7d32] hover:bg-[#1b5e20] text-white font-semibold px-4 py-2 rounded-xl text-sm flex items-center gap-2"><i class="fa-solid fa-plus text-xs"></i> Nova Opção</button>
+  </div>`;
+
+  // Inline new option form
+  html += `<div id="op-new-form-${s.id}" class="hidden bg-white rounded-2xl border-2 border-[#2e7d32] p-5 space-y-3 mb-5 fade-in">
+    <p class="text-sm font-bold text-[#1a4080]">Nova opção</p>
+    <input type="text" id="op-new-nome-${s.id}" placeholder="Nome da opção *" class="w-full px-3 py-2 border border-[#e0ddd9] rounded-xl text-sm focus:outline-none focus:border-[#2e7d32]">
+    <div class="grid grid-cols-2 gap-3">
+      <div><label class="block text-xs text-[#777] mb-1 font-medium">Preço (R$)</label><input type="number" id="op-new-preco-${s.id}" step="0.01" placeholder="0.00" class="w-full px-3 py-2 border border-[#e0ddd9] rounded-xl text-sm focus:outline-none focus:border-[#2e7d32]"></div>
+      <div><label class="block text-xs text-[#777] mb-1 font-medium">Tempo estimado</label><input type="text" id="op-new-tempo-${s.id}" placeholder="Ex: 30 min" class="w-full px-3 py-2 border border-[#e0ddd9] rounded-xl text-sm focus:outline-none focus:border-[#2e7d32]"></div>
+    </div>
+    <input type="text" id="op-new-desc-${s.id}" placeholder="Descrição (opcional)" class="w-full px-3 py-2 border border-[#e0ddd9] rounded-xl text-sm focus:outline-none focus:border-[#2e7d32]">
+    <div id="op-new-err-${s.id}" class="hidden text-xs text-red-600 bg-red-50 rounded-lg px-3 py-1.5"></div>
+    <div class="flex gap-2 pt-1">
+      <button type="button" onclick="saveOpcaoInline('${s.id}')" class="flex-1 bg-[#2e7d32] hover:bg-[#1b5e20] text-white font-semibold py-2.5 rounded-xl text-sm transition-colors"><i class="fa-solid fa-check mr-1"></i>Criar opção</button>
+      <button type="button" onclick="toggleOpNewForm('${s.id}')" class="px-5 py-2.5 bg-white border border-[#e0ddd9] rounded-xl text-sm text-[#888] hover:bg-[#f5f5f7] transition-colors">Cancelar</button>
+    </div>
+  </div>`;
+
+  if (!list.length) {
+    html += '<div class="bg-white rounded-2xl p-8 text-center border border-[#e0ddd9] mb-5"><p class="text-[#999] text-sm">Nenhuma opção cadastrada para este serviço.</p></div>';
+  } else {
+    html += '<div class="space-y-3 mb-6">';
+    list.forEach(o => {
+      const preco = o.preco ? parseFloat(o.preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : '';
+      html += `<div class="bg-white rounded-xl border border-[#e0ddd9] overflow-hidden">
+        <div class="flex items-center gap-3 px-4 py-3">
+          <div class="w-10 h-10 rounded-lg bg-[#fff3e0] flex items-center justify-center shrink-0"><i class="fa-solid fa-tag text-[#e65100] text-sm"></i></div>
+          <div class="flex-1 min-w-0">
+            <span class="text-sm font-semibold">${o.nome}</span>
+            ${preco ? `<span class="ml-2 text-xs font-bold text-[#2e7d32]">${preco}</span>` : ''}
+            ${o.tempo_estimado ? `<span class="ml-2 text-xs text-[#aaa]">${o.tempo_estimado}</span>` : ''}
+            <span class="ml-2 text-xs px-2 py-0.5 rounded-full ${o.ativo !== false ? 'bg-green-100 text-green-700' : 'bg-[#f0f0f0] text-[#aaa]'}">${o.ativo !== false ? 'Ativo' : 'Inativo'}</span>
+          </div>
+          <div class="flex gap-1.5 shrink-0">
+            <button onclick="editOpcao('${o.id}')" class="w-7 h-7 bg-[#f0f4ff] hover:bg-[#1a6cff] hover:text-white rounded-lg flex items-center justify-center text-[#1a6cff] transition-colors" title="Editar"><i class="fa-solid fa-pen" style="font-size:10px"></i></button>
+            <button onclick="deleteOpcaoInline('${o.id}','${s.id}')" class="w-7 h-7 bg-red-50 hover:bg-red-500 hover:text-white rounded-lg flex items-center justify-center text-red-400 transition-colors" title="Excluir"><i class="fa-solid fa-trash" style="font-size:10px"></i></button>
+          </div>
+        </div>
+        <!-- FAQ per opcao -->
+        <div class="border-t border-[#f0eeeb] px-4 py-2.5 bg-[#fafafa]">
+          <div class="flex items-center justify-between">
+            <button onclick="toggleCardFaq('opcao-${o.id}')" class="text-xs font-semibold text-[#1a6cff] flex items-center gap-1 hover:underline"><i class="fa-solid fa-circle-question" style="font-size:10px"></i> FAQ</button>
+            <button onclick="toggleFaqAdd('opcao-${o.id}')" class="text-xs bg-[#f0f4ff] hover:bg-[#1a6cff] hover:text-white text-[#1a6cff] font-semibold px-2 py-1 rounded-lg transition-colors">+ Pergunta</button>
+          </div>
+          <div id="card-faq-opcao-${o.id}" class="hidden mt-2">
+            <div id="faq-list-opcao-${o.id}" class="space-y-1.5 mb-2"></div>
+            <div id="faq-add-opcao-${o.id}" class="hidden faq-inline-form space-y-2 mt-2 bg-white rounded-xl p-3 border border-[#e8e8ea]">
+              <input id="faq-q-opcao-${o.id}" type="text" placeholder="Pergunta..." class="w-full px-3 py-2 border border-[#e0ddd9] rounded-xl text-sm focus:outline-none focus:border-[#1a6cff]">
+              <textarea id="faq-a-opcao-${o.id}" rows="2" placeholder="Resposta..." style="resize:none" class="w-full px-3 py-2 border border-[#e0ddd9] rounded-xl text-sm focus:outline-none focus:border-[#1a6cff]"></textarea>
+              <div class="flex gap-2">
+                <button type="button" onclick="saveFaqInline('opcao','${o.id}')" class="flex-1 bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold py-1.5 rounded-xl text-xs transition-colors">Salvar</button>
+                <button type="button" onclick="toggleFaqAdd('opcao-${o.id}')" class="px-3 py-1.5 bg-white border border-[#c7d9f7] text-[#888] rounded-xl text-xs hover:bg-[#f5f5f7] transition-colors">Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    });
+    html += '</div>';
+  }
+
+  container.innerHTML = html;
+}
+
+// ─── Toggle inline FAQ per card ───────────────────────────
+function toggleCardFaq(key) {
+  const el = document.getElementById('card-faq-' + key);
+  if (!el) return;
+  const isHidden = el.classList.contains('hidden');
+  el.classList.toggle('hidden', !isHidden);
+  // Load FAQ when opening
+  if (isHidden) {
+    const parts = key.split('-');
+    const tipo = parts[0];
+    const refId = parts.slice(1).join('-');
+    loadFaqIntoSection(tipo, refId);
+  }
+}
+
+// ─── Reusable FAQ section renderer ────────────────────────
+function renderFaqSection(tipo, refId, title) {
+  const key = tipo + '-' + refId;
+  return `<div class="bg-white rounded-2xl border border-[#e0ddd9] p-5 mt-2">
+    <div class="flex items-center justify-between mb-3">
+      <span class="text-xs font-bold text-[#aaa] uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-circle-question text-[#1a6cff]" style="font-size:11px"></i>${title}</span>
+      <button onclick="toggleFaqAdd('${key}')" class="text-xs bg-[#f0f4ff] hover:bg-[#1a6cff] hover:text-white text-[#1a6cff] font-semibold px-3 py-1.5 rounded-lg transition-colors">+ Pergunta</button>
+    </div>
+    <div id="faq-list-${key}" class="space-y-1.5 mb-2"></div>
+    <div id="faq-add-${key}" class="hidden faq-inline-form space-y-2 mt-2 bg-[#f9f9fb] rounded-xl p-4 border border-[#e8e8ea]">
+      <input id="faq-q-${key}" type="text" placeholder="Pergunta..." class="w-full px-3 py-2 border border-[#e0ddd9] rounded-xl text-sm focus:outline-none focus:border-[#1a6cff]">
+      <textarea id="faq-a-${key}" rows="2" placeholder="Resposta..." style="resize:none" class="w-full px-3 py-2 border border-[#e0ddd9] rounded-xl text-sm focus:outline-none focus:border-[#1a6cff]"></textarea>
+      <div class="flex gap-2">
+        <button type="button" onclick="saveFaqInline('${tipo}','${refId}')" class="flex-1 bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold py-2 rounded-xl text-xs transition-colors">Salvar</button>
+        <button type="button" onclick="toggleFaqAdd('${key}')" class="px-4 py-2 bg-white border border-[#c7d9f7] text-[#888] rounded-xl text-xs hover:bg-[#f5f5f7] transition-colors">Cancelar</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+async function loadFaqIntoSection(tipo, refId) {
+  const loadFn = tipo === 'produto' ? loadProdutoFaq : tipo === 'modelo' ? loadModeloFaq : tipo === 'opcao' ? loadOpcaoFaq : tipo === 'notebook' ? loadNotebookFaq : tipo === 'nb_servico' ? loadNbServicoFaq : loadServicoFaq;
+  try { await loadFn(refId); } catch(e) { console.error('loadFaq:', e); }
+}
+
+// Keep old functions for compatibility — they are now just wrappers
+function renderProdutos() { renderAdminView(); }
+
+// Simplified navigation stubs replacing old accordion functions
+async function toggleProduto(id) { navigateAdmin("modelos", produtos.find(p => p.id === id)); }
+async function toggleModelo(id, prodId) {
+  const list = _modelosCache[prodId] || [];
+  const m = list.find(x => x.id === id);
+  if (m) navigateAdmin("servicos", m);
+}
+async function toggleServico(svcId, modeloId) {
+  const list = _servicosCache[modeloId] || [];
+  const s = list.find(x => x.id === svcId);
+  if (s) navigateAdmin("opcoes", s);
+}
+
+async function deleteModeloInline(id, prodId) {
+  if (!confirm("Apagar este modelo e todos os seus serviços?")) return;
+  await API("/api/modelos/" + id, { method: "DELETE" });
+  _modelosCache[prodId] = (_modelosCache[prodId] || []).filter(m => m.id !== id);
+  renderAdminView();
+}
+
+async function loadServicosForModelo(modeloId) {
+  const svc = await API("/api/servicos?modelo_id=" + modeloId);
+  _servicosCache[modeloId] = svc;
+  renderAdminView();
+}
+
+async function loadModelosForProduto(prodId) {
+  const mdl = await API("/api/modelos?produto_id=" + prodId);
+  _modelosCache[prodId] = mdl;
+  renderAdminView();
+}
+
+// ─── Inline new-service form inside model accordion ──────────
+function toggleSvcNewForm(modeloId) {
+  const form = document.getElementById('svc-new-form-' + modeloId);
+  const btn = document.getElementById('svc-new-btn-' + modeloId);
+  if (!form) return;
+  const opening = form.classList.contains('hidden');
+  form.classList.toggle('hidden', !opening);
+  if (btn) btn.classList.toggle('hidden', opening);
+  if (opening) {
+    const inp = document.getElementById('svc-new-nome-' + modeloId);
+    if (inp) setTimeout(() => inp.focus(), 50);
+  }
+}
+
+async function saveServicoInline(modeloId) {
+  const nomeEl = document.getElementById('svc-new-nome-' + modeloId);
+  const ordemEl = document.getElementById('svc-new-ordem-' + modeloId);
+  const ativoEl = document.getElementById('svc-new-ativo-' + modeloId);
+  const errEl = document.getElementById('svc-new-err-' + modeloId);
+  if (!nomeEl) return;
+  const nome = nomeEl.value.trim();
+  const ordem = parseInt(ordemEl?.value) || 0;
+  const ativo = ativoEl?.value === 'true';
+  if (errEl) errEl.classList.add('hidden');
+  if (!nome) {
+    if (errEl) { errEl.textContent = 'Informe o nome do serviço.'; errEl.classList.remove('hidden'); }
+    nomeEl.focus(); return;
+  }
+  const saveBtn = document.querySelector('#svc-new-form-' + modeloId + ' button[onclick*="saveServicoInline"]');
+  if (saveBtn) { saveBtn.disabled = true; saveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i>Salvando...'; }
+  try {
+    await API('/api/servicos', { method: 'POST', body: { modelo_id: modeloId, nome, ordem, ativo } });
+    nomeEl.value = '';
+    if (ordemEl) ordemEl.value = '0';
+    toggleSvcNewForm(modeloId);
+    await loadServicosForModelo(modeloId);
+  } catch (err) {
+    if (errEl) { errEl.textContent = 'Erro: ' + (err.message || 'Falha ao salvar'); errEl.classList.remove('hidden'); }
+  } finally {
+    if (saveBtn) { saveBtn.disabled = false; saveBtn.innerHTML = '<i class="fa-solid fa-check mr-1"></i>Criar serviço'; }
+  }
+}
+
+function toggleOpNewForm(svcId) {
+  const form = document.getElementById('op-new-form-' + svcId);
+  const btn = document.getElementById('op-new-btn-' + svcId);
+  if (!form) return;
+  const opening = form.classList.contains('hidden');
+  form.classList.toggle('hidden', !opening);
+  if (btn) btn.classList.toggle('hidden', opening);
+  if (opening) {
+    const inp = document.getElementById('op-new-nome-' + svcId);
+    if (inp) setTimeout(() => inp.focus(), 50);
+  }
+}
+
+async function saveOpcaoInline(svcId) {
+  const nomeEl = document.getElementById('op-new-nome-' + svcId);
+  const precoEl = document.getElementById('op-new-preco-' + svcId);
+  const tempoEl = document.getElementById('op-new-tempo-' + svcId);
+  const descEl = document.getElementById('op-new-desc-' + svcId);
+  const errEl = document.getElementById('op-new-err-' + svcId);
+  if (!nomeEl) return;
+  const nome = nomeEl.value.trim();
+  if (errEl) errEl.classList.add('hidden');
+  if (!nome) {
+    if (errEl) { errEl.textContent = 'Informe o nome da opção.'; errEl.classList.remove('hidden'); }
+    nomeEl.focus(); return;
+  }
+  const preco = parseFloat(precoEl?.value) || 0;
+  const tempo_estimado = tempoEl?.value.trim() || '';
+  const descricao = descEl?.value.trim() || '';
+  const saveBtn = document.querySelector('#op-new-form-' + svcId + ' button[onclick*="saveOpcaoInline"]');
+  if (saveBtn) { saveBtn.disabled = true; saveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i>Salvando...'; }
+  try {
+    await API('/api/opcoes', { method: 'POST', body: { servico_id: svcId, nome, preco, descricao, tempo_estimado, ordem: 0, ativo: true } });
+    nomeEl.value = '';
+    if (precoEl) precoEl.value = '';
+    if (tempoEl) tempoEl.value = '';
+    if (descEl) descEl.value = '';
+    toggleOpNewForm(svcId);
+    _opcoesCache[svcId] = await API('/api/opcoes?servico_id=' + svcId);
+    renderAdminView();
+  } catch (err) {
+    if (errEl) { errEl.textContent = 'Erro: ' + (err.message || 'Falha ao salvar'); errEl.classList.remove('hidden'); }
+  } finally {
+    if (saveBtn) { saveBtn.disabled = false; saveBtn.innerHTML = '<i class="fa-solid fa-check mr-1"></i>Criar opção'; }
+  }
+}
+
+async function loadServicoOpcoes(svcId) {
+  const list = await API('/api/opcoes?servico_id=' + svcId);
+  _opcoesCache[svcId] = list;
+  const el = document.getElementById('opcoes-list-' + svcId);
+  if (!el) return;
+  if (!list.length) { el.innerHTML = '<p class="text-xs text-[#bbb] italic">Nenhuma opção cadastrada. Clique em "Adicionar opção" abaixo.</p>'; return; }
+  el.innerHTML = '';
+  list.forEach(o => {
+    const preco = o.preco ? ' · ' + parseFloat(o.preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : '';
+    const row = document.createElement('div');
+    row.className = 'flex items-center gap-2 bg-[#f9f9fb] rounded-lg px-3 py-1.5';
+    row.innerHTML = `<i class="fa-solid fa-tag text-[#2e7d32] text-xs shrink-0"></i>
+      <span class="flex-1 text-xs font-medium">${o.nome}${preco}</span>
+      ${o.tempo_estimado ? `<span class="text-xs text-[#bbb]">⏱ ${o.tempo_estimado}</span>` : ''}
+      <button onclick="editOpcao('${o.id}')" class="w-6 h-6 bg-[#f0f4ff] hover:bg-[#1a6cff] hover:text-white rounded-md flex items-center justify-center text-[#1a6cff] transition-colors"><i class="fa-solid fa-pen" style="font-size:9px"></i></button>
+      <button onclick="deleteOpcaoInline('${o.id}','${svcId}')" class="w-6 h-6 bg-red-50 hover:bg-red-500 hover:text-white rounded-md flex items-center justify-center text-red-400 transition-colors"><i class="fa-solid fa-trash" style="font-size:9px"></i></button>`;
+    el.appendChild(row);
+  });
+}
+
+async function deleteServicoInline(id, modeloId) {
+  if (!confirm('Apagar este serviço e todas as suas opções?')) return;
+  await API('/api/servicos/' + id, { method: 'DELETE' });
+  _servicosCache[modeloId] = (_servicosCache[modeloId] || []).filter(s => s.id !== id);
+  renderAdminView();
+}
+
+async function deleteOpcaoInline(id, svcId) {
+  if (!confirm('Apagar esta opção?')) return;
+  await API('/api/opcoes/' + id, { method: 'DELETE' });
+  _opcoesCache[svcId] = (_opcoesCache[svcId] || []).filter(o => o.id !== id);
+  renderAdminView();
+}
+
+async function loadServicoFaq(svcId) {
+  const list = await API('/api/faq?servico_id=' + svcId);
+  _faqCache['servico-' + svcId] = list;
+  const el = document.getElementById('faq-list-' + svcId);
+  if (!el) return;
+  if (!list.length) { el.innerHTML = '<p class="text-xs text-[#bbb] italic">Nenhuma pergunta.</p>'; return; }
+  el.innerHTML = '';
+  list.forEach(f => {
+    const row = document.createElement('div');
+    row.className = 'bg-[#f9f9fb] rounded-lg border border-[#e8e8ea] px-3 py-2 flex items-start gap-2';
+    row.innerHTML = `<div class="flex-1 min-w-0">
+      <p class="text-xs font-semibold text-[#1a1a1a] truncate">${f.pergunta}</p>
+      <p class="text-xs text-[#888] truncate mt-0.5">${f.resposta}</p>
+    </div>
+    <button onclick="editFaqItem('${f.id}', 'servico', '${svcId}')" class="w-6 h-6 bg-[#f0f4ff] hover:bg-[#1a6cff] hover:text-white rounded-md flex items-center justify-center text-[#1a6cff] transition-colors flex-shrink-0"><i class="fa-solid fa-pen" style="font-size:9px"></i></button>
+    <button onclick="deleteFaqInline('${f.id}','servico','${svcId}')" class="w-6 h-6 bg-red-50 hover:bg-red-500 hover:text-white rounded-md flex items-center justify-center text-red-400 transition-colors flex-shrink-0"><i class="fa-solid fa-trash" style="font-size:9px"></i></button>`;
+    el.appendChild(row);
+  });
+}
+
+// FAQ para Opção
+async function loadOpcaoFaq(opcaoId) {
+  const list = await API('/api/faq?opcao_id=' + opcaoId);
+  _faqCache['opcao-' + opcaoId] = list;
+  const el = document.getElementById('faq-list-opcao-' + opcaoId);
+  if (!el) return;
+  if (!list.length) { el.innerHTML = '<p class="text-xs text-[#bbb] italic">Nenhuma pergunta.</p>'; return; }
+  el.innerHTML = '';
+  list.forEach(f => {
+    const row = document.createElement('div');
+    row.className = 'bg-[#f9f9fb] rounded-lg border border-[#e8e8ea] px-3 py-2 flex items-start gap-2';
+    row.innerHTML = `<div class="flex-1 min-w-0">
+      <p class="text-xs font-semibold text-[#1a1a1a] truncate">${f.pergunta}</p>
+      <p class="text-xs text-[#888] truncate mt-0.5">${f.resposta}</p>
+    </div>
+    <button onclick="editFaqItem('${f.id}', 'opcao', '${opcaoId}')" class="w-6 h-6 bg-[#f0f4ff] hover:bg-[#1a6cff] hover:text-white rounded-md flex items-center justify-center text-[#1a6cff] transition-colors flex-shrink-0"><i class="fa-solid fa-pen" style="font-size:9px"></i></button>
+    <button onclick="deleteFaqInline('${f.id}','opcao','${opcaoId}')" class="w-6 h-6 bg-red-50 hover:bg-red-500 hover:text-white rounded-md flex items-center justify-center text-red-400 transition-colors flex-shrink-0"><i class="fa-solid fa-trash" style="font-size:9px"></i></button>`;
+    el.appendChild(row);
+  });
+}
+
+// FAQ para Notebook em geral
+async function loadNotebookFaq(notebookId) {
+  const raw = await API('/api/faq?notebook_id=' + notebookId);
+  const nid = parseInt(notebookId);
+  const list = Array.isArray(raw) ? raw.filter(f => f.notebook_id === nid) : [];
+  _faqCache['notebook-' + notebookId] = list;
+  const el = document.getElementById('faq-list-notebook-' + notebookId);
+  if (!el) return;
+  if (!list.length) { el.innerHTML = '<p class="text-xs text-[#bbb] italic">Nenhuma pergunta.</p>'; return; }
+  el.innerHTML = '';
+  list.forEach(f => {
+    const row = document.createElement('div');
+    row.className = 'bg-[#f9f9fb] rounded-lg border border-[#e8e8ea] px-3 py-2 flex items-start gap-2';
+    row.innerHTML = `<div class="flex-1 min-w-0">
+      <p class="text-xs font-semibold text-[#1a1a1a] truncate">${f.pergunta}</p>
+      <p class="text-xs text-[#888] truncate mt-0.5">${f.resposta}</p>
+    </div>
+    <button onclick="editFaqItem('${f.id}', 'notebook', '${notebookId}')" class="w-6 h-6 bg-[#f0f4ff] hover:bg-[#1a6cff] hover:text-white rounded-md flex items-center justify-center text-[#1a6cff] transition-colors flex-shrink-0"><i class="fa-solid fa-pen" style="font-size:9px"></i></button>
+    <button onclick="deleteFaqInline('${f.id}','notebook','${notebookId}')" class="w-6 h-6 bg-red-50 hover:bg-red-500 hover:text-white rounded-md flex items-center justify-center text-red-400 transition-colors flex-shrink-0"><i class="fa-solid fa-trash" style="font-size:9px"></i></button>`;
+    el.appendChild(row);
+  });
+}
+
+// FAQ para Tipo de Serviço de Notebook
+async function loadNbServicoFaq(svcId) {
+  const raw = await API('/api/faq?nb_servico_id=' + svcId);
+  const list = Array.isArray(raw) ? raw.filter(f => f.nb_servico_id === svcId) : [];
+  _faqCache['nb_servico-' + svcId] = list;
+  const el = document.getElementById('faq-list-nb_servico-' + svcId);
+  if (!el) return;
+  if (!list.length) { el.innerHTML = '<p class="text-xs text-[#bbb] italic">Nenhuma pergunta.</p>'; return; }
+  el.innerHTML = '';
+  list.forEach(f => {
+    const row = document.createElement('div');
+    row.className = 'bg-[#f9f9fb] rounded-lg border border-[#e8e8ea] px-3 py-2 flex items-start gap-2';
+    row.innerHTML = `<div class="flex-1 min-w-0">
+      <p class="text-xs font-semibold text-[#1a1a1a] truncate">${f.pergunta}</p>
+      <p class="text-xs text-[#888] truncate mt-0.5">${f.resposta}</p>
+    </div>
+    <button onclick="editFaqItem('${f.id}', 'nb_servico', '${svcId}')" class="w-6 h-6 bg-[#f0f4ff] hover:bg-[#1a6cff] hover:text-white rounded-md flex items-center justify-center text-[#1a6cff] transition-colors flex-shrink-0"><i class="fa-solid fa-pen" style="font-size:9px"></i></button>
+    <button onclick="deleteFaqInline('${f.id}','nb_servico','${svcId}')" class="w-6 h-6 bg-red-50 hover:bg-red-500 hover:text-white rounded-md flex items-center justify-center text-red-400 transition-colors flex-shrink-0"><i class="fa-solid fa-trash" style="font-size:9px"></i></button>`;
+    el.appendChild(row);
+  });
+}
+
+// FAQ para Produto
+async function loadProdutoFaq(prodId) {
+  const list = await API('/api/faq?produto_id=' + prodId);
+  _faqCache['prod-' + prodId] = list;
+  const el = document.getElementById('faq-list-produto-' + prodId);
+  if (!el) return;
+  if (!list.length) { el.innerHTML = '<p class="text-xs text-[#bbb] italic">Nenhuma pergunta.</p>'; return; }
+  el.innerHTML = '';
+  list.forEach(f => {
+    const row = document.createElement('div');
+    row.className = 'bg-[#f9f9fb] rounded-lg border border-[#e8e8ea] px-3 py-2 flex items-start gap-2';
+    row.innerHTML = `<div class="flex-1 min-w-0">
+      <p class="text-xs font-semibold text-[#1a1a1a] truncate">${f.pergunta}</p>
+      <p class="text-xs text-[#888] truncate mt-0.5">${f.resposta}</p>
+    </div>
+    <button onclick="editFaqItem('${f.id}', 'produto', '${prodId}')" class="w-6 h-6 bg-[#f0f4ff] hover:bg-[#1a6cff] hover:text-white rounded-md flex items-center justify-center text-[#1a6cff] transition-colors flex-shrink-0"><i class="fa-solid fa-pen" style="font-size:9px"></i></button>
+    <button onclick="deleteFaqInline('${f.id}','produto','${prodId}')" class="w-6 h-6 bg-red-50 hover:bg-red-500 hover:text-white rounded-md flex items-center justify-center text-red-400 transition-colors flex-shrink-0"><i class="fa-solid fa-trash" style="font-size:9px"></i></button>`;
+    el.appendChild(row);
+  });
+}
+
+// FAQ para Modelo
+async function loadModeloFaq(modeloId) {
+  const list = await API('/api/faq?modelo_id=' + modeloId);
+  _faqCache['modelo-' + modeloId] = list;
+  const el = document.getElementById('faq-list-modelo-' + modeloId);
+  if (!el) return;
+  if (!list.length) { el.innerHTML = '<p class="text-xs text-[#bbb] italic">Nenhuma pergunta.</p>'; return; }
+  el.innerHTML = '';
+  list.forEach(f => {
+    const row = document.createElement('div');
+    row.className = 'bg-[#f9f9fb] rounded-lg border border-[#e8e8ea] px-3 py-2 flex items-start gap-2';
+    row.innerHTML = `<div class="flex-1 min-w-0">
+      <p class="text-xs font-semibold text-[#1a1a1a] truncate">${f.pergunta}</p>
+      <p class="text-xs text-[#888] truncate mt-0.5">${f.resposta}</p>
+    </div>
+    <button onclick="editFaqItem('${f.id}', 'modelo', '${modeloId}')" class="w-6 h-6 bg-[#f0f4ff] hover:bg-[#1a6cff] hover:text-white rounded-md flex items-center justify-center text-[#1a6cff] transition-colors flex-shrink-0"><i class="fa-solid fa-pen" style="font-size:9px"></i></button>
+    <button onclick="deleteFaqInline('${f.id}','modelo','${modeloId}')" class="w-6 h-6 bg-red-50 hover:bg-red-500 hover:text-white rounded-md flex items-center justify-center text-red-400 transition-colors flex-shrink-0"><i class="fa-solid fa-trash" style="font-size:9px"></i></button>`;
+    el.appendChild(row);
+  });
+}
+
+async function deleteFaqInline(id, tipo, refId) {
+  if (!confirm('Apagar esta pergunta?')) return;
+  await API('/api/faq/' + id, { method: 'DELETE' });
+  if (tipo === 'produto') await loadProdutoFaq(refId);
+  else if (tipo === 'modelo') await loadModeloFaq(refId);
+  else if (tipo === 'servico') await loadServicoFaq(refId);
+  else if (tipo === 'opcao') await loadOpcaoFaq(refId);
+  else if (tipo === 'notebook') await loadNotebookFaq(refId);
+  else if (tipo === 'nb_servico') await loadNbServicoFaq(refId);
+}
+
+function toggleFaqAdd(key) {
+  // Also open the parent card-faq container if it's hidden
+  const parent = document.getElementById('card-faq-' + key);
+  if (parent && parent.classList.contains('hidden')) {
+    parent.classList.remove('hidden');
+    const tipo = key.split('-')[0];
+    const refId = key.split('-').slice(1).join('-');
+    if (refId) loadFaqIntoSection(tipo, refId);
+  }
+  const formEl = document.getElementById('faq-add-' + key);
+  if (!formEl) { console.error('Form not found: faq-add-' + key); return; }
+  const opening = formEl.classList.contains('hidden');
+  formEl.classList.toggle('hidden');
+  if (opening) {
+    const q = document.getElementById('faq-q-' + key);
+    if (q) setTimeout(() => q.focus(), 50);
+  }
+}
+
+async function saveFaqInline(tipo, refId) {
+  if (!tipo || !refId) { alert('Erro: tipo ou ID inválido. Tipo=' + tipo + ', ID=' + refId); return; }
+  const key = tipo + '-' + refId;
+  const qEl = document.getElementById('faq-q-' + key);
+  const aEl = document.getElementById('faq-a-' + key);
+  if (!qEl) { alert('Campo pergunta não encontrado: faq-q-' + key); return; }
+  if (!aEl) { alert('Campo resposta não encontrado: faq-a-' + key); return; }
+  const q = qEl.value.trim();
+  const a = aEl.value.trim();
+  if (!q || !a) { alert('Preencha a pergunta e a resposta.'); return; }
+  
+  const body = { pergunta: q, resposta: a, ordem: 0, ativo: true };
+  if (tipo === 'produto') body.produto_id = refId;
+  else if (tipo === 'modelo') body.modelo_id = refId;
+  else if (tipo === 'servico') body.servico_id = refId;
+  else if (tipo === 'opcao') body.opcao_id = refId;
+  else if (tipo === 'notebook') body.notebook_id = parseInt(refId);
+  else if (tipo === 'nb_servico') body.nb_servico_id = refId;
+  
+  const saveBtn = document.querySelector('#faq-add-' + key + ' .faq-save-btn');
+  if (saveBtn) { saveBtn.disabled = true; saveBtn.textContent = 'Salvando...'; }
+  try {
+    const res = await API('/api/faq', { method: 'POST', body });
+    qEl.value = '';
+    aEl.value = '';
+    toggleFaqAdd(key);
+    if (tipo === 'produto') await loadProdutoFaq(refId);
+    else if (tipo === 'modelo') await loadModeloFaq(refId);
+    else if (tipo === 'servico') await loadServicoFaq(refId);
+    else if (tipo === 'opcao') await loadOpcaoFaq(refId);
+    else if (tipo === 'notebook') await loadNotebookFaq(refId);
+    else if (tipo === 'nb_servico') await loadNbServicoFaq(refId);
+  } catch (err) {
+    alert('Erro ao salvar: ' + (err.message || 'Desconhecido'));
+    if (saveBtn) { saveBtn.disabled = false; saveBtn.textContent = 'Salvar'; }
+  }
+}
+
+function editFaqItem(id, tipo, refId) {
+  const item = Object.values(_faqCache).flat().find(x => x.id === id);
+  if (item) openModal('faq', { ...item, tipo, refId });
+}
+
+// ─── Edit helpers using caches populated on load ──────────
+let _modelosCache = {}, _servicosCache = {}, _opcoesCache = {};
+
+function editProduto(id) { openModal('produto', produtos.find(x => x.id === id)); }
+
+async function deleteProduto(id) {
+  if (!confirm('Apagar este produto e todos os seus modelos/serviços?')) return;
+  await API('/api/produtos/' + id, { method: 'DELETE' });
+  openProdutos.delete(id);
+  loadProdutos();
+}
+
+function editModelo(id) {
+  const m = Object.values(_modelosCache).flat().find(x => x.id === id);
+  if (m) openModal('modelo', m);
+}
+function editServico(id) {
+  const s = Object.values(_servicosCache).flat().find(x => x.id === id);
+  if (s) openModal('servico', s);
+}
+function editOpcao(id) {
+  const o = Object.values(_opcoesCache).flat().find(x => x.id === id);
+  if (o) openModal('opcao', o);
+}
+
+// ═══════════════════════════════════════════════════════════
+// GENERIC MODAL (Produto / Serviço / Opção)
+// ═══════════════════════════════════════════════════════════
+let modalType = '', modalEditId = null;
+let modalPendingOpcoes = []; // new options to save on submit
+
+function openModal(type, editData) {
+  modalType = type;
+  modalEditId = editData ? editData.id : null;
+  modalPendingOpcoes = [];
+  const title = document.getElementById('modal-title');
+  const form = document.getElementById('modal-form');
+  form.innerHTML = '';
+
+  if (type === 'produto') {
+    title.textContent = editData ? 'Editar produto' : 'Adicionar produto';
+    form.innerHTML = `
+      <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Nome *</label>
+      <input type="text" id="m-nome" required class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] outline-none text-sm" value="${editData ? editData.nome : ''}" placeholder="Ex: iPhone"></div>
+      <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Imagem</label>
+      <input type="file" id="m-img-file" accept="image/*" class="text-sm file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:bg-[#f5f5f7] file:text-sm file:font-semibold file:text-[#555] hover:file:bg-[#e0ddd9] file:cursor-pointer">
+      ${editData && editData.imagem ? `<img loading="lazy" src="${editData.imagem}" class="w-16 h-16 rounded-xl object-cover mt-2">` : ''}
+      <input type="hidden" id="m-img-url" value="${editData ? editData.imagem || '' : ''}"></div>
+      <div class="grid grid-cols-2 gap-4">
+        <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Ordem</label>
+        <input type="number" id="m-ordem" class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] outline-none text-sm" value="${editData ? editData.ordem : 0}"></div>
+        <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Status</label>
+        <select id="m-ativo" class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] outline-none text-sm bg-white">
+          <option value="true" ${!editData || editData.ativo ? 'selected' : ''}>Ativo</option>
+          <option value="false" ${editData && !editData.ativo ? 'selected' : ''}>Inativo</option>
+        </select></div>
+      </div>
+      <button type="submit" class="w-full bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold py-3.5 rounded-xl text-sm">Salvar</button>`;
+  } else if (type === 'modelo') {
+    title.textContent = editData ? 'Editar modelo' : 'Adicionar modelo';
+    form.innerHTML = `
+      <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Nome *</label>
+      <input type="text" id="m-nome" required class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] outline-none text-sm" value="${editData ? editData.nome : ''}" placeholder="Ex: iPhone 14 Pro"></div>
+      <div class="grid grid-cols-2 gap-4">
+        <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Ordem</label>
+        <input type="number" id="m-ordem" class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] outline-none text-sm" value="${editData ? editData.ordem : 0}"></div>
+        <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Status</label>
+        <select id="m-ativo" class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] outline-none text-sm bg-white">
+          <option value="true" ${!editData || editData.ativo ? 'selected' : ''}>Ativo</option>
+          <option value="false" ${editData && !editData.ativo ? 'selected' : ''}>Inativo</option>
+        </select></div>
+      </div>
+      <button type="submit" class="w-full bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold py-3.5 rounded-xl text-sm">Salvar</button>`;
+  } else if (type === 'servico') {
+    title.textContent = editData ? 'Editar serviço' : 'Adicionar serviço';
+    // Capture modelo_id at open time so form submit always has the correct value
+    const _capturedModeloId = editData ? (editData.modelo_id || null) : selectedModeloId;
+    form.innerHTML = `
+      <input type="hidden" id="m-modelo-id" value="${_capturedModeloId || ''}">
+      <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Nome *</label>
+      <input type="text" id="m-nome" required class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] outline-none text-sm" value="${editData ? editData.nome : ''}" placeholder="Ex: Troca de tela"></div>
+      <div class="grid grid-cols-2 gap-4">
+        <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Ordem</label>
+        <input type="number" id="m-ordem" class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] outline-none text-sm" value="${editData ? editData.ordem : 0}"></div>
+        <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Status</label>
+        <select id="m-ativo" class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] outline-none text-sm bg-white">
+          <option value="true" ${!editData || editData.ativo ? 'selected' : ''}>Ativo</option>
+          <option value="false" ${editData && !editData.ativo ? 'selected' : ''}>Inativo</option>
+        </select></div>
+      </div>
+      <div class="border-t border-[#f0eeeb] pt-4">
+        <div class="flex items-center justify-between mb-2">
+          <p class="text-xs font-bold text-[#555] uppercase tracking-wider">Opções de serviço</p>
+          <span class="text-xs text-[#aaa]">Opcional</span>
+        </div>
+        <div id="m-opcoes-existing" class="space-y-1.5 mb-3"></div>
+        <div id="m-opcoes-pending" class="space-y-1.5 mb-3"></div>
+        <div class="bg-[#f7f7f9] rounded-xl p-3 space-y-2">
+          <input type="text" id="m-op-nome" class="w-full px-3 py-2 rounded-lg border border-[#e0ddd9] outline-none text-sm" placeholder="Nome da opção (ex: Tela Premium)">
+          <div class="grid grid-cols-2 gap-2">
+            <input type="number" id="m-op-preco" step="0.01" class="w-full px-3 py-2 rounded-lg border border-[#e0ddd9] outline-none text-sm" placeholder="Preço (R$)">
+            <input type="text" id="m-op-tempo" class="w-full px-3 py-2 rounded-lg border border-[#e0ddd9] outline-none text-sm" placeholder="Tempo (ex: 30 min)">
+          </div>
+          <input type="text" id="m-op-desc" class="w-full px-3 py-2 rounded-lg border border-[#e0ddd9] outline-none text-sm" placeholder="Descrição (opcional)">
+          <button type="button" onclick="addInlineOpcao()" class="w-full bg-[#f0f4ff] hover:bg-[#1a6cff] text-[#1a6cff] hover:text-white font-semibold py-2 rounded-lg text-sm transition-colors">+ Adicionar opção</button>
+        </div>
+      </div>
+      <button type="submit" class="w-full bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold py-3.5 rounded-xl text-sm">Salvar</button>`;
+    if (editData) loadModalOpcoes(editData.id);
+  } else if (type === 'opcao') {
+    title.textContent = editData ? 'Editar opção' : 'Adicionar opção';
+    form.innerHTML = `
+      <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Nome *</label>
+      <input type="text" id="m-nome" required class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] outline-none text-sm" value="${editData ? editData.nome : ''}" placeholder="Ex: Tela Premium"></div>
+      <div class="grid grid-cols-2 gap-4">
+        <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Preço (R$)</label>
+        <input type="number" id="m-preco" step="0.01" class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] outline-none text-sm" value="${editData ? editData.preco : ''}" placeholder="299.90"></div>
+        <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Tempo estimado</label>
+        <input type="text" id="m-tempo" class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] outline-none text-sm" value="${editData ? editData.tempo_estimado || '' : ''}" placeholder="30-60 min"></div>
+      </div>
+      <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Descrição</label>
+      <textarea id="m-descricao" rows="3" class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] outline-none text-sm resize-none" placeholder="Descrição da opção...">${editData ? editData.descricao || '' : ''}</textarea></div>
+      <div class="grid grid-cols-2 gap-4">
+        <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Ordem</label>
+        <input type="number" id="m-ordem" class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] outline-none text-sm" value="${editData ? editData.ordem : 0}"></div>
+        <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Status</label>
+        <select id="m-ativo" class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] outline-none text-sm bg-white">
+          <option value="true" ${!editData || editData.ativo ? 'selected' : ''}>Ativo</option>
+          <option value="false" ${editData && !editData.ativo ? 'selected' : ''}>Inativo</option>
+        </select></div>
+      </div>
+      <button type="submit" class="w-full bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold py-3.5 rounded-xl text-sm">Salvar</button>`;
+  } else if (type === 'faq') {
+    // Detect context (produto, modelo, servico, opcao)
+    let contextLabel = '';
+    let contextId = null;
+    let contextType = '';
+    if (editData && editData.tipo && editData.refId) {
+      contextType = editData.tipo;
+      contextId = editData.refId;
+    } else if (selectedProdutoId) {
+      contextType = 'produto';
+      contextId = selectedProdutoId;
+    } else if (selectedModeloId) {
+      contextType = 'modelo';
+      contextId = selectedModeloId;
+    } else if (selectedServicoId) {
+      contextType = 'servico';
+      contextId = selectedServicoId;
+    }
+    if (contextType === 'produto') contextLabel = 'Produto';
+    if (contextType === 'modelo') contextLabel = 'Modelo';
+    if (contextType === 'servico') contextLabel = 'Serviço';
+    if (contextType === 'opcao') contextLabel = 'Opção';
+    title.textContent = (editData && editData.pergunta ? 'Editar' : 'Adicionar') + ' FAQ — ' + contextLabel;
+    form.innerHTML = `
+      <div class="mb-2"><span class="inline-block bg-[#f0f4ff] text-[#1a6cff] text-xs font-semibold rounded px-3 py-1">${contextLabel} FAQ</span></div>
+      <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Pergunta *</label>
+      <textarea id="m-faq-pergunta" rows="2" required class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] outline-none text-sm resize-none" placeholder="Ex: Qual a garantia?">${editData ? editData.pergunta : ''}</textarea></div>
+      <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Resposta *</label>
+      <textarea id="m-faq-resposta" rows="3" required class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] outline-none text-sm resize-none" placeholder="Ex: 1 ano de garantia...">${editData ? editData.resposta : ''}</textarea></div>
+      <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Ordem</label>
+      <input type="number" id="m-faq-ordem" class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] outline-none text-sm" value="${editData ? editData.ordem || 0 : 0}"></div>
+      <input type="hidden" id="m-faq-context-type" value="${contextType}">
+      <input type="hidden" id="m-faq-context-id" value="${contextId}">
+      <button type="submit" class="w-full bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold py-3.5 rounded-xl text-sm">Salvar pergunta</button>`;
+  }
+  showPopup('generic-modal');
+}
+
+function closeModal() { hidePopup('generic-modal'); }
+
+async function loadModalOpcoes(servicoId) {
+  const list = document.getElementById('m-opcoes-existing');
+  if (!list) return;
+  const data = await API('/api/opcoes?servico_id=' + servicoId);
+  list.innerHTML = '';
+  (data || []).forEach(o => {
+    const preco = o.preco ? ' · R$ ' + parseFloat(o.preco).toFixed(2) : '';
+    const row = document.createElement('div');
+    row.className = 'flex items-center gap-2 bg-white border border-[#e8e8ea] rounded-xl px-3 py-2';
+    row.innerHTML = `<span class="flex-1 text-sm font-medium text-[#1a1a1a] truncate">${o.nome}${preco}</span>
+      <button type="button" onclick="deleteExistingOpcao('${o.id}', this)" class="text-red-400 hover:text-red-600 text-xs font-bold px-1 flex-shrink-0">✕</button>`;
+    list.appendChild(row);
+  });
+}
+
+async function deleteExistingOpcao(id, btn) {
+  if (!confirm('Apagar esta opção?')) return;
+  await API('/api/opcoes/' + id, { method: 'DELETE' });
+  btn.closest('div').remove();
+  if (openServicos.has(modalEditId)) {
+    await loadServicoOpcoes(modalEditId);
+  }
+}
+
+function addInlineOpcao() {
+  const nome = document.getElementById('m-op-nome').value.trim();
+  if (!nome) { alert('Informe o nome da opção.'); return; }
+  const preco = parseFloat(document.getElementById('m-op-preco').value) || 0;
+  const tempo = document.getElementById('m-op-tempo').value.trim();
+  const desc = document.getElementById('m-op-desc').value.trim();
+  const idx = modalPendingOpcoes.length;
+  modalPendingOpcoes.push({ nome, preco, tempo_estimado: tempo, descricao: desc });
+  // render in pending list
+  const list = document.getElementById('m-opcoes-pending');
+  const precoStr = preco ? ' · R$ ' + preco.toFixed(2) : '';
+  const row = document.createElement('div');
+  row.className = 'flex items-center gap-2 bg-[#eef3ff] border border-[#c8d8ff] rounded-xl px-3 py-2';
+  row.id = 'pending-op-' + idx;
+  row.innerHTML = `<span class="flex-1 text-sm font-medium text-[#1a1a1a] truncate">${nome}${precoStr} <span class="text-[#aaa] font-normal">novo</span></span>
+    <button type="button" onclick="removePendingOpcao(${idx})" class="text-red-400 hover:text-red-600 text-xs font-bold px-1 flex-shrink-0">✕</button>`;
+  list.appendChild(row);
+  // clear inputs
+  document.getElementById('m-op-nome').value = '';
+  document.getElementById('m-op-preco').value = '';
+  document.getElementById('m-op-tempo').value = '';
+  document.getElementById('m-op-desc').value = '';
+}
+
+function removePendingOpcao(idx) {
+  modalPendingOpcoes[idx] = null;
+  const el = document.getElementById('pending-op-' + idx);
+  if (el) el.remove();
+}
+
+document.getElementById('modal-form').addEventListener('submit', async e => {
+  e.preventDefault();
+  // Show/hide modal error
+  let modalErr = document.getElementById('modal-submit-error');
+  if (!modalErr) {
+    modalErr = document.createElement('div');
+    modalErr.id = 'modal-submit-error';
+    modalErr.className = 'hidden bg-red-50 text-red-600 text-xs px-3 py-2 rounded-lg';
+    document.getElementById('modal-form').before(modalErr);
+  }
+  modalErr.classList.add('hidden');
+  try {
+
+  // Campos comuns só existem para produto/modelo/serviço/opção.
+  // Para FAQ usamos outro bloco mais abaixo.
+  const nome = (modalType !== 'faq' ? document.getElementById('m-nome')?.value.trim() : '') || '';
+  const ordem = modalType !== 'faq'
+    ? (parseInt(document.getElementById('m-ordem')?.value) || 0)
+    : 0;
+  const ativo = modalType !== 'faq'
+    ? (document.getElementById('m-ativo')?.value === 'true')
+    : true;
+
+  if (modalType === 'produto') {
+    // Handle image upload
+    const fileInput = document.getElementById('m-img-file');
+    let imagem = document.getElementById('m-img-url').value;
+    if (fileInput.files.length) {
+      const fd = new FormData();
+      fd.append('file', fileInput.files[0]);
+      fd.append('folder', 'produtos');
+      const res = await API('/api/upload', { method: 'POST', body: fd, headers: {} });
+      imagem = res.url;
+    }
+    if (modalEditId) {
+      await API('/api/produtos/' + modalEditId, { method: 'PUT', body: { nome, imagem, ordem, ativo } });
+    } else {
+      await API('/api/produtos', { method: 'POST', body: { nome, imagem, ordem, ativo } });
+    }
+    loadProdutos();
+  } else if (modalType === 'modelo') {
+    if (modalEditId) {
+      await API('/api/modelos/' + modalEditId, { method: 'PUT', body: { nome, ordem, ativo } });
+    } else {
+      await API('/api/modelos', { method: 'POST', body: { produto_id: selectedProdutoId, nome, ordem, ativo } });
+    }
+    const mdl = await API('/api/modelos?produto_id=' + selectedProdutoId);
+    _modelosCache[selectedProdutoId] = mdl;
+    renderModelosList(selectedProdutoId, mdl);
+  } else if (modalType === 'servico') {
+    // Read modelo_id from captured hidden input (set at modal-open time) as primary, fallback to global
+    const modeloIdForSave = document.getElementById('m-modelo-id')?.value || selectedModeloId;
+    let servicoId;
+    if (modalEditId) {
+      await API('/api/servicos/' + modalEditId, { method: 'PUT', body: { nome, ordem, ativo } });
+      servicoId = modalEditId;
+    } else {
+      if (!modeloIdForSave) throw new Error('Nenhum modelo selecionado. Abra o accordion do modelo e clique em "+ Adicionar serviço" novamente.');
+      const created = await API('/api/servicos', { method: 'POST', body: { modelo_id: modeloIdForSave, nome, ordem, ativo } });
+      servicoId = created.id;
+    }
+    // Save any pending inline options
+    for (const op of modalPendingOpcoes) {
+      if (!op) continue;
+      await API('/api/opcoes', { method: 'POST', body: { servico_id: servicoId, nome: op.nome, preco: op.preco, descricao: op.descricao, tempo_estimado: op.tempo_estimado, ordem: 0, ativo: true } });
+    }
+    await loadServicosForModelo(modeloIdForSave);
+    if (openServicos.has(servicoId)) await loadServicoOpcoes(servicoId);
+  } else if (modalType === 'opcao') {
+    const preco = parseFloat(document.getElementById('m-preco').value) || 0;
+    const tempo_estimado = document.getElementById('m-tempo').value.trim();
+    const descricao = document.getElementById('m-descricao').value.trim();
+    if (modalEditId) {
+      await API('/api/opcoes/' + modalEditId, { method: 'PUT', body: { nome, preco, descricao, tempo_estimado, ordem, ativo } });
+    } else {
+      await API('/api/opcoes', { method: 'POST', body: { servico_id: selectedServicoId, nome, preco, descricao, tempo_estimado, ordem, ativo } });
+    }
+    await loadServicoOpcoes(selectedServicoId);
+  } else if (modalType === 'nb-servico') {
+    if (modalEditId) {
+      await API('/api/notebook-servicos/' + modalEditId, { method: 'PUT', body: { nome, ordem, ativo } });
+    } else {
+      await API('/api/notebook-servicos', { method: 'POST', body: { nome, ordem, ativo } });
+    }
+    await loadNbServicos();
+  } else if (modalType === 'notebook-config') {
+    const fileInput = document.getElementById('m-img-file');
+    let imagem = document.getElementById('m-img-url').value;
+    if (fileInput && fileInput.files.length) {
+      const fd = new FormData();
+      fd.append('file', fileInput.files[0]);
+      fd.append('folder', 'notebook');
+      const res = await API('/api/upload', { method: 'POST', body: fd, headers: {} });
+      imagem = res.url;
+    }
+    try {
+      const updated = await API('/api/notebook-config', { method: 'PUT', body: { nome, imagem } });
+      nbConfig = updated;
+    } catch {
+      // Fallback: update locally if API not available yet
+      nbConfig = { ...nbConfig, nome, imagem };
+    }
+    renderAdminView();
+  } else if (modalType === 'faq') {
+    const pergunta = document.getElementById('m-faq-pergunta').value.trim();
+    const resposta = document.getElementById('m-faq-resposta').value.trim();
+    const faqOrdem = parseInt(document.getElementById('m-faq-ordem').value) || 0;
+    const contextType = document.getElementById('m-faq-context-type').value;
+    const contextId = document.getElementById('m-faq-context-id').value;
+    if (!pergunta || !resposta) { alert('Preencha a pergunta e a resposta.'); return; }
+    let body = { pergunta, resposta, ordem: faqOrdem, ativo: true };
+    if (contextType === 'produto') body.produto_id = contextId;
+    if (contextType === 'modelo') body.modelo_id = contextId;
+    if (contextType === 'servico') body.servico_id = contextId;
+    if (contextType === 'opcao') body.opcao_id = contextId;
+    if (modalEditId) {
+      await API('/api/faq/' + modalEditId, { method: 'PUT', body });
+    } else {
+      await API('/api/faq', { method: 'POST', body });
+    }
+    // Recarregar lista correta
+    if (contextType === 'produto') await loadProdutoFaq(contextId);
+    if (contextType === 'modelo') await loadModeloFaq(contextId);
+    if (contextType === 'servico') await loadServicoFaq(contextId);
+    if (contextType === 'opcao') await loadOpcaoFaq(contextId);
+  }
+  closeModal();
+  } catch (err) {
+    if (modalErr) { modalErr.textContent = 'Erro: ' + err.message; modalErr.classList.remove('hidden'); }
+    else alert('Erro: ' + err.message);
+  }
+});
+
+// ═══════════════════════════════════════════════════════════
+// SEMINOVOS
+// ═══════════════════════════════════════════════════════════
+async function loadSeminovos() {
+  seminovos = await API('/api/seminovos');
+  renderSeminovos();
+}
+
+function renderSeminovos() {
+  const list = document.getElementById('seminovos-list');
+  const empty = document.getElementById('seminovos-empty');
+  list.innerHTML = '';
+  if (!seminovos.length) { empty.classList.remove('hidden'); return; }
+  empty.classList.add('hidden');
+  seminovos.forEach(s => {
+    const img = s.imagens && s.imagens.length ? s.imagens[0] : '';
+    const preco = s.preco ? parseFloat(s.preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : '';
+    const div = document.createElement('div');
+    div.className = 'bg-white rounded-2xl border border-[#e0ddd9] overflow-hidden hover:shadow-lg transition-shadow';
+    div.innerHTML = `
+      ${img ? `<img loading="lazy" src="${img}" class="w-full h-40 object-cover">` : `<div class="w-full h-40 bg-[#f5f5f7] flex items-center justify-center"><i class="fa-solid fa-image text-3xl text-[#ddd]"></i></div>`}
+      <div class="p-4">
+        <h4 class="font-semibold text-sm mb-1">${s.titulo}</h4>
+        <p class="text-xs text-[#999] mb-2">${s.categoria} · ${s.ativo !== false ? 'Ativo' : 'Inativo'}</p>
+        <p class="font-bold text-lg">${preco}</p>
+        <div class="flex gap-2 mt-3">
+          <button onclick="editSeminovo('${s.id}')" class="flex-1 bg-[#f0f4ff] text-[#1a6cff] font-semibold py-2 rounded-xl text-xs hover:bg-[#1a6cff] hover:text-white transition-colors">Editar</button>
+          <button onclick="deleteSeminovo('${s.id}')" class="flex-1 bg-red-50 text-red-500 font-semibold py-2 rounded-xl text-xs hover:bg-red-500 hover:text-white transition-colors">Excluir</button>
+        </div>
+      </div>`;
+    list.appendChild(div);
+  });
+}
+
+function openSeminovoModal(editData) {
+  document.getElementById('seminovo-modal-title').textContent = editData ? 'Editar seminovo' : 'Adicionar seminovo';
+  document.getElementById('sem-edit-id').value = editData ? editData.id : '';
+  document.getElementById('sem-titulo').value = editData ? editData.titulo : '';
+  document.getElementById('sem-categoria').value = editData ? editData.categoria : 'iPhone';
+  document.getElementById('sem-descricao').value = editData ? editData.descricao : '';
+  document.getElementById('sem-preco').value = editData ? editData.preco : '';
+  document.getElementById('sem-preco-original').value = editData ? editData.preco_original : '';
+  semImages = editData && editData.imagens ? [...editData.imagens] : [];
+  renderSemImages();
+  const specs = document.getElementById('sem-specs');
+  specs.innerHTML = '';
+  if (editData && editData.especificacoes && editData.especificacoes.length) {
+    editData.especificacoes.forEach(s => addSemSpec(s.label, s.valor));
+  } else { addSemSpec(); addSemSpec(); }
+  showPopup('seminovo-modal');
+}
+function closeSeminovoModal() { hidePopup('seminovo-modal'); }
+function editSeminovo(id) { openSeminovoModal(seminovos.find(x => x.id === id)); }
+async function deleteSeminovo(id) {
+  if (!confirm('Apagar este seminovo?')) return;
+  await API('/api/seminovos/' + id, { method: 'DELETE' });
+  loadSeminovos();
+}
+
+function addSemSpec(label, valor) {
+  const c = document.getElementById('sem-specs');
+  const row = document.createElement('div');
+  row.className = 'flex gap-2 items-center';
+  row.innerHTML = `
+    <input type="text" placeholder="Label" value="${label || ''}" class="flex-1 px-3 py-2 rounded-lg border border-[#e0ddd9] text-sm outline-none">
+    <input type="text" placeholder="Valor" value="${valor || ''}" class="flex-1 px-3 py-2 rounded-lg border border-[#e0ddd9] text-sm outline-none">
+    <button type="button" onclick="this.parentElement.remove()" class="w-8 h-8 text-red-400 hover:text-red-600 shrink-0"><i class="fa-solid fa-xmark"></i></button>`;
+  c.appendChild(row);
+}
+
+function renderSemImages() {
+  const c = document.getElementById('sem-images-preview');
+  c.innerHTML = '';
+  semImages.forEach((img, i) => {
+    c.innerHTML += `<div class="relative w-16 h-16 rounded-xl overflow-hidden border border-[#e0ddd9] group">
+      <img loading="lazy" src="${img}" class="w-full h-full object-cover" onerror="this.src='images/verificado.png'">
+      <button type="button" onclick="semImages.splice(${i},1);renderSemImages()" class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center"><i class="fa-solid fa-xmark text-white"></i></button>
+    </div>`;
+  });
+}
+
+document.getElementById('sem-img-upload').addEventListener('change', async function(e) {
+  for (const file of Array.from(e.target.files)) {
+    if (semImages.length >= 8) break;
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('folder', 'seminovos');
+    try {
+      const res = await API('/api/upload', { method: 'POST', body: fd, headers: {} });
+      semImages.push(res.url);
+    } catch { /* ignore */ }
+  }
+  renderSemImages();
+  e.target.value = '';
+});
+
+document.getElementById('seminovo-form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const editId = document.getElementById('sem-edit-id').value;
+  const specRows = document.querySelectorAll('#sem-specs > div');
+  const especificacoes = [];
+  specRows.forEach(row => {
+    const inputs = row.querySelectorAll('input');
+    const l = inputs[0].value.trim(), v = inputs[1].value.trim();
+    if (l && v) especificacoes.push({ label: l, valor: v });
+  });
+  const body = {
+    titulo: document.getElementById('sem-titulo').value.trim(),
+    categoria: document.getElementById('sem-categoria').value,
+    descricao: document.getElementById('sem-descricao').value.trim(),
+    preco: parseFloat(document.getElementById('sem-preco').value) || 0,
+    preco_original: parseFloat(document.getElementById('sem-preco-original').value) || 0,
+    imagens: semImages,
+    especificacoes,
+    ativo: true
+  };
+  if (editId) {
+    await API('/api/seminovos/' + editId, { method: 'PUT', body });
+  } else {
+    await API('/api/seminovos', { method: 'POST', body });
+  }
+  closeSeminovoModal();
+  loadSeminovos();
+});
+
+// ═══════════════════════════════════════════════════════════
+// HORÃRIOS & BLOQUEIOS
+// ═══════════════════════════════════════════════════════════
+const DIAS = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+
+async function loadHorarios() {
+  horarios = await API('/api/horarios');
+  renderHorarios();
+}
+
+function renderHorarios() {
+  const list = document.getElementById('horarios-list');
+  list.innerHTML = '';
+  if (!horarios.length) { list.innerHTML = '<p class="text-[#999] text-sm">Nenhum horário configurado.</p>'; return; }
+  const grouped = {};
+  horarios.forEach(h => {
+    if (!grouped[h.dia_semana]) grouped[h.dia_semana] = [];
+    grouped[h.dia_semana].push(h);
+  });
+  Object.keys(grouped).sort((a,b) => a - b).forEach(dia => {
+    const items = grouped[dia];
+    list.innerHTML += `<div class="mb-3"><p class="text-xs font-bold text-[#555] mb-1">${DIAS[dia]}</p><div class="flex flex-wrap gap-1.5">${items.map(h => `<span class="inline-flex items-center gap-1.5 bg-[#f5f5f7] text-sm px-3 py-1.5 rounded-lg">${h.horario.slice(0,5)}<button onclick="deleteHorario('${h.id}')" class="text-red-400 hover:text-red-600"><i class="fa-solid fa-xmark text-xs"></i></button></span>`).join('')}</div></div>`;
+  });
+}
+
+async function addHorario() {
+  const dia = parseInt(document.getElementById('horario-dia').value);
+  const hora = document.getElementById('horario-hora').value;
+  if (!hora) return;
+  await API('/api/horarios', { method: 'POST', body: { dia_semana: dia, horario: hora } });
+  loadHorarios();
+}
+
+async function deleteHorario(id) {
+  await API('/api/horarios/' + id, { method: 'DELETE' });
+  loadHorarios();
+}
+
+// Restrictions calendar state
+let restricoesMonth = new Date();
+let restricSelectedDate = null;
+// Regras semanais
+let regras = [];
+let selectedRegraDia = null;
+
+async function loadBloqueios() {
+  bloqueios = await API('/api/dias-bloqueados');
+  renderBloqueios();
+  renderRestricCal();
+}
+
+function renderBloqueios() {
+  const list = document.getElementById('bloqueios-list');
+  list.innerHTML = '';
+  if (!bloqueios.length) { list.innerHTML = '<p class="text-[#999] text-sm">Nenhuma restrição cadastrada.</p>'; return; }
+  // Sort by date
+  const sorted = [...bloqueios].sort((a,b) => a.data.localeCompare(b.data));
+  sorted.forEach(b => {
+    const isBloq = !b.tipo || b.tipo === 'bloqueado';
+    const icon = isBloq ? '🚫' : '⚠️';
+    const chip = isBloq
+      ? 'bg-red-50 text-red-700 border border-red-200'
+      : 'bg-orange-50 text-orange-700 border border-orange-200';
+    const label = isBloq ? 'Bloqueado' : 'Exceção';
+    const row = document.createElement('div');
+    row.className = 'flex items-center gap-3 bg-[#f9f9fb] rounded-xl px-3 py-2.5';
+    row.innerHTML = `
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center gap-2">
+          <span class="text-sm font-semibold">${icon} ${new Date(b.data + 'T12:00:00').toLocaleDateString('pt-BR', {weekday:'short', day:'numeric', month:'short'})}</span>
+          <span class="text-xs font-semibold px-2 py-0.5 rounded-full ${chip}">${label}</span>
+        </div>
+        ${b.motivo ? `<p class="text-xs text-[#888] mt-0.5 truncate">${b.motivo}</p>` : ''}
+      </div>
+      <button onclick="openRestricPanelById('${b.id}')" class="w-7 h-7 bg-white border border-[#e0ddd9] hover:border-[#1a6cff] hover:text-[#1a6cff] rounded-lg flex items-center justify-center text-[#aaa] transition-colors flex-shrink-0" title="Editar"><i class="fa-solid fa-pen" style="font-size:10px"></i></button>
+      <button onclick="deleteBloqueio('${b.id}')" class="w-7 h-7 bg-red-50 hover:bg-red-500 hover:text-white rounded-lg flex items-center justify-center text-red-400 transition-colors flex-shrink-0" title="Remover"><i class="fa-solid fa-trash" style="font-size:10px"></i></button>`;
+    list.appendChild(row);
+  });
+}
+
+// ── Restrictions calendar ─────────────────────────────────
+function renderRestricCal() {
+  const year = restricoesMonth.getFullYear();
+  const month = restricoesMonth.getMonth();
+  const label = document.getElementById('restric-month-label');
+  if (label) label.textContent = MONTH_NAMES[month] + ' ' + year;
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const today = new Date(); today.setHours(0,0,0,0);
+  const pad2 = n => String(n).padStart(2,'0');
+  const todayStr = year + '-' + pad2(today.getMonth()+1) + '-' + pad2(today.getDate());
+  // map date -> restriction
+  const rmap = {};
+  bloqueios.forEach(b => { rmap[b.data] = b; });
+  const grid = document.getElementById('restric-cal');
+  if (!grid) return;
+  grid.innerHTML = '';
+  for (let i = 0; i < firstDay; i++) grid.appendChild(document.createElement('div'));
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dateStr = year + '-' + pad2(month+1) + '-' + pad2(d);
+    const r = rmap[dateStr];
+    const isToday = dateStr === todayStr;
+    const isSelected = restricSelectedDate === dateStr;
+    let cls = 'w-9 h-9 mx-auto rounded-xl flex items-center justify-center text-sm cursor-pointer transition-colors font-medium select-none ';
+    if (isSelected) cls += 'bg-[#1a1a1a] text-white font-bold ring-2 ring-offset-1 ring-[#1a1a1a]';
+    else if (r && (!r.tipo || r.tipo === 'bloqueado')) cls += 'bg-red-100 text-red-700 font-semibold';
+    else if (r && r.tipo === 'excecao') cls += 'bg-orange-100 text-orange-700 font-semibold';
+    else if (isToday) cls += 'bg-[#1a6cff] text-white';
+    else cls += 'text-[#555] hover:bg-[#f5f5f7]';
+    const cell = document.createElement('div');
+    cell.className = cls;
+    cell.textContent = d;
+    if (r) cell.title = (r.tipo === 'excecao' ? '⚠️ ' : '🚫 ') + (r.motivo || (r.tipo === 'excecao' ? 'Exceção' : 'Bloqueado'));
+    cell.onclick = () => openRestricPanel(dateStr, r || null);
+    grid.appendChild(cell);
+  }
+}
+
+function restricPrevMonth() { restricoesMonth.setMonth(restricoesMonth.getMonth()-1); restricSelectedDate=null; renderRestricCal(); closeRestricPanel(); }
+function restricNextMonth() { restricoesMonth.setMonth(restricoesMonth.getMonth()+1); restricSelectedDate=null; renderRestricCal(); closeRestricPanel(); }
+
+function openRestricPanel(dateStr, existing) {
+  restricSelectedDate = dateStr;
+  renderRestricCal();
+  const panel = document.getElementById('restric-panel');
+  panel.classList.remove('hidden');
+  const dt = new Date(dateStr + 'T12:00:00');
+  document.getElementById('restric-day-label').textContent = dt.toLocaleDateString('pt-BR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+  document.getElementById('restric-motivo').value = existing ? existing.motivo || '' : '';
+  const tipo = existing ? (existing.tipo || 'bloqueado') : 'excecao';
+  document.querySelector(`input[name="restric-tipo"][value="${tipo}"]`).checked = true;
+  const delBtn = document.getElementById('restric-delete-btn');
+  delBtn.classList.toggle('hidden', !existing);
+  delBtn.dataset.id = existing ? existing.id : '';
+  panel.scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+function openRestricPanelById(id) {
+  const r = bloqueios.find(b => b.id === id);
+  if (r) {
+    // Navigate to the right month
+    const [y,m] = r.data.split('-').map(Number);
+    restricoesMonth = new Date(y, m-1, 1);
+    openRestricPanel(r.data, r);
+  }
+}
+
+function closeRestricPanel() {
+  document.getElementById('restric-panel').classList.add('hidden');
+}
+
+function cancelRestricPanel() {
+  restricSelectedDate = null;
+  closeRestricPanel();
+  renderRestricCal();
+}
+
+async function saveRestricao() {
+  if (!restricSelectedDate) return;
+  const tipoEl = document.querySelector('input[name="restric-tipo"]:checked');
+  if (!tipoEl) return;
+  const tipo = tipoEl.value;
+  const motivo = document.getElementById('restric-motivo').value.trim();
+  const btn = document.querySelector('#restric-panel button[onclick="saveRestricao()"]');
+  const origText = btn ? btn.textContent : '';
+  if (btn) { btn.disabled = true; btn.textContent = 'Salvando…'; }
+  try {
+    const existing = bloqueios.find(b => b.data === restricSelectedDate);
+    if (existing) {
+      await API('/api/dias-bloqueados/' + existing.id, { method: 'PUT', body: { motivo, tipo } });
+    } else {
+      await API('/api/dias-bloqueados', { method: 'POST', body: { data: restricSelectedDate, motivo, tipo } });
+    }
+    await loadBloqueios();
+    cancelRestricPanel();
+  } catch(e) {
+    const panel = document.getElementById('restric-panel');
+    // Remove existing error if any
+    panel.querySelectorAll('.restric-err').forEach(el => el.remove());
+    const err = document.createElement('p');
+    err.className = 'restric-err text-xs font-semibold text-red-600 bg-red-50 border border-red-200 rounded-xl px-3 py-2';
+    err.textContent = '⚠️ Erro ao salvar: ' + (e.message || 'verifique se a coluna "tipo" existe no Supabase (execute o ALTER TABLE no SQL Editor).');
+    panel.insertBefore(err, panel.lastElementChild);
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = origText; }
+  }
+}
+
+async function deleteRestricaoSelected() {
+  const id = document.getElementById('restric-delete-btn').dataset.id;
+  if (!id) return;
+  if (!confirm('Remover esta restrição?')) return;
+  await deleteBloqueio(id);
+  cancelRestricPanel();
+}
+
+async function deleteBloqueio(id) {
+  await API('/api/dias-bloqueados/' + id, { method: 'DELETE' });
+  await loadBloqueios();
+}
+
+// ═══════════════════════════════════════════════════════════
+// REGRAS SEMANAIS RECORRENTES
+// ═══════════════════════════════════════════════════════════
+async function loadRegras() {
+  try { regras = await API('/api/regras-recorrentes'); } catch { regras = []; }
+  renderRegras();
+  renderRestricCal();
+}
+
+function renderRegrasDias() {
+  const container = document.getElementById('regra-dias-btns');
+  if (!container) return;
+  const days = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+  container.innerHTML = days.map((d, i) => {
+    const isSel = selectedRegraDia === i;
+    const hasRule = regras.find(r => r.dia_semana === i);
+    const base = 'px-3 py-1.5 rounded-xl text-xs font-bold transition-colors cursor-pointer border ';
+    const style = isSel
+      ? 'bg-[#1a1a1a] text-white border-[#1a1a1a]'
+      : hasRule
+        ? 'bg-amber-100 text-amber-700 border-amber-300 hover:bg-amber-200'
+        : 'bg-[#f5f5f7] text-[#555] border-transparent hover:bg-[#e0ddd9]';
+    return `<button class="${base + style}" onclick="selectRegraDia(${i})">${d}</button>`;
+  }).join('');
+}
+
+function selectRegraDia(i) {
+  selectedRegraDia = i;
+  const existing = regras.find(r => r.dia_semana === i);
+  if (existing) {
+    const el = document.querySelector(`input[name="regra-tipo"][value="${existing.tipo || 'bloqueado'}"]`);
+    if (el) el.checked = true;
+    const mot = document.getElementById('regra-motivo');
+    if (mot) mot.value = existing.motivo || '';
+  }
+  renderRegrasDias();
+}
+
+async function saveRegra() {
+  if (selectedRegraDia === null) { alert('Selecione um dia da semana.'); return; }
+  const tipoEl = document.querySelector('input[name="regra-tipo"]:checked');
+  if (!tipoEl) return;
+  const tipo = tipoEl.value;
+  const motivo = (document.getElementById('regra-motivo').value || '').trim();
+  const btn = document.querySelector('[onclick="saveRegra()"]');
+  if (btn) { btn.disabled = true; btn.textContent = 'Salvando…'; }
+  try {
+    await API('/api/regras-recorrentes', { method: 'POST', body: { dia_semana: selectedRegraDia, tipo, motivo } });
+    selectedRegraDia = null;
+    const mot = document.getElementById('regra-motivo');
+    if (mot) mot.value = '';
+    await loadRegras();
+  } catch(e) {
+    alert('Erro ao salvar: ' + e.message);
+  } finally {
+    if (btn) { btn.disabled = false; btn.innerHTML = '↻ Salvar regra recorrente'; }
+  }
+}
+
+function renderRegras() {
+  renderRegrasDias();
+  const list = document.getElementById('regras-list');
+  if (!list) return;
+  if (!regras.length) {
+    list.innerHTML = '<p class="text-[#999] text-sm">Nenhuma regra recorrente configurada.</p>';
+    return;
+  }
+  const dayNames = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+  const sorted = [...regras].sort((a, b) => a.dia_semana - b.dia_semana);
+  list.innerHTML = sorted.map(r => {
+    const isBloq = !r.tipo || r.tipo === 'bloqueado';
+    const chip = isBloq ? 'bg-red-50 text-red-700 border border-red-200' : 'bg-orange-50 text-orange-700 border border-orange-200';
+    const icon = isBloq ? '🚫' : '⚠️';
+    return `<div class="flex items-center gap-3 bg-[#f9f9fb] rounded-xl px-3 py-2.5">
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="text-sm font-semibold">↻ Todo(a) ${dayNames[r.dia_semana]}</span>
+          <span class="text-xs font-semibold px-2 py-0.5 rounded-full ${chip}">${icon} ${isBloq ? 'Bloqueado' : 'Exceção'}</span>
+        </div>
+        ${r.motivo ? `<p class="text-xs text-[#888] mt-0.5 truncate">${r.motivo}</p>` : ''}
+      </div>
+      <button onclick="selectRegraDia(${r.dia_semana})" class="w-7 h-7 bg-white border border-[#e0ddd9] hover:border-[#1a6cff] hover:text-[#1a6cff] rounded-lg flex items-center justify-center text-[#aaa] transition-colors flex-shrink-0" title="Editar"><i class="fa-solid fa-pen" style="font-size:10px"></i></button>
+      <button onclick="deleteRegra('${r.id}')" class="w-7 h-7 bg-red-50 hover:bg-red-500 hover:text-white rounded-lg flex items-center justify-center text-red-400 transition-colors flex-shrink-0" title="Remover"><i class="fa-solid fa-trash" style="font-size:10px"></i></button>
+    </div>`;
+  }).join('');
+}
+
+async function deleteRegra(id) {
+  if (!confirm('Remover esta regra recorrente?')) return;
+  await API('/api/regras-recorrentes/' + id, { method: 'DELETE' });
+  await loadRegras();
+}
+
+// ═══════════════════════════════════════════════════════════
+// HORÃRIOS QUICK SETUP (TEMPLATE)
+// ═══════════════════════════════════════════════════════════
+function addTemplateSlot() {
+  const hora = document.getElementById('tmpl-hora').value;
+  if (!hora) return;
+  if (templateSlots.includes(hora)) { alert('Horário já adicionado.'); return; }
+  templateSlots.push(hora);
+  renderTemplateSlots();
+  document.getElementById('tmpl-hora').value = '';
+}
+
+function removeTemplateSlot(hora) {
+  templateSlots = templateSlots.filter(h => h !== hora);
+  renderTemplateSlots();
+}
+
+function renderTemplateSlots() {
+  const c = document.getElementById('tmpl-slots');
+  if (!c) return;
+  if (!templateSlots.length) {
+    c.innerHTML = '<span id="tmpl-empty" class="text-xs text-[#ccc] italic">Nenhum horário adicionado</span>';
+    return;
+  }
+  c.innerHTML = [...templateSlots].sort().map(h =>
+    `<span class="inline-flex items-center gap-1.5 bg-[#f0f4ff] text-[#1a6cff] text-sm font-semibold px-3 py-1.5 rounded-lg">${h.slice(0,5)}<button type="button" onclick="removeTemplateSlot('${h}')" class="text-[#aaa] hover:text-red-500 font-bold ml-1 leading-none">✕</button></span>`
+  ).join('');
+}
+
+async function applyTemplate() {
+  if (!templateSlots.length) { alert('Adicione pelo menos um horário antes de aplicar.'); return; }
+  const checked = Array.from(document.querySelectorAll('.day-check:checked')).map(el => parseInt(el.value));
+  if (!checked.length) { alert('Selecione pelo menos um dia da semana.'); return; }
+  const btn = document.getElementById('apply-tmpl-btn');
+  btn.disabled = true; btn.textContent = 'Aplicando...';
+  try {
+    let added = 0;
+    for (const dia of checked) {
+      for (const hora of templateSlots) {
+        const exists = horarios.some(h => h.dia_semana === dia && h.horario.startsWith(hora));
+        if (!exists) {
+          await API('/api/horarios', { method: 'POST', body: { dia_semana: dia, horario: hora } });
+          added++;
+        }
+      }
+    }
+    await loadHorarios();
+    if (added) alert(`${added} horário(s) adicionado(s) com sucesso!`);
+    else alert('Todos os horários já estavam cadastrados.');
+  } catch (err) {
+    alert('Erro ao aplicar: ' + err.message);
+  } finally {
+    btn.disabled = false; btn.textContent = '⚡ Aplicar horários nos dias selecionados';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// CALENDÃRIO DE AGENDAMENTOS
+// ═══════════════════════════════════════════════════════════
+let calMonth = new Date();
+const MONTH_NAMES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+
+function calPrevMonth() { calMonth.setMonth(calMonth.getMonth() - 1); renderCal(); }
+function calNextMonth() { calMonth.setMonth(calMonth.getMonth() + 1); renderCal(); }
+
+function renderCal() {
+  const year = calMonth.getFullYear(), month = calMonth.getMonth();
+  document.getElementById('cal-month-label').textContent = MONTH_NAMES[month] + ' ' + year;
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const today = new Date(); today.setHours(0,0,0,0);
+  const todayStr = formatCalDate(today);
+
+  // Build map of dates → statuses from loaded agendamentos
+  const dateMap = {};
+  agendamentos.forEach(a => {
+    if (!a.data) return;
+    if (!dateMap[a.data]) dateMap[a.data] = new Set();
+    dateMap[a.data].add(a.status);
+  });
+
+  const grid = document.getElementById('cal-grid');
+  grid.innerHTML = '';
+
+  for (let i = 0; i < firstDay; i++) {
+    const blank = document.createElement('div'); grid.appendChild(blank);
+  }
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dateStr = year + '-' + String(month+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+    const statuses = dateMap[dateStr];
+    const isToday = dateStr === todayStr;
+    const hasPendente = statuses && statuses.has('pendente');
+    const hasAprovado = statuses && statuses.has('aprovado');
+
+    let bg = '';
+    if (isToday) bg = 'bg-[#1a6cff] text-white font-bold';
+    else if (hasPendente) bg = 'bg-yellow-100 text-yellow-800 font-semibold';
+    else if (hasAprovado) bg = 'bg-green-100 text-green-700 font-semibold';
+    else bg = 'text-[#555] hover:bg-[#f5f5f7]';
+
+    const day = document.createElement('div');
+    day.className = `w-9 h-9 mx-auto rounded-xl flex items-center justify-center text-sm cursor-pointer transition-colors ${bg}`;
+    day.textContent = d;
+    if (statuses) {
+      day.title = Array.from(statuses).join(', ');
+      day.onclick = () => filterByDate(dateStr);
+    }
+    grid.appendChild(day);
+  }
+}
+
+function formatCalDate(d) {
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+
+function filterByDate(dateStr) {
+  // Scroll to lista completa and filter to show that date
+  const filtered = agendamentos.filter(a => a.data === dateStr);
+  renderAgendamentosList(filtered);
+  document.getElementById('agendamentos-list').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // Reset filter buttons
+  document.querySelectorAll('.agend-filter').forEach(b => { b.classList.remove('active','bg-[#1a6cff]','text-white'); b.classList.add('bg-[#f5f5f7]','text-[#555]'); });
+}
+
+// ═══════════════════════════════════════════════════════════
+// AGENDAMENTO DETAIL POPUP
+// ═══════════════════════════════════════════════════════════
+function openAgendDetail(id) {
+  const a = agendamentos.find(x => x.id === id);
+  if (!a) return;
+  const statusColors = { pendente: 'bg-yellow-100 text-yellow-800', aprovado: 'bg-green-100 text-green-800', recusado: 'bg-red-100 text-red-700' };
+  const statusLabels = { pendente: 'Pendente', aprovado: 'Aprovado', recusado: 'Recusado' };
+  const dt = a.data ? new Date(a.data + 'T12:00:00').toLocaleDateString('pt-BR') : null;
+  const criado = new Date(a.created_at).toLocaleDateString('pt-BR') + ' ' + new Date(a.created_at).toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
+  const preco = a.opcao_preco ? parseFloat(a.opcao_preco).toLocaleString('pt-BR', {style:'currency',currency:'BRL'}) : null;
+  const row = (label, value) => value ? `<div class="flex justify-between gap-4 py-2.5 border-b border-[#f5f5f7] last:border-0"><span class="text-xs font-semibold text-[#aaa] uppercase tracking-wide shrink-0">${label}</span><span class="text-sm font-medium text-right">${value}</span></div>` : '';
+  const isNb = a.produto_nome === 'Notebook em geral';
+  const tipoSolic = a.tipo_solicitacao === 'orcamento' ? '💰 Orçamento online' : '📅 Agendamento';
+  const enderecoCompleto = [a.endereco_rua, a.endereco_numero, a.endereco_complemento].filter(Boolean).join(', ');
+  const cidadeUF = [a.endereco_cidade, a.endereco_uf].filter(Boolean).join(' — ');
+  const temEndereco = a.cep || enderecoCompleto || a.endereco_bairro || cidadeUF;
+  document.getElementById('agend-detail-content').innerHTML = `
+    <div class="flex items-center gap-2 mb-5 flex-wrap">
+      <span class="text-xs font-bold px-3 py-1.5 rounded-full ${statusColors[a.status]}">${statusLabels[a.status]}</span>
+      ${isNb ? `<span class="text-xs font-bold px-3 py-1.5 rounded-full bg-blue-100 text-blue-800">💻 Notebook</span>` : ''}
+      ${isNb ? `<span class="text-xs font-bold px-3 py-1.5 rounded-full ${a.tipo_solicitacao === 'orcamento' ? 'bg-purple-100 text-purple-800' : 'bg-sky-100 text-sky-800'}">${tipoSolic}</span>` : ''}
+      <span class="text-xs text-[#aaa]">Criado em ${criado}</span>
+    </div>
+    <div class="bg-[#f7f7f9] rounded-2xl p-4 mb-4">
+      ${row('Nome', a.nome)}
+      ${row('WhatsApp', a.whatsapp)}
+      ${!isNb ? row('E-mail', a.email) : ''}
+      ${!isNb ? row('CPF', a.cpf) : ''}
+    </div>
+    ${!isNb && temEndereco ? `<div class="bg-[#f7f7f9] rounded-2xl p-4 mb-4">
+      <p class="text-xs font-bold text-[#aaa] uppercase tracking-wide mb-2">Endereço</p>
+      ${row('CEP', a.cep || null)}
+      ${row('Endereço', enderecoCompleto || null)}
+      ${row('Bairro', a.endereco_bairro || null)}
+      ${row('Cidade / UF', cidadeUF || null)}
+    </div>` : ''}
+    <div class="bg-[#f7f7f9] rounded-2xl p-4 mb-4">
+      ${row('Dispositivo', a.produto_nome)}
+      ${row('Modelo', a.modelo_nome || null)}
+      ${row('Serviço', a.servico_nome)}
+      ${!isNb && a.opcao_nome && a.opcao_nome !== '---' ? row('Opção', a.opcao_nome) : ''}
+      ${!isNb && preco ? row('Valor', `<span class="font-bold text-[#1a6cff]">${preco}</span>`) : ''}
+      ${!isNb && a.opcao_descricao ? row('Descrição', a.opcao_descricao) : ''}
+      ${isNb && a.descricao_defeito ? row('Descrição do defeito', a.descricao_defeito) : ''}
+    </div>
+    ${a.ciente_aviso_peca !== null && a.ciente_aviso_peca !== undefined ? `
+    <div class="mb-4 px-4 py-3 rounded-2xl border-2 ${a.ciente_aviso_peca ? 'bg-green-50 border-green-400' : 'bg-red-50 border-red-400'}">
+      <p class="text-[11px] font-bold uppercase tracking-wide mb-1 ${a.ciente_aviso_peca ? 'text-green-700' : 'text-red-700'}">⚠️ Aviso de peça não reconhecida (iPhone)</p>
+      <p class="text-sm font-bold ${a.ciente_aviso_peca ? 'text-green-800' : 'text-red-800'}">${a.ciente_aviso_peca ? '✅ Cliente ESTÁ CIENTE do aviso de peça' : '❌ Cliente NÃO estava ciente do aviso de peça'}</p>
+    </div>` : ''}
+    ${a.aceite_termos_digital ? `
+    <div class="mb-4 px-4 py-3 rounded-2xl border-2 bg-blue-50 border-blue-400">
+      <p class="text-[11px] font-bold uppercase tracking-wide mb-1 text-blue-700">📄 Aceite Digital de Termos e Condições</p>
+      <p class="text-sm font-bold text-blue-800">✅ Cliente aceitou digitalmente os Termos e Condições</p>
+      ${a.termos_nome ? `<p class="text-xs text-blue-600 mt-1">Assinado por: <strong>${a.termos_nome}</strong>${a.termos_cpf ? ` · CPF: ${a.termos_cpf}` : ''}</p>` : ''}
+    </div>` : ''}
+    ${dt || (a.horario && a.horario !== 'null') ? `<div class="bg-[#f7f7f9] rounded-2xl p-4 mb-5">
+      ${dt ? row('Data', dt) : ''}
+      ${a.horario ? row('Horário', a.horario.slice(0,5)) : ''}
+    </div>` : ''}
+    <div class="bg-[#f7f7f9] rounded-2xl p-4 mb-4">
+      <p class="text-xs font-bold text-[#aaa] uppercase tracking-wide mb-2">Registro</p>
+      ${row('IP do cliente', a.ip || '—')}
+      ${row('Data / Hora', criado)}
+    </div>
+    ${a.status === 'pendente' ? `<div class="flex gap-3 flex-wrap">
+      <button onclick="aprovarAgend('${a.id}');closeAgendDetail()" class="flex-1 bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-xl text-sm transition-colors"><i class="fa-solid fa-check mr-1.5"></i>Aprovar</button>
+      <button onclick="remarcarAgend('${a.id}');closeAgendDetail()" class="flex-1 bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3 rounded-xl text-sm transition-colors"><i class="fa-solid fa-calendar-days mr-1.5"></i>Remarcar</button>
+      <button onclick="quickRecusarAgend('${a.id}');closeAgendDetail()" class="flex-1 bg-red-500 hover:bg-red-600 text-white font-semibold py-3 rounded-xl text-sm transition-colors"><i class="fa-solid fa-xmark mr-1.5"></i>Recusar</button>
+    </div>` : `<button onclick="deleteAgend('${a.id}');closeAgendDetail()" class="w-full bg-[#f5f5f7] hover:bg-red-500 hover:text-white text-[#888] font-semibold py-3 rounded-xl text-sm transition-colors"><i class="fa-solid fa-trash mr-1.5"></i>Excluir agendamento</button>`}
+  `;
+  showPopup('agend-detail-modal');
+}
+
+function closeAgendDetail() { hidePopup('agend-detail-modal'); }
+// ═══════════════════════════════════════════════════════════
+function renderPendentes() {
+  const pending = agendamentos.filter(a => a.status === 'pendente');
+  document.getElementById('pendentes-count').textContent = pending.length ? pending.length + ' pendente' + (pending.length > 1 ? 's' : '') : '';
+  const list = document.getElementById('pendentes-list');
+  const empty = document.getElementById('pendentes-empty');
+  list.innerHTML = '';
+  if (!pending.length) { empty.classList.remove('hidden'); return; }
+  empty.classList.add('hidden');
+  pending.forEach(a => {
+    const dt = a.data ? new Date(a.data + 'T12:00:00').toLocaleDateString('pt-BR') : null;
+    const isNb = a.produto_nome === 'Notebook em geral';
+    const div = document.createElement('div');
+    div.className = 'bg-white rounded-2xl border border-yellow-200 p-4 hover:shadow-lg transition-shadow cursor-pointer';
+    div.innerHTML = `
+      <div class="flex items-start justify-between gap-3">
+        <div class="flex-1 min-w-0">
+          <p class="font-semibold text-sm mb-0.5">${a.nome}</p>
+          <p class="text-xs text-[#777]">${a.produto_nome}${a.modelo_nome ? ' ('+a.modelo_nome+')' : ''} → ${a.servico_nome}${!isNb && a.opcao_nome && a.opcao_nome !== '---' ? ' → '+a.opcao_nome : ''}</p>
+          ${isNb ? `<span class="inline-flex text-[10px] font-bold px-2 py-0.5 rounded-full mt-1 mr-1 ${a.tipo_solicitacao === 'orcamento' ? 'bg-purple-100 text-purple-700' : 'bg-sky-100 text-sky-700'}">${a.tipo_solicitacao === 'orcamento' ? '💰 Orçamento' : '📅 Agendamento'}</span>` : ''}
+          ${isNb && a.descricao_defeito ? `<p class="text-[10px] text-[#999] mt-1 truncate" title="${a.descricao_defeito}">📝 ${a.descricao_defeito}</p>` : ''}
+          ${a.ciente_aviso_peca !== null && a.ciente_aviso_peca !== undefined ? `<span class="inline-flex text-[10px] font-bold px-2 py-0.5 rounded-full mt-1 mr-1 ${a.ciente_aviso_peca ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">${a.ciente_aviso_peca ? '✓ Ciente do aviso de peça' : '✗ Não ciente do aviso de peça'}</span>` : ''}
+          ${a.aceite_termos_digital ? `<span class="inline-flex text-[10px] font-bold px-2 py-0.5 rounded-full mt-1 mr-1 bg-blue-100 text-blue-700">📄 Termos aceitos digitalmente</span>` : ''}
+          ${dt ? `<p class="text-xs text-[#999] mt-1"><i class="fa-regular fa-calendar mr-1"></i>${dt}${a.horario ? ' às '+a.horario.slice(0,5) : ''}</p>` : `<p class="text-xs text-[#999] mt-1">Sem data/horário definido</p>`}
+        </div>
+        <div class="flex gap-1.5 shrink-0">
+          <button onclick="event.stopPropagation();aprovarAgend('${a.id}')" class="px-3 py-2 bg-green-500 hover:bg-green-600 text-white rounded-xl text-xs font-semibold transition-colors"><i class="fa-solid fa-check mr-1"></i>Aprovar</button>
+          <button onclick="event.stopPropagation();remarcarAgend('${a.id}')" class="px-3 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-xs font-semibold transition-colors" title="Remarcar"><i class="fa-solid fa-calendar-days"></i></button>
+          <button onclick="event.stopPropagation();quickRecusarAgend('${a.id}')" class="px-3 py-2 bg-red-500 hover:bg-red-600 text-white rounded-xl text-xs font-semibold transition-colors" title="Recusar"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+      </div>`;
+    div.addEventListener('click', () => openAgendDetail(a.id));
+    list.appendChild(div);
+  });
+}
+// ═══════════════════════════════════════════════════════════
+// AGENDAMENTOS
+// ═══════════════════════════════════════════════════════════
+document.querySelectorAll('.agend-filter').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.agend-filter').forEach(b => { b.classList.remove('active', 'bg-[#1a6cff]', 'text-white'); b.classList.add('bg-[#f5f5f7]', 'text-[#555]'); });
+    btn.classList.add('active', 'bg-[#1a6cff]', 'text-white'); btn.classList.remove('bg-[#f5f5f7]', 'text-[#555]');
+    currentAgendFilter = btn.dataset.status;
+    const filtered = currentAgendFilter ? agendamentos.filter(a => a.status === currentAgendFilter) : agendamentos;
+    renderAgendamentosList(filtered);
+  });
+});
+
+async function loadAgendamentos() {
+  agendamentos = await API('/api/agendamentos');
+  renderPendentes();
+  renderCal();
+  const filtered = currentAgendFilter ? agendamentos.filter(a => a.status === currentAgendFilter) : agendamentos;
+  renderAgendamentosList(filtered);
+}
+
+function renderAgendamentos() {
+  renderPendentes();
+  renderCal();
+  const filtered = currentAgendFilter ? agendamentos.filter(a => a.status === currentAgendFilter) : agendamentos;
+  renderAgendamentosList(filtered);
+}
+
+function renderAgendamentosList(list) {
+  const container = document.getElementById('agendamentos-list');
+  const empty = document.getElementById('agendamentos-empty');
+  container.innerHTML = '';
+  if (!list.length) { empty.classList.remove('hidden'); return; }
+  empty.classList.add('hidden');
+  list.forEach(a => {
+    const statusColors = { pendente: 'bg-yellow-100 text-yellow-800', aprovado: 'bg-green-100 text-green-800', recusado: 'bg-red-100 text-red-700' };
+    const statusLabels = { pendente: 'Pendente', aprovado: 'Aprovado', recusado: 'Recusado' };
+    const dt = a.data ? new Date(a.data + 'T12:00:00').toLocaleDateString('pt-BR') : null;
+    const isNb = a.produto_nome === 'Notebook em geral';
+    const div = document.createElement('div');
+    div.className = 'bg-white rounded-2xl border border-[#e0ddd9] p-5 hover:shadow-lg transition-shadow cursor-pointer';
+    div.innerHTML = `
+      <div class="flex items-start justify-between gap-4 flex-wrap">
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 mb-2 flex-wrap">
+            <span class="text-xs font-bold px-2.5 py-1 rounded-full ${statusColors[a.status]}">${statusLabels[a.status]}</span>
+            ${isNb ? `<span class="text-xs font-bold px-2.5 py-1 rounded-full bg-blue-100 text-blue-800">💻 Notebook</span>` : ''}
+            ${isNb ? `<span class="text-xs font-bold px-2.5 py-1 rounded-full ${a.tipo_solicitacao === 'orcamento' ? 'bg-purple-100 text-purple-800' : 'bg-sky-100 text-sky-800'}">${a.tipo_solicitacao === 'orcamento' ? '💰 Orçamento' : '📅 Agendamento'}</span>` : ''}
+            <span class="text-xs text-[#999]">${new Date(a.created_at).toLocaleDateString('pt-BR')}</span>
+          </div>
+          <h4 class="font-semibold text-sm mb-1">${a.nome} · ${a.whatsapp}</h4>
+          <p class="text-xs text-[#777]">${a.produto_nome}${a.modelo_nome ? ' ('+a.modelo_nome+')' : ''} → ${a.servico_nome}${!isNb && a.opcao_nome && a.opcao_nome !== '---' ? ' → '+a.opcao_nome : ''}</p>
+          ${isNb && a.descricao_defeito ? `<p class="text-[10px] text-[#999] mt-1 truncate" title="${a.descricao_defeito}">📝 ${a.descricao_defeito}</p>` : ''}
+          ${a.ciente_aviso_peca !== null && a.ciente_aviso_peca !== undefined ? `<span class="inline-flex text-[10px] font-bold px-2 py-0.5 rounded-full mt-1 mr-1 ${a.ciente_aviso_peca ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">${a.ciente_aviso_peca ? '✓ Ciente do aviso de peça' : '✗ Não ciente do aviso de peça'}</span>` : ''}
+          ${a.aceite_termos_digital ? `<span class="inline-flex text-[10px] font-bold px-2 py-0.5 rounded-full mt-1 mr-1 bg-blue-100 text-blue-700">📄 Termos aceitos digitalmente</span>` : ''}
+          ${dt ? `<p class="text-xs text-[#999] mt-1"><i class="fa-regular fa-calendar mr-1"></i>${dt}${a.horario ? ' às '+a.horario.slice(0,5) : ''}</p>` : `<p class="text-xs text-[#999] mt-1">Sem data/horário definido</p>`}
+        </div>
+        <div class="flex gap-2 shrink-0 items-center">
+          ${a.status === 'pendente' ? `
+          <button onclick="event.stopPropagation();aprovarAgend('${a.id}')" class="px-4 py-2.5 bg-green-500 hover:bg-green-600 text-white rounded-xl text-xs font-semibold transition-colors">Aprovar</button>
+          <button onclick="event.stopPropagation();remarcarAgend('${a.id}')" class="px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-xs font-semibold transition-colors">Remarcar</button>
+          <button onclick="event.stopPropagation();quickRecusarAgend('${a.id}')" class="px-4 py-2.5 bg-red-500 hover:bg-red-600 text-white rounded-xl text-xs font-semibold transition-colors">Recusar</button>` : ''}
+          <button onclick="event.stopPropagation();deleteAgend('${a.id}')" class="w-9 h-9 bg-[#f5f5f7] hover:bg-red-500 hover:text-white rounded-xl flex items-center justify-center text-[#999] transition-colors" title="Excluir"><i class="fa-solid fa-trash text-xs"></i></button>
+        </div>
+      </div>`;
+    div.addEventListener('click', () => openAgendDetail(a.id));
+    container.appendChild(div);
+  });
+}
+
+async function aprovarAgend(id) {
+  const result = await API('/api/agendamentos/' + id + '/aprovar', { method: 'PUT', body: {} });
+  if (result.whatsappSent) {
+    showToast('✅ Aprovado! Mensagem enviada automaticamente via WhatsApp.');
+  } else if (result.whatsappLink) {
+    showToast('⚠️ Aprovado, mas falhou o envio automático. Enviando via link...', 'warning');
+    window.open(result.whatsappLink, '_blank');
+  }
+  await loadAgendamentos();
+}
+
+let _recusarAgendId = null, _recusarCalMonth = new Date(), _recusarCalAvail = {}, _recusarSelData = null, _recusarSelHorario = null;
+
+async function remarcarAgend(id) {
+  _recusarAgendId = id;
+  _recusarSelData = null;
+  _recusarSelHorario = null;
+  _recusarCalMonth = new Date();
+  _recusarCalAvail = {};
+  const a = agendamentos.find(x => x.id === id);
+  const el = document.getElementById('recusar-agend-info');
+  if (a && el) {
+    const dtInfo = a.data ? `${new Date(a.data+'T12:00:00').toLocaleDateString('pt-BR')}${a.horario ? ' às '+a.horario.slice(0,5) : ''}` : 'Sem data definida';
+    el.innerHTML = `<strong>${a.nome}</strong> · ${a.produto_nome}${a.modelo_nome ? ' ('+a.modelo_nome+')' : ''} → ${a.servico_nome}<br><span class="text-xs opacity-70">${dtInfo}</span>`;
+  }
+  document.getElementById('recusar-motivo').value = '';
+  document.getElementById('recusar-slots-section').style.display = 'none';
+  document.getElementById('recusar-selected-info').style.display = 'none';
+  await recusarCalLoad();
+  showPopup('recusar-modal');
+}
+
+async function quickRecusarAgend(id) {
+  if (!confirm('Recusar este agendamento?\n\nO cliente NÃO será notificado automaticamente.')) return;
+  await API('/api/agendamentos/' + id + '/recusar', { method: 'PUT', body: {} });
+  await loadAgendamentos();
+}
+
+async function recusarCalLoad() {
+  const y = _recusarCalMonth.getFullYear(), m = _recusarCalMonth.getMonth() + 1;
+  try {
+    const res = await API('/api/disponibilidade?ano=' + y + '&mes=' + m);
+    _recusarCalAvail = {};
+    (Array.isArray(res) ? res : []).forEach(d => { _recusarCalAvail[d.data] = d; });
+  } catch { _recusarCalAvail = {}; }
+  recusarCalRender();
+}
+
+function recusarCalRender() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const todayStr = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2,'0');
+  const y = _recusarCalMonth.getFullYear(), mo = _recusarCalMonth.getMonth();
+  const firstDay = new Date(y, mo, 1).getDay();
+  const daysInMonth = new Date(y, mo + 1, 0).getDate();
+  const monthNames = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  let html = `<div style="background:#f9f9fb;border-radius:16px;padding:14px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <button onclick="recusarCalPrev()" style="width:32px;height:32px;border-radius:10px;background:#fff;border:1px solid #e8e8ea;cursor:pointer;font-size:16px">‹</button>
+      <span style="font-size:13px;font-weight:700">${monthNames[mo]} ${y}</span>
+      <button onclick="recusarCalNext()" style="width:32px;height:32px;border-radius:10px;background:#fff;border:1px solid #e8e8ea;cursor:pointer;font-size:16px">›</button>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center;margin-bottom:5px">
+      ${ ['D','S','T','Q','Q','S','S'].map(d=>`<div style="font-size:11px;font-weight:600;color:#aaa;padding:3px">${d}</div>`).join('') }
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center">`;
+  for (let i = 0; i < firstDay; i++) html += `<div class="agend-cal-day empty"></div>`;
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dt = new Date(y, mo, d);
+    const ds = y + '-' + String(mo+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+    const isPast = dt < today;
+    const isToday = ds === todayStr;
+    const isSel = _recusarSelData === ds;
+    const info = _recusarCalAvail[ds] || {};
+    const avail = info.disponivel;
+    const tipo = info.tipo;
+    const motivo = info.motivo;
+    const lotado = info.lotado;
+    let cls = 'agend-cal-day';
+    let titleAttr = '';
+    if (isSel) {
+      cls += ' selected';
+      if (tipo === 'excecao') cls += ' excecao';
+    } else if (isPast) {
+      cls += ' past';
+    } else if (tipo === 'bloqueado') {
+      cls += ' blocked';
+      if (motivo) titleAttr = '🚫 ' + motivo;
+    } else if (tipo === 'excecao') {
+      cls += avail ? ' excecao' : ' excecao unavailable';
+      if (motivo) titleAttr = '⚠️ ' + motivo;
+    } else if (avail === true) {
+      cls += isToday ? ' available today' : ' available';
+    } else if (lotado) {
+      cls += ' unavailable';
+      titleAttr = 'Lotado';
+    } else {
+      cls += isToday ? ' no-slots today' : ' no-slots';
+    }
+    const clickable = !isPast && avail === true;
+    const titleHtml = titleAttr ? ` title="${titleAttr.replace(/"/g,'&quot;')}"` : '';
+    html += `<div class="${cls}"${titleHtml} ${clickable ? `onclick="recusarCalSelectDate('${ds}')"` : ''}>${d}</div>`;
+  }
+  html += `</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px 12px;margin-top:10px;padding-top:10px;border-top:1px solid #f0eeeb">
+      <span style="display:flex;align-items:center;gap:4px;font-size:10px;color:#666"><span style="width:12px;height:12px;border-radius:4px;background:#dbeafe;display:inline-block;flex-shrink:0"></span>Disponível</span>
+      <span style="display:flex;align-items:center;gap:4px;font-size:10px;color:#666"><span style="width:12px;height:12px;border-radius:4px;background:#fecaca;display:inline-block;flex-shrink:0"></span>Bloqueado</span>
+      <span style="display:flex;align-items:center;gap:4px;font-size:10px;color:#666"><span style="width:12px;height:12px;border-radius:4px;background:#fee2e2;display:inline-block;flex-shrink:0"></span>Lotado</span>
+      <span style="display:flex;align-items:center;gap:4px;font-size:10px;color:#666"><span style="width:12px;height:12px;border-radius:4px;background:#f5f5f5;display:inline-block;flex-shrink:0"></span>Sem atendimento</span>
+    </div>
+  </div>`;
+  document.getElementById('recusar-calendar').innerHTML = html;
+}
+
+async function recusarCalPrev() { _recusarCalMonth.setMonth(_recusarCalMonth.getMonth()-1); await recusarCalLoad(); }
+async function recusarCalNext() { _recusarCalMonth.setMonth(_recusarCalMonth.getMonth()+1); await recusarCalLoad(); }
+
+async function recusarCalSelectDate(ds) {
+  _recusarSelData = ds;
+  _recusarSelHorario = null;
+  recusarCalRender();
+  const section = document.getElementById('recusar-slots-section');
+  const slotsEl = document.getElementById('recusar-slots');
+  section.style.display = '';
+  slotsEl.innerHTML = '<p class="text-xs text-[#aaa]">Carregando...</p>';
+  document.getElementById('recusar-selected-info').style.display = 'none';
+  try {
+    const res = await API('/api/horarios-disponiveis?data=' + ds);
+    const slots = Array.isArray(res.horarios) ? res.horarios : [];
+    const available = slots.filter(s => !(typeof s === 'object' && s.ocupado));
+    slotsEl.innerHTML = '';
+    if (!available.length) { slotsEl.innerHTML = '<p class="text-xs text-[#aaa]">Nenhum horário disponível.</p>'; return; }
+    available.forEach(entry => {
+      const h = typeof entry === 'string' ? entry : entry.horario;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = h.slice(0,5);
+      btn.className = 'rslot' + (_recusarSelHorario === h ? ' selected' : '');
+      btn.onclick = () => recusarSelectSlot(h);
+      slotsEl.appendChild(btn);
+    });
+  } catch { slotsEl.innerHTML = '<p class="text-xs text-[#999]">Erro ao carregar horários.</p>'; }
+}
+
+function recusarSelectSlot(h) {
+  _recusarSelHorario = h;
+  const slotsEl = document.getElementById('recusar-slots');
+  slotsEl.querySelectorAll('.rslot').forEach(btn => {
+    btn.classList.toggle('selected', btn.textContent.trim() === h.slice(0,5));
+  });
+  const infoEl = document.getElementById('recusar-selected-info');
+  const dateFmt = new Date(_recusarSelData + 'T12:00:00').toLocaleDateString('pt-BR');
+  infoEl.innerHTML = `<i class="fa-solid fa-circle-check mr-1.5"></i>Nova proposta: ${dateFmt} às ${h.slice(0,5)}`;
+  infoEl.style.display = '';
+}
+
+async function confirmRemarcarAgend() {
+  if (!_recusarAgendId) return;
+  if (!_recusarSelData || !_recusarSelHorario) {
+    alert('Selecione uma data e horário disponíveis para propor ao cliente.');
+    return;
+  }
+  const mensagem = document.getElementById('recusar-motivo').value.trim();
+  const btn = document.querySelector('#recusar-modal .confirm-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Salvando...'; }
+  try {
+    const result = await API('/api/agendamentos/' + _recusarAgendId + '/remarcar', {
+      method: 'PUT',
+      body: { nova_data: _recusarSelData, novo_horario: _recusarSelHorario, mensagem }
+    });
+    if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fa-brands fa-whatsapp text-base"></i>Propor via WhatsApp'; }
+    closeRecusarModal();
+    if (result.whatsappSent) {
+      showToast('📅 Remarcado! Mensagem enviada automaticamente via WhatsApp.');
+    } else if (result.whatsappLink) {
+      showToast('⚠️ Remarcado, mas falhou o envio automático. Enviando via link...', 'warning');
+      window.open(result.whatsappLink, '_blank');
+    }
+    await loadAgendamentos();
+  } catch(err) {
+    alert('Erro ao remarcar: ' + (err.message || 'Desconhecido'));
+    if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fa-brands fa-whatsapp text-base"></i>Propor via WhatsApp'; }
+  }
+}
+
+function closeRecusarModal() { hidePopup('recusar-modal'); }
+
+async function deleteAgend(id) {
+  if (!confirm('Excluir este agendamento permanentemente? Esta ação não pode ser desfeita.')) return;
+  await API('/api/agendamentos/' + id, { method: 'DELETE' });
+  await loadAgendamentos();
+}
+
+// ═══════════════════════════════════════════════════════════
+// TESTES EVOLUTION API
+// ═══════════════════════════════════════════════════════════
+async function runEvolutionTest() {
+  const phone = document.getElementById('test-phone').value.trim();
+  const text  = document.getElementById('test-msg').value.trim();
+  if (!phone) { showToast('Informe o número do destinatário.', 'error'); return; }
+  if (!text)  { showToast('Informe a mensagem.', 'error'); return; }
+
+  const btn = document.getElementById('test-send-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Enviando...';
+
+  // Mostrar curl antes mesmo de enviar
+  const numNorm = '55' + phone.replace(/\D/g, '').replace(/^55/, '');
+  const curlCmd = `curl -X POST "https://evolution.cosmosomsoc.lat/message/sendText/sv%20distribuidora" \\\n  -H "Content-Type: application/json" \\\n  -H "apikey: D3CAE83B749A-4871-AD6A-52D92D228C46" \\\n  -d '{"number":"${numNorm}","text":${JSON.stringify(text)}}'`;
+  document.getElementById('test-curl-cmd').textContent = curlCmd;
+  document.getElementById('test-result').classList.remove('hidden');
+
+  try {
+    const result = await API('/api/whatsapp-test', { method: 'POST', body: { phone, text } });
+    const badge = document.getElementById('test-result-badge');
+    if (result.ok) {
+      badge.className = 'inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold mb-4 bg-green-100 text-green-700';
+      badge.textContent = '✅ HTTP ' + result.httpStatus + ' — Mensagem enviada com sucesso!';
+      showToast('✅ Mensagem disparada com sucesso!');
+    } else {
+      badge.className = 'inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold mb-4 bg-red-100 text-red-700';
+      badge.textContent = '✗ HTTP ' + result.httpStatus + ' — Falha no envio';
+      showToast('Falha ao enviar. Veja o resultado abaixo.', 'error');
+    }
+    document.getElementById('test-result-body').textContent =
+      JSON.stringify(result, null, 2);
+  } catch (err) {
+    const badge = document.getElementById('test-result-badge');
+    badge.className = 'inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold mb-4 bg-red-100 text-red-700';
+    badge.textContent = '✗ Erro: ' + err.message;
+    document.getElementById('test-result-body').textContent = err.message;
+    showToast('Erro: ' + err.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-brands fa-whatsapp text-base"></i> Disparar mensagem de teste';
+  }
+}
+
+function copyTestCurl() {
+  const text = document.getElementById('test-curl-cmd').textContent;
+  navigator.clipboard.writeText(text).then(() => showToast('cURL copiado!')).catch(() => {
+    // fallback
+    const ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); ta.remove();
+    showToast('cURL copiado!');
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+// POPUP HELPERS
+// ═══════════════════════════════════════════════════════════
+function showPopup(id) {
+  const el = document.getElementById(id);
+  el.style.opacity = '1'; el.style.pointerEvents = 'auto';
+  const inner = document.getElementById(id + '-inner');
+  if (inner) inner.style.transform = 'scale(1)';
+  document.body.style.overflow = 'hidden';
+}
+function hidePopup(id) {
+  const el = document.getElementById(id);
+  el.style.opacity = '0'; el.style.pointerEvents = 'none';
+  const inner = document.getElementById(id + '-inner');
+  if (inner) inner.style.transform = 'scale(0.95)';
+  document.body.style.overflow = '';
+}
+['generic-modal', 'seminovo-modal', 'agend-detail-modal', 'recusar-modal'].forEach(id => {
+  document.getElementById(id).addEventListener('click', function(e) { if (e.target === this) hidePopup(id); });
+});
+</script>
+</body>
+</html>

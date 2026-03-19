@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Entre em contato com a iPro Assistência Técnica Apple em Campinas. WhatsApp, telefone, endereço e horário de funcionamento." />
+  <title>Contato — iPro Assistência Apple Campinas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: {
+            apple: { black: '#1d1d1f', gray: '#f5f5f7', darkgray: '#86868b', blue: '#0066cc', border: '#d2d2d7' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    [data-aos] { opacity: 0; transform: translateY(24px); transition: opacity 0.8s cubic-bezier(0.4,0,0.2,1), transform 0.8s cubic-bezier(0.4,0,0.2,1); }
+    [data-aos].is-visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body class="bg-white text-apple-black font-sans antialiased selection:bg-apple-black selection:text-white overflow-x-hidden">
+
+  <div id="site-header"></div>
+  <script src="js/header.js?v=2"></script>
+  <script defer src="js/agendamento.js?v=7"></script>
+
+  <main>
+    <!-- Hero -->
+    <section class="pt-32 pb-16 md:pt-40 md:pb-20 px-6 bg-apple-gray">
+      <div class="max-w-4xl mx-auto text-center">
+        <p class="text-apple-darkgray text-sm font-semibold uppercase tracking-widest mb-4" data-aos>Fale conosco</p>
+        <h1 class="text-[40px] md:text-7xl font-semibold tracking-tighter leading-[1.05] mb-6" data-aos>Entre em Contato<br>Conosco.</h1>
+        <p class="text-lg md:text-xl text-apple-darkgray max-w-2xl mx-auto" data-aos>Se ficou alguma dúvida, fale com a gente. Responderemos em até 24 horas.</p>
+      </div>
+    </section>
+
+    <!-- Contact Cards -->
+    <section class="py-16 md:py-24 px-6">
+      <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <!-- Agendamento -->
+        <a href="agendamento.html"
+           class="group bg-apple-gray rounded-2xl p-8 text-center hover:bg-[#1a6cff] hover:text-white transition-all duration-300" data-aos>
+          <div class="w-16 h-16 mx-auto mb-5 rounded-2xl bg-white flex items-center justify-center shadow-sm group-hover:bg-white/20 transition-colors">
+            <i class="fa-solid fa-calendar-check text-3xl text-[#1a6cff] group-hover:text-white transition-colors"></i>
+          </div>
+          <h3 class="text-lg font-semibold mb-2">Agendamento</h3>
+          <p class="text-apple-darkgray group-hover:text-white/80 transition-colors">Agende seu atendimento online</p>
+        </a>
+
+        <!-- Telefone -->
+        <a href="tel:+551933245205"
+           class="group bg-apple-gray rounded-2xl p-8 text-center hover:bg-[#1a6cff] hover:text-white transition-all duration-300" data-aos>
+          <div class="w-16 h-16 mx-auto mb-5 rounded-2xl bg-white flex items-center justify-center shadow-sm group-hover:bg-white/20 transition-colors">
+            <i class="fa-solid fa-phone text-2xl text-[#1a6cff] group-hover:text-white transition-colors"></i>
+          </div>
+          <h3 class="text-lg font-semibold mb-2">Telefone</h3>
+          <p class="text-apple-darkgray group-hover:text-white/80 transition-colors">(19) 3324-5205</p>
+        </a>
+
+        <!-- E-mail -->
+        <a href="mailto:Contato@ipro.net.br"
+           class="group bg-apple-gray rounded-2xl p-8 text-center hover:bg-apple-black hover:text-white transition-all duration-300" data-aos>
+          <div class="w-16 h-16 mx-auto mb-5 rounded-2xl bg-white flex items-center justify-center shadow-sm group-hover:bg-white/20 transition-colors">
+            <i class="fa-solid fa-envelope text-2xl text-apple-black group-hover:text-white transition-colors"></i>
+          </div>
+          <h3 class="text-lg font-semibold mb-2">E-mail</h3>
+          <p class="text-apple-darkgray group-hover:text-white/80 transition-colors">Contato@ipro.net.br</p>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- Info + Map -->
+    <section class="py-16 md:py-24 px-6 bg-apple-gray">
+      <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+
+        <!-- Info -->
+        <div data-aos>
+          <h2 class="text-3xl md:text-4xl font-semibold tracking-tight mb-8">Nossa Loja</h2>
+
+          <div class="space-y-6">
+            <div class="flex items-start gap-4">
+              <div class="w-11 h-11 rounded-xl bg-white flex items-center justify-center flex-shrink-0 shadow-sm">
+                <i class="fa-solid fa-location-dot text-lg text-[#1a6cff]"></i>
+              </div>
+              <div>
+                <p class="font-semibold mb-1">Endereço</p>
+                <p class="text-apple-darkgray text-[15px] leading-relaxed">Rua Jorge Krug, 69<br>Vila Itapura, Campinas – SP<br>CEP 13023-210</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div class="w-11 h-11 rounded-xl bg-white flex items-center justify-center flex-shrink-0 shadow-sm">
+                <i class="fa-solid fa-clock text-lg text-[#1a6cff]"></i>
+              </div>
+              <div>
+                <p class="font-semibold mb-1">Horário de Funcionamento</p>
+                <p class="text-apple-darkgray text-[15px] leading-relaxed">Segunda a Sexta<br>Das 10h às 12h / 13h às 18h</p>
+                <p class="text-sm text-yellow-600 font-semibold mt-1">Atendimento somente com agendamento</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div class="w-11 h-11 rounded-xl bg-white flex items-center justify-center flex-shrink-0 shadow-sm">
+                <i class="fa-solid fa-building text-lg text-[#1a6cff]"></i>
+              </div>
+              <div>
+                <p class="font-semibold mb-1">CNPJ</p>
+                <p class="text-apple-darkgray text-[15px]">32.819.954/0001-17</p>
+              </div>
+            </div>
+
+            <div class="flex gap-4 pt-2">
+              <a href="https://www.instagram.com/ipropremium/" target="_blank" rel="noopener" aria-label="Instagram"
+                 class="w-11 h-11 rounded-xl bg-white flex items-center justify-center shadow-sm text-apple-darkgray hover:text-[#1a6cff] hover:bg-[#f0f4ff] transition-colors">
+                <i class="fa-brands fa-instagram text-lg"></i>
+              </a>
+              <a href="https://www.facebook.com/iproassistenciaapple" target="_blank" rel="noopener" aria-label="Facebook"
+                 class="w-11 h-11 rounded-xl bg-white flex items-center justify-center shadow-sm text-apple-darkgray hover:text-[#1a6cff] hover:bg-[#f0f4ff] transition-colors">
+                <i class="fa-brands fa-facebook-f text-lg"></i>
+              </a>
+              <a href="https://www.tiktok.com/@ipro" target="_blank" rel="noopener" aria-label="TikTok"
+                 class="w-11 h-11 rounded-xl bg-white flex items-center justify-center shadow-sm text-apple-darkgray hover:text-[#1a6cff] hover:bg-[#f0f4ff] transition-colors">
+                <i class="fa-brands fa-tiktok text-lg"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Map -->
+        <div class="rounded-2xl overflow-hidden shadow-lg" data-aos>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1837.791080824106!2d-47.06049192651508!3d-22.891888684422504!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94c8c994b9b3de51%3A0x15796f11193a7253!2siPro%20Assist%C3%AAncia%20T%C3%A9cnica%20Apple%20-%20Campinas!5e0!3m2!1spt-BR!2sbr!4v1700000000000"
+            width="100%" height="400" style="border:0;display:block;"
+            allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            title="iPro - Localização no Google Maps">
+          </iframe>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Agendamento CTA -->
+    <section class="py-16 md:py-24 px-6">
+      <div class="max-w-3xl mx-auto text-center" data-aos>
+        <h2 class="text-3xl md:text-5xl font-semibold tracking-tighter mb-6">Agende seu atendimento.</h2>
+        <p class="text-lg text-apple-darkgray mb-8">Tire suas dúvidas ou agende seu atendimento pelo nosso sistema de agendamento.</p>
+        <a href="agendamento.html"
+           class="inline-flex items-center gap-3 bg-[#1a6cff] text-white px-8 py-4 rounded-full text-[17px] font-semibold hover:scale-105 transition-transform shadow-lg shadow-[#1a6cff]/30">
+          <i class="fa-solid fa-calendar-check text-2xl"></i>
+          Agendar atendimento
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="js/footer.js"></script>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('[data-aos]').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

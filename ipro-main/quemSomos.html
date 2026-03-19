@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Sobre a iPro – Assistência Técnica Apple especializada em Campinas. Conheça nossa história, nossa equipe e nosso compromisso com a excelência." />
+  <title>Sobre Nós ? iPro Assistência Apple</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            apple: {
+              black: '#1d1d1f',
+              gray: '#f5f5f7',
+              darkgray: '#86868b',
+              blue: '#0066cc',
+              border: '#d2d2d7'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    [data-aos] {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    [data-aos].is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .delay-100 { transition-delay: 0.1s; }
+    .delay-200 { transition-delay: 0.2s; }
+    .delay-300 { transition-delay: 0.3s; }
+  </style>
+</head>
+<body class="bg-white text-apple-black font-sans antialiased selection:bg-apple-black selection:text-white overflow-x-hidden">
+
+  <div id="site-header"></div>
+  <script src="js/header.js?v=2"></script>
+  <script defer src="js/agendamento.js?v=7"></script>
+
+  <main>
+    <div id="page-hero"
+      data-title="Nossa História."
+      data-subtitle="Mais de 20 anos de dedicação exclusiva ao ecossistema Apple em Campinas."
+      data-img="https://ipro.net.br/img/laboratorio-técnico-apple.jpeg"
+    ></div>
+    <script src="js/page-hero.js"></script>
+
+    <!-- MANIFESTO SECTION -->
+    <section class="py-14 md:py-24 px-6">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
+          <div data-aos>
+            <h2 class="text-[26px] md:text-4xl lg:text-5xl font-semibold tracking-tighter mb-6">O padrão iPro.</h2>
+            <p class="text-lg md:text-xl text-apple-darkgray leading-relaxed mb-6">
+              Desde o primeiro dia, entendemos que um dispositivo Apple não é apenas um eletrônico. É a sua ferramenta de trabalho, sua conexão com a família, seu estúdio criativo.
+            </p>
+            <p class="text-lg md:text-xl text-apple-darkgray leading-relaxed">
+              Por isso, construímos um laboratório equipado com tecnologia de ponta e formamos uma equipe de especialistas obcecados por detalhes. Não aceitamos atalhos. Não usamos peças paralelas. Nosso compromisso é com a excelência absoluta.
+            </p>
+          </div>
+
+          <div data-aos class="delay-100">
+            <h2 class="text-[26px] md:text-4xl lg:text-5xl font-semibold tracking-tighter mb-6">Transparência total.</h2>
+            <p class="text-lg md:text-xl text-apple-darkgray leading-relaxed mb-6">
+              Acreditamos que a confiança se constrói com clareza. Na iPro, você acompanha cada etapa do processo. Do diagnóstico inicial detalhado até a entrega do seu aparelho renovado.
+            </p>
+            <p class="text-lg md:text-xl text-apple-darkgray leading-relaxed">
+              Nossos orçamentos são justos e definitivos. Sem surpresas, sem letras miúdas. Apenas o serviço exato que o seu Apple precisa para voltar a funcionar perfeitamente.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VALUES GRID -->
+    <section class="py-16 md:py-32 px-6 bg-apple-gray">
+      <div class="max-w-7xl mx-auto">
+        <div class="mb-20 text-center">
+          <h2 class="text-[30px] md:text-5xl lg:text-7xl font-semibold tracking-tighter mb-6" data-aos>Nossos pilares.</h2>
+          <p class="text-xl md:text-2xl text-apple-darkgray" data-aos class="delay-100">O que nos guia em cada reparo.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="bg-white p-10 md:p-12 rounded-[2rem] shadow-xl shadow-black/5" data-aos>
+            <div class="w-14 h-14 bg-apple-gray rounded-full flex items-center justify-center mb-8">
+              <span class="text-2xl font-semibold">1</span>
+            </div>
+            <h3 class="text-2xl md:text-3xl font-semibold tracking-tight mb-4">Especialização</h3>
+            <p class="text-lg text-apple-darkgray leading-relaxed">Foco exclusivo no ecossistema Apple. Conhecemos cada componente, cada parafuso, cada linha de código.</p>
+          </div>
+
+          <div class="bg-white p-10 md:p-12 rounded-[2rem] shadow-xl shadow-black/5" data-aos class="delay-100">
+            <div class="w-14 h-14 bg-apple-gray rounded-full flex items-center justify-center mb-8">
+              <span class="text-2xl font-semibold">2</span>
+            </div>
+            <h3 class="text-2xl md:text-3xl font-semibold tracking-tight mb-4">Qualidade</h3>
+            <p class="text-lg text-apple-darkgray leading-relaxed">Utilizamos apenas peças premium e ferramentas de precisão para garantir um resultado impecável.</p>
+          </div>
+
+          <div class="bg-white p-10 md:p-12 rounded-[2rem] shadow-xl shadow-black/5" data-aos class="delay-200">
+            <div class="w-14 h-14 bg-apple-gray rounded-full flex items-center justify-center mb-8">
+              <span class="text-2xl font-semibold">3</span>
+            </div>
+            <h3 class="text-2xl md:text-3xl font-semibold tracking-tight mb-4">Garantia</h3>
+            <p class="text-lg text-apple-darkgray leading-relaxed">Respaldamos nosso trabalho com 1 ano de garantia. Sua tranquilidade é a nossa prioridade.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOCATION / CONTACT (WITH STORE IMAGE) -->
+    <section class="py-16 md:py-32 px-6">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
+          <div data-aos>
+            <h2 class="text-[28px] md:text-5xl lg:text-6xl font-semibold tracking-tighter mb-8">Venha tomar um café.</h2>
+            <p class="text-lg md:text-xl text-apple-darkgray leading-relaxed mb-12">
+              Nossa loja foi projetada para oferecer uma experiência confortável e acolhedora enquanto cuidamos do seu Apple.
+            </p>
+            
+            <div class="space-y-8">
+              <div>
+                <h4 class="text-sm font-medium text-apple-darkgray uppercase tracking-widest mb-2">Endereço</h4>
+                <p class="text-xl font-medium">Rua Jorge Krug, 69<br>Vila Itapura – Campinas / SP</p>
+              </div>
+              
+              <div>
+
+                <h4 class="text-sm font-medium text-apple-darkgray uppercase tracking-widest mb-2">Horário</h4>
+                <p class="text-xl font-medium">Segunda a Sexta: 09h às 18h<br>Sábado: 09h às 13h</p>
+                <p class="text-sm text-yellow-600 font-semibold mt-2">Atendimento somente com agendamento</p>
+
+                <h4 class="text-sm font-medium text-apple-darkgray uppercase tracking-widest mb-2">Horário</h4>
+                <p class="text-xl font-medium">Segunda a Sexta: 09h às 18h<br>Sábado: 09h às 13h</p>
+
+              </div>
+
+              <div class="pt-6">
+                <a href="https://maps.app.goo.gl/YOUR_MAPS_LINK" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-lg text-apple-blue font-medium hover:underline">
+                  Ver no Google Maps
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="w-full rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl shadow-black/10" data-aos class="delay-100">
+            <img loading="lazy" src="https://ipro.net.br/img/loja-ipro-campinas.webp" alt="Loja iPro Campinas" class="w-full h-[280px] sm:h-[500px] md:h-[700px] object-cover hover:scale-105 transition-transform duration-[2s]" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <div id="site-footer"></div>
+  <script src="js/footer.js"></script>
+
+
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('[data-aos]').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
+

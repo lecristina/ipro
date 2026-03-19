@@ -626,6 +626,14 @@ function openAddNbServico() {
     <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Nome *</label>
     <input type="text" id="m-nome" required class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] text-sm outline-none focus:border-[#1a6cff]" placeholder="Ex: Troca de tela"></div>
     <div class="grid grid-cols-2 gap-4">
+      <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Preço (R$)</label>
+      <input type="number" id="m-nb-preco" step="0.01" min="0" class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] text-sm outline-none focus:border-[#1a6cff]" placeholder="299.90"></div>
+      <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Tempo estimado</label>
+      <input type="text" id="m-nb-tempo" class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] text-sm outline-none focus:border-[#1a6cff]" placeholder="30-60 min"></div>
+    </div>
+    <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Descrição</label>
+    <textarea id="m-nb-descricao" rows="2" class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] text-sm outline-none focus:border-[#1a6cff] resize-none" placeholder="Descreva o serviço..."></textarea></div>
+    <div class="grid grid-cols-2 gap-4">
       <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Ordem</label>
       <input type="number" id="m-ordem" class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] text-sm outline-none focus:border-[#1a6cff]" value="${nbServicos.length + 1}" min="1"></div>
       <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Status</label>
@@ -649,6 +657,14 @@ function editNbServico(id) {
   document.getElementById('modal-form').innerHTML = `
     <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Nome *</label>
     <input type="text" id="m-nome" required class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] text-sm outline-none focus:border-[#1a6cff]" value="${s.nome}"></div>
+    <div class="grid grid-cols-2 gap-4">
+      <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Preço (R$)</label>
+      <input type="number" id="m-nb-preco" step="0.01" min="0" class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] text-sm outline-none focus:border-[#1a6cff]" value="${s.preco || ''}"></div>
+      <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Tempo estimado</label>
+      <input type="text" id="m-nb-tempo" class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] text-sm outline-none focus:border-[#1a6cff]" value="${s.tempo_estimado || ''}" placeholder="30-60 min"></div>
+    </div>
+    <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Descrição</label>
+    <textarea id="m-nb-descricao" rows="2" class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] text-sm outline-none focus:border-[#1a6cff] resize-none" placeholder="Descreva o serviço...">${s.descricao || ''}</textarea></div>
     <div class="grid grid-cols-2 gap-4">
       <div><label class="block text-xs font-semibold text-[#555] mb-1.5">Ordem</label>
       <input type="number" id="m-ordem" class="w-full px-4 py-3 rounded-xl border border-[#e0ddd9] text-sm outline-none focus:border-[#1a6cff]" value="${s.ordem}" min="1"></div>
@@ -859,8 +875,13 @@ async function renderNotebookServicosView(container) {
         <div class="flex items-center gap-3 px-4 py-3">
           <span class="text-xs font-bold text-[#aaa] w-6 text-center">${idx + 1}</span>
           <div class="flex-1 min-w-0">
-            <span class="text-sm font-semibold">${s.nome}</span>
-            ${!s.ativo ? '<span class="ml-2 text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-700">Inativo</span>' : '<span class="ml-2 text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700">Ativo</span>'}
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="text-sm font-semibold">${s.nome}</span>
+              ${s.preco ? `<span class="text-xs font-bold text-[#1a6cff] bg-[#f0f4ff] px-2 py-0.5 rounded-full">R$ ${Number(s.preco).toFixed(2).replace('.',',')}</span>` : ''}
+              ${s.tempo_estimado ? `<span class="text-xs text-[#888] bg-[#f5f5f7] px-2 py-0.5 rounded-full">⏱ ${s.tempo_estimado}</span>` : ''}
+            </div>
+            ${s.descricao ? `<p class="text-xs text-[#888] mt-0.5 truncate">${s.descricao}</p>` : ''}
+            ${!s.ativo ? '<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-700">Inativo</span>' : '<span class="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700">Ativo</span>'}
           </div>
           <div class="flex gap-1.5 shrink-0">
             <button onclick="editNbServico('${s.id}')" class="w-7 h-7 bg-[#f0f4ff] hover:bg-[#1a6cff] hover:text-white rounded-lg flex items-center justify-center text-[#1a6cff] transition-colors" title="Editar"><i class="fa-solid fa-pen" style="font-size:10px"></i></button>
@@ -1797,10 +1818,13 @@ document.getElementById('modal-form').addEventListener('submit', async e => {
     }
     await loadServicoOpcoes(selectedServicoId);
   } else if (modalType === 'nb-servico') {
+    const nbPreco = parseFloat(document.getElementById('m-nb-preco')?.value) || 0;
+    const nbTempo = (document.getElementById('m-nb-tempo')?.value || '').trim();
+    const nbDescricao = (document.getElementById('m-nb-descricao')?.value || '').trim();
     if (modalEditId) {
-      await API('/api/notebook-servicos/' + modalEditId, { method: 'PUT', body: { nome, ordem, ativo } });
+      await API('/api/notebook-servicos/' + modalEditId, { method: 'PUT', body: { nome, ordem, ativo, preco: nbPreco, descricao: nbDescricao, tempo_estimado: nbTempo } });
     } else {
-      await API('/api/notebook-servicos', { method: 'POST', body: { nome, ordem, ativo } });
+      await API('/api/notebook-servicos', { method: 'POST', body: { nome, ordem, ativo, preco: nbPreco, descricao: nbDescricao, tempo_estimado: nbTempo } });
     }
     await loadNbServicos();
   } else if (modalType === 'notebook-config') {

@@ -145,6 +145,7 @@
             <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">Tipo de serviço *</label>
             <select id="agend-nb-servico" class="agend-input"><option value="">— Selecione o tipo de serviço —</option></select>
             <button type="button" id="agend-nb-servico-faq" style="display:none;width:100%;margin-top:7px;padding:8px 14px;border-radius:10px;background:#e8f0ff;color:#1a6cff;font-size:12px;font-weight:600;border:1px solid #c7d9f7;cursor:pointer;font-family:Inter,sans-serif" onclick="window.agendShowNbServicoFaq(this)"><i class="fa-solid fa-circle-question" style="font-size:11px;margin-right:5px"></i>Saiba mais sobre este serviço</button>
+            <div id="agend-nb-preco-display" style="display:none;margin-top:8px;padding:8px 12px;border-radius:8px;background:#e8f5ed;color:#1a7a42;font-size:13px;font-weight:700;border:1px solid #b2dfcb"></div>
           </div>
           <div>
             <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">Fale mais sobre o defeito</label>
@@ -561,6 +562,7 @@
                   <option value="">— Selecione o tipo de serviço —</option>
                 </select>
                 <button type="button" id="agend-nb-servico-faq" style="display:none;width:100%;margin-top:7px;padding:8px 14px;border-radius:10px;background:#e8f0ff;color:#1a6cff;font-size:12px;font-weight:600;border:1px solid #c7d9f7;cursor:pointer;font-family:Inter,sans-serif" onclick="window.agendShowNbServicoFaq(this)"><i class="fa-solid fa-circle-question" style="font-size:11px;margin-right:5px"></i>Saiba mais sobre este serviço</button>
+                <div id="agend-nb-preco-display" style="display:none;margin-top:8px;padding:8px 12px;border-radius:8px;background:#e8f5ed;color:#1a7a42;font-size:13px;font-weight:700;border:1px solid #b2dfcb"></div>
               </div>
               <div>
                 <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">Fale mais sobre o defeito</label>
@@ -1258,7 +1260,7 @@
     step = 1;
     sel = { produto: null, modelo: null, servico: null, opcao: null, data: null, horario: null, cienteAvisoPeca: null };
     isNotebook = false;
-    notebookSel = { modelo: '', servico: '', descricao: '', tipoSolicitacao: 'agendamento' };
+    notebookSel = { modelo: '', servico: '', descricao: '', preco: 0, tipoSolicitacao: 'agendamento' };
     currentMonth = new Date();
     calAvailability = {};
     faqServicoData = [];
@@ -1583,7 +1585,7 @@
   // ─── Notebook em geral ────────────────────────────────────
   window.agendSelectNotebook = async function() {
     isNotebook = true;
-    notebookSel = { modelo: '', servico: '', descricao: '', tipoSolicitacao: 'agendamento' };
+    notebookSel = { modelo: '', servico: '', descricao: '', preco: 0, tipoSolicitacao: 'agendamento' };
     // Get notebook config for name
     let _nbNome = 'Notebook em geral';
     try { const r = await fetch('/api/notebook-config'); const c = await r.json(); _nbNome = c.nome || _nbNome; } catch {}
@@ -1606,15 +1608,27 @@
       notebookServicos.forEach(s => {
         const opt = document.createElement('option');
         opt.value = s.nome; opt.textContent = s.nome; opt.dataset.nbSvcId = s.id;
+        opt.dataset.nbSvcPreco = s.preco || 0;
         selEl.appendChild(opt);
       });
       selEl.onchange = function() {
         const nbFaqBtn = document.getElementById('agend-nb-servico-faq');
-        if (!nbFaqBtn) return;
+        const nbPrecoDisplay = document.getElementById('agend-nb-preco-display');
         const selected = this.options[this.selectedIndex];
         const svcId = selected && selected.dataset.nbSvcId;
-        nbFaqBtn.style.display = (svcId && this.value) ? '' : 'none';
-        if (svcId) { nbFaqBtn.dataset.svcId = svcId; nbFaqBtn.dataset.svcNome = this.value; }
+        const svcPreco = selected && parseFloat(selected.dataset.nbSvcPreco || 0);
+        if (nbFaqBtn) {
+          nbFaqBtn.style.display = (svcId && this.value) ? '' : 'none';
+          if (svcId) { nbFaqBtn.dataset.svcId = svcId; nbFaqBtn.dataset.svcNome = this.value; }
+        }
+        if (nbPrecoDisplay) {
+          if (svcPreco > 0) {
+            nbPrecoDisplay.textContent = 'Valor estimado: ' + svcPreco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            nbPrecoDisplay.style.display = '';
+          } else {
+            nbPrecoDisplay.style.display = 'none';
+          }
+        }
       };
     }
     // Reset fields
@@ -1645,9 +1659,11 @@
     const descricao = (document.getElementById('agend-nb-descricao')?.value || '').trim();
     if (!modelo) { alert('Informe o modelo do notebook.'); return; }
     if (!servico) { alert('Selecione o tipo de serviço.'); return; }
+    const selectedSvcOpt = document.getElementById('agend-nb-servico')?.selectedOptions[0];
     notebookSel.modelo = modelo;
     notebookSel.servico = servico;
     notebookSel.descricao = descricao;
+    notebookSel.preco = parseFloat(selectedSvcOpt?.dataset?.nbSvcPreco) || 0;
     sel.modelo = { nome: modelo };
     sel.servico = { nome: servico };
     if (notebookSel.tipoSolicitacao === 'agendamento') {
@@ -1998,6 +2014,7 @@
         { l: 'Modelo', v: notebookSel.modelo },
         { l: 'Serviço', v: notebookSel.servico },
         notebookSel.descricao ? { l: 'Descrição do defeito', v: notebookSel.descricao } : null,
+        notebookSel.preco > 0 ? { l: 'Valor estimado', v: notebookSel.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) } : null,
         { l: 'Tipo', v: tipoLabel },
         notebookSel.tipoSolicitacao === 'agendamento' ? { l: 'Data', v: dateFormatted } : null,
         notebookSel.tipoSolicitacao === 'agendamento' && sel.horario ? { l: 'Horário', v: sel.horario.slice(0, 5) } : null,
@@ -2057,7 +2074,7 @@
           modelo_nome: notebookSel.modelo,
           servico_nome: notebookSel.servico,
           opcao_nome: '---',
-          opcao_preco: 0,
+          opcao_preco: notebookSel.preco || 0,
           opcao_descricao: '',
           data: sel.data || null,
           horario: sel.horario || null,

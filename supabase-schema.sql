@@ -228,12 +228,21 @@ CREATE TABLE IF NOT EXISTS notebook_servicos (
   nome TEXT NOT NULL,
   ordem INT DEFAULT 0,
   ativo BOOLEAN DEFAULT true,
+  preco NUMERIC DEFAULT 0,
+  descricao TEXT DEFAULT '',
+  tempo_estimado TEXT DEFAULT '',
   created_at TIMESTAMPTZ DEFAULT now()
 );
 
 ALTER TABLE notebook_servicos ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Leitura pública notebook_servicos" ON notebook_servicos FOR SELECT USING (true);
 CREATE POLICY "Escrita total service notebook_servicos" ON notebook_servicos FOR ALL USING (auth.role() = 'service_role');
+
+-- MIGRATION: Add preco/descricao/tempo_estimado to existing notebook_servicos table
+-- Run this in Supabase SQL Editor if the table already exists:
+ALTER TABLE notebook_servicos ADD COLUMN IF NOT EXISTS preco NUMERIC DEFAULT 0;
+ALTER TABLE notebook_servicos ADD COLUMN IF NOT EXISTS descricao TEXT DEFAULT '';
+ALTER TABLE notebook_servicos ADD COLUMN IF NOT EXISTS tempo_estimado TEXT DEFAULT '';
 
 -- ═══════════════════════════════════════════════════════════
 -- MIGRATION: Campos para Notebook em geral na tabela agendamentos

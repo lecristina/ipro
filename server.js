@@ -542,21 +542,27 @@ app.get("/api/notebook-servicos", async (req, res) => {
 });
 
 app.post("/api/notebook-servicos", authAdmin, async (req, res) => {
-  const { nome, ordem, ativo } = req.body;
+  const { nome, ordem, ativo, preco, descricao, tempo_estimado } = req.body;
   if (!nome) return res.status(400).json({ error: "Nome é obrigatório" });
   const insert = { nome, ordem: ordem || 0 };
   if (ativo !== undefined) insert.ativo = ativo;
+  if (preco !== undefined) insert.preco = parseFloat(preco) || 0;
+  if (descricao !== undefined) insert.descricao = descricao;
+  if (tempo_estimado !== undefined) insert.tempo_estimado = tempo_estimado;
   const { data, error } = await supabase.from("notebook_servicos").insert(insert).select().single();
   if (error) return res.status(500).json({ error: error.message });
   res.json(data);
 });
 
 app.put("/api/notebook-servicos/:id", authAdmin, async (req, res) => {
-  const { nome, ordem, ativo } = req.body;
+  const { nome, ordem, ativo, preco, descricao, tempo_estimado } = req.body;
   const update = {};
   if (nome !== undefined) update.nome = nome;
   if (ordem !== undefined) update.ordem = ordem;
   if (ativo !== undefined) update.ativo = ativo;
+  if (preco !== undefined) update.preco = parseFloat(preco) || 0;
+  if (descricao !== undefined) update.descricao = descricao;
+  if (tempo_estimado !== undefined) update.tempo_estimado = tempo_estimado;
   const { data, error } = await supabase.from("notebook_servicos").update(update).eq("id", req.params.id).select().single();
   if (error) return res.status(500).json({ error: error.message });
   res.json(data);

@@ -433,6 +433,45 @@ app.delete("/api/opcoes/:id", authAdmin, async (req, res) => {
 });
 
 // ═══════════════════════════════════════════════════════════
+// LINKS DE AGENDAMENTO
+// ═══════════════════════════════════════════════════════════
+app.post("/api/links-agendamento", authAdmin, async (req, res) => {
+  const { produto_id, produto_nome, modelo_id, modelo_nome, servico_id, servico_nome } = req.body;
+  if (!produto_id || !servico_id) return res.status(400).json({ error: "produto_id e servico_id são obrigatórios" });
+  const token = require("crypto").randomUUID().replace(/-/g, "").slice(0, 16);
+  const { data, error } = await supabase.from("links_agendamento").insert({
+    token, produto_id, produto_nome: produto_nome || "", modelo_id: modelo_id || null,
+    modelo_nome: modelo_nome || "", servico_id, servico_nome: servico_nome || "", ativo: true
+  }).select().single();
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data);
+});
+
+app.get("/api/links-agendamento", authAdmin, async (req, res) => {
+  const { data, error } = await supabase.from("links_agendamento").select("*").order("created_at", { ascending: false });
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data || []);
+});
+
+app.delete("/api/links-agendamento/:id", authAdmin, async (req, res) => {
+  const { error } = await supabase.from("links_agendamento").delete().eq("id", req.params.id);
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ ok: true });
+});
+
+// Público — cliente acessa via link
+app.get("/api/link-agendamento/:token", async (req, res) => {
+  const { data, error } = await supabase.from("links_agendamento")
+    .select("*").eq("token", req.params.token).eq("ativo", true).single();
+  if (error || !data) return res.status(404).json({ error: "Link inválido ou expirado" });
+  res.json({
+    produto_id: data.produto_id, produto_nome: data.produto_nome,
+    modelo_id: data.modelo_id, modelo_nome: data.modelo_nome,
+    servico_id: data.servico_id, servico_nome: data.servico_nome
+  });
+});
+
+// ═══════════════════════════════════════════════════════════
 // SEMINOVOS
 // ═══════════════════════════════════════════════════════════
 app.get("/api/seminovos", async (req, res) => {
@@ -853,6 +892,8 @@ app.put("/api/agendamentos/:id/remarcar", authAdmin, async (req, res) => {
 });
 
 app.delete("/api/agendamentos/:id", authAdmin, async (req, res) => {
+  // Desvincula pagamentos_pendentes antes de deletar (evita FK violation)
+  await supabase.from("pagamentos_pendentes").update({ agendamento_id: null }).eq("agendamento_id", req.params.id);
   const { error } = await supabase.from("agendamentos").delete().eq("id", req.params.id);
   if (error) return res.status(500).json({ error: error.message });
   res.json({ ok: true });

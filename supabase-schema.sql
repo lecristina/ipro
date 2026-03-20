@@ -289,7 +289,7 @@ CREATE TABLE IF NOT EXISTS pagamentos_pendentes (
   valor_total       numeric(10,2) NOT NULL DEFAULT 0,
   valor_entrada     numeric(10,2) NOT NULL DEFAULT 0,
   status            text DEFAULT 'aguardando_pagamento',
-  agendamento_id    uuid REFERENCES agendamentos(id),
+  agendamento_id    uuid REFERENCES agendamentos(id) ON DELETE SET NULL,
   created_at        timestamptz DEFAULT now(),
   expires_at        timestamptz
 );
@@ -301,3 +301,21 @@ CREATE POLICY "Escrita total service pagamentos_pendentes" ON pagamentos_pendent
 -- Novas colunas em agendamentos para rastreio de pagamento
 ALTER TABLE agendamentos ADD COLUMN IF NOT EXISTS asaas_payment_id  text;
 ALTER TABLE agendamentos ADD COLUMN IF NOT EXISTS valor_entrada_pago numeric(10,2);
+
+-- Links de agendamento (admin gera link direto para o cliente)
+CREATE TABLE IF NOT EXISTS links_agendamento (
+  id           uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  token        text UNIQUE NOT NULL,
+  produto_id   uuid NOT NULL,
+  produto_nome text DEFAULT '',
+  modelo_id    uuid,
+  modelo_nome  text DEFAULT '',
+  servico_id   uuid NOT NULL,
+  servico_nome text DEFAULT '',
+  ativo        boolean DEFAULT true,
+  created_at   timestamptz DEFAULT now()
+);
+
+ALTER TABLE links_agendamento ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Escrita total service links_agendamento" ON links_agendamento
+  FOR ALL USING (auth.role() = 'service_role');

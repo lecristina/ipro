@@ -303,6 +303,36 @@
     // Start booking flow
     showStep(1);
     loadProdutos();
+
+    // ─── Link de Agendamento: pular direto pra opção ───────
+    (async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const linkToken = urlParams.get('link');
+      if (!linkToken) return;
+      try {
+        const res = await fetch('/api/link-agendamento/' + encodeURIComponent(linkToken));
+        if (!res.ok) return;
+        const ld = await res.json();
+        // Preencher seleções
+        sel.produto = { id: ld.produto_id, nome: ld.produto_nome };
+        sel.modelo = ld.modelo_id ? { id: ld.modelo_id, nome: ld.modelo_nome } : null;
+        sel.servico = { id: ld.servico_id, nome: ld.servico_nome };
+        // Carregar modelos para navegação Voltar
+        try {
+          const mr = await fetch('/api/modelos?produto_id=' + ld.produto_id);
+          modelosData = await mr.json();
+        } catch { modelosData = []; }
+        const activeModels = modelosData.filter(m => m.ativo !== false);
+        if (activeModels.length > 0) renderModeloCards(activeModels);
+        // Carregar serviços para o Voltar funcionar
+        const modeloOrProdId = ld.modelo_id || ld.produto_id;
+        await loadServicos(modeloOrProdId);
+        // Avançar direto para opção (qualidade da peça)
+        await selectServico(sel.servico);
+      } catch (e) {
+        console.error('Erro ao carregar link de agendamento:', e);
+      }
+    })();
   };
 
   // ─── State ────────────────────────────────────────────────

@@ -3072,7 +3072,7 @@ function dupModGoStep1(initial) {
 async function dupModNextOrConfirm() {
   const currentStep = document.getElementById('dup-mod-step2').classList.contains('hidden') ? 1 : 2;
   if (currentStep === 1) {
-    // Validate and advance to step 2
+    // Validate and advance to step 2===
     const checks = [...document.querySelectorAll('input[name="dup-produto"]:checked')];
     const errEl = document.getElementById('duplicar-modal-err');
     if (!checks.length) {

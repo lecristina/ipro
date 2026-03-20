@@ -376,10 +376,10 @@
   css.textContent = `
     #agend-overlay{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.65);backdrop-filter:blur(10px);opacity:0;pointer-events:none;transition:opacity .3s}
     #agend-overlay.agend-open{opacity:1;pointer-events:auto}
-    #agend-box{background:#fff;border-radius:28px;width:100%;max-width:640px;max-height:93vh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,.3);transform:scale(.95) translateY(12px);transition:transform .35s cubic-bezier(.34,1.56,.64,1),opacity .3s}
+    #agend-box{background:#fff;border-radius:28px;width:100%;max-width:640px;max-height:82vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 32px 80px rgba(0,0,0,.3);transform:scale(.95) translateY(12px);transition:transform .35s cubic-bezier(.34,1.56,.64,1),opacity .3s}
     #agend-overlay.agend-open #agend-box{transform:scale(1) translateY(0)}
-    .agend-header{padding:22px 24px 0;position:sticky;top:0;background:#fff;z-index:2;border-radius:28px 28px 0 0}
-    .agend-body{padding:0 24px 32px}
+    .agend-header{padding:22px 24px 0;flex-shrink:0;background:#fff;z-index:2;border-radius:28px 28px 0 0}
+    .agend-body{padding:0 24px 32px;overflow-y:auto;flex:1;min-height:0}
     .agend-step{display:none}.agend-step.agend-active{display:block;animation:agendFade .28s ease}
     @keyframes agendFade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
     @keyframes spin{to{transform:rotate(360deg)}}

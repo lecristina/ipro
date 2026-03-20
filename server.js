@@ -1062,6 +1062,10 @@ app.post("/api/asaas/criar-cobranca", async (req, res) => {
       return res.status(400).json({ error: "booking_data e preco_total são obrigatórios" });
     }
 
+    // Capturar IP do cliente e injetar no booking_data
+    const clientIp = (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || req.socket.remoteAddress || '';
+    booking_data.ip = clientIp;
+
     const precoNum    = parseFloat(preco_total);
     const valorEntrada = Math.max(parseFloat((precoNum * 0.20).toFixed(2)), 5.0);
     const nome  = booking_data.nome  || "Cliente";

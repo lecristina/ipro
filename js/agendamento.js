@@ -1,4 +1,4 @@
-﻿// ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 // iPro Agendamento — Multi-step booking form modal
 // Fluxo: Produto → Modelo (dropdown) → Serviço (+ FAQ) →
 //        Opção/Qualidade → Data (calendário azul/vermelho)
@@ -896,122 +896,127 @@
           <h3 style="font-size:17px;font-weight:800;margin:0;color:#1a1a1a">📄 Termos e Condições</h3>
           <button onclick="window.agendCloseTermosContent()" style="width:36px;height:36px;border-radius:50%;border:none;background:#f5f5f5;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;color:#888;transition:all .2s" onmouseover="this.style.background='#e5e5e5'" onmouseout="this.style.background='#f5f5f5'">✕</button>
         </div>
-        <div class="termos-body" style="font-family:Inter,sans-serif">
-          <h2>1. Identificação da Empresa</h2>
-          <p>A <strong>iPro Assistência Técnica Apple</strong> é uma empresa especializada em manutenção e reparo de dispositivos Apple, inscrita no CNPJ sob o nº <strong>32.819.954/0001-17</strong>, com sede na Rua Jorge Krug, 69 – Vila Itapura, Campinas/SP – CEP 13023-210.</p>
-          <p>A iPro é uma assistência técnica independente e <strong>não possui vínculo, parceria ou autorização oficial da Apple Inc.</strong> Os serviços prestados são de natureza técnica independente, realizados por profissionais qualificados.</p>
-
-          <h2>2. Objeto dos Serviços</h2>
-          <p>Os serviços prestados pela iPro incluem, mas não se limitam a: diagnóstico, manutenção preventiva e corretiva, reparo de hardware e software, troca de componentes, limpeza técnica, backup e migração de dados, atualização de sistemas operacionais e instalação de acessórios em dispositivos da marca Apple (iPhone, iPad, MacBook, iMac, Mac Mini, Apple Watch e similares).</p>
-          <p>Os serviços disponíveis e seus respectivos valores são apresentados no site e no sistema de agendamento online, podendo ser atualizados a qualquer momento sem aviso prévio.</p>
-
-          <h2>3. Agendamento e Atendimento</h2>
-          <p><strong>3.1.</strong> O atendimento na iPro é realizado <strong>exclusivamente mediante agendamento prévio</strong>, que pode ser feito pelo site ou via WhatsApp.</p>
-          <p><strong>3.2.</strong> O agendamento confirma a reserva de um horário específico. O cliente deve comparecer no horário agendado com tolerância máxima de <strong>15 minutos</strong>. Atrasos superiores poderão resultar no cancelamento automático do agendamento.</p>
-          <p><strong>3.3.</strong> Cancelamentos ou remarcações devem ser solicitados com antecedência mínima de <strong>2 horas</strong> do horário agendado, via WhatsApp.</p>
-          <p><strong>3.4.</strong> O horário de funcionamento é de segunda a sexta-feira, das 10h às 12h e das 13h30 às 16h30, exceto feriados.</p>
-
-          <h2>4. Diagnóstico e Orçamento</h2>
-          <p><strong>4.1.</strong> Todo serviço é precedido de um diagnóstico técnico para identificação precisa do problema. O diagnóstico pode ser realizado presencialmente ou de forma remota (para questões de software).</p>
-          <p><strong>4.2.</strong> Os valores apresentados no site são <strong>estimativas</strong> baseadas nos serviços padrão. O orçamento final pode variar após o diagnóstico técnico presencial, caso sejam identificados problemas adicionais ou necessidade de peças específicas.</p>
-          <p><strong>4.3.</strong> Diagnósticos que necessitem de desmontagem ou análise aprofundada poderão ter custo, informado previamente ao cliente.</p>
-
-          <h2>5. Aprovação do Serviço</h2>
-          <p><strong>5.1.</strong> Nenhum serviço será executado sem a <strong>aprovação expressa do cliente</strong>, seja presencial, via WhatsApp ou pelo sistema de agendamento online.</p>
-          <p><strong>5.2.</strong> A aprovação do orçamento pelo sistema de agendamento online, incluindo a aceitação dos termos mediante fornecimento de nome completo e CPF, constitui <strong>aceite digital válido e vinculante</strong>, nos termos da legislação brasileira.</p>
-          <p><strong>5.3.</strong> Após aprovação, o cliente autoriza a iPro a realizar o serviço descrito no orçamento.</p>
-
-          <h2>6. Peças e Componentes</h2>
-          <p><strong>6.1.</strong> A iPro utiliza peças de alta qualidade para todos os reparos. Dependendo da disponibilidade e do tipo de serviço, as peças podem ser <strong>originais Apple, originais removidas (seminovas em perfeito estado) ou compatíveis de alta qualidade</strong>.</p>
-          <p><strong>6.2.</strong> O tipo de peça utilizada será informado ao cliente <strong>antes da execução do serviço</strong>. O cliente tem o direito de recusar o serviço caso não concorde com o tipo de peça oferecida.</p>
-          <p><strong>6.3.</strong> Peças substituídas que forem removidas do dispositivo não serão devolvidas ao cliente, salvo solicitação expressa no momento da aprovação do serviço.</p>
-
-          <h2>7. Peças Originais e Compatíveis</h2>
-          <p><strong>7.1.</strong> <strong>Peças originais Apple:</strong> são componentes fabricados pela Apple ou por seus fornecedores autorizados. Oferecem máxima compatibilidade e funcionalidade com o ecossistema Apple, incluindo recursos como True Tone, Face ID e calibração de bateria.</p>
-          <p><strong>7.2.</strong> <strong>Peças compatíveis de alta qualidade:</strong> são componentes produzidos por fabricantes terceiros, com especificações técnicas equivalentes ou próximas às originais. <strong>Alguns recursos exclusivos da Apple podem não funcionar</strong> com peças compatíveis (exemplo: True Tone, notificações de peça desconhecida, calibração automática de bateria).</p>
-          <p><strong>7.3.</strong> Ao optar por peças compatíveis, o cliente declara estar ciente de que: (a) o dispositivo poderá exibir avisos de "peça desconhecida" ou "não genuína" nas configurações do sistema; (b) determinadas funcionalidades software-dependentes podem ser limitadas; (c) a iPro não se responsabiliza por limitações impostas por atualizações futuras do sistema operacional da Apple.</p>
-          <p><strong>7.4.</strong> A escolha entre peça original e compatível, quando disponível, será sempre do cliente, mediante orientação técnica da iPro.</p>
-
-          <h2>8. Garantia dos Serviços</h2>
-          <p><strong>8.1.</strong> Todos os serviços realizados pela iPro possuem garantia mínima de <strong>90 (noventa) dias</strong>, contados a partir da data de entrega do equipamento ao cliente, conforme o Código de Defesa do Consumidor (Lei nº 8.078/1990).</p>
-          <p><strong>8.2.</strong> A garantia cobre exclusivamente o serviço realizado e a peça substituída, ou seja, o <strong>mesmo defeito no mesmo componente</strong>. Defeitos em outros componentes ou decorrentes de causas diversas não são cobertos.</p>
-          <p><strong>8.3.</strong> Para acionar a garantia, o cliente deve entrar em contato via WhatsApp e agendar um retorno para avaliação técnica.</p>
-
-          <h2>9. Exclusões de Garantia</h2>
-          <p>A garantia não se aplica nos seguintes casos:</p>
-          <ul>
-            <li>Danos causados por mau uso, quedas, impacto, pressão excessiva ou contato com líquidos após o reparo</li>
-            <li>Tentativa de reparo por terceiros ou pelo próprio cliente após o serviço</li>
-            <li>Violação dos lacres ou sinais de adulteração do equipamento</li>
-            <li>Danos causados por variações de energia elétrica, curto-circuito ou descarga atmosférica</li>
-            <li>Defeitos decorrentes de atualização de software ou sistema operacional realizada pelo cliente após o serviço</li>
-            <li>Oxidação, corrosão ou danos por contato com líquidos (se o serviço original não foi tratamento de oxidação)</li>
-            <li>Desgaste natural de componentes (bateria, borrachas, adesivos, etc.)</li>
-            <li>Equipamentos com sinais de manipulação indevida, componentes não originais instalados por terceiros ou histórico de reparos anteriores não informados</li>
-          </ul>
-
-          <h2>10. Prazo de Execução</h2>
-          <p><strong>10.1.</strong> O prazo estimado para cada serviço é informado no momento do agendamento e pode variar conforme a complexidade do reparo e a disponibilidade de peças.</p>
-          <p><strong>10.2.</strong> Muitos serviços são realizados no <strong>mesmo dia</strong> (reparos rápidos como troca de tela, bateria, etc.). Serviços mais complexos podem demandar prazo adicional, que será comunicado ao cliente.</p>
-          <p><strong>10.3.</strong> A iPro não se responsabiliza por atrasos decorrentes de falta de peças no mercado, greves de transportadoras ou outros eventos de força maior.</p>
-
-          <h2>11. Formas de Pagamento</h2>
-          <p><strong>11.1.</strong> O pagamento é realizado <strong>na retirada do equipamento</strong>, após a conclusão do serviço. Não é cobrado valor antecipado, salvo em casos específicos que necessitem encomenda de peças especiais (informado previamente).</p>
-          <p><strong>11.2.</strong> São aceitas as seguintes formas de pagamento: <strong>Pix, dinheiro, cartão de débito e cartão de crédito</strong> (à vista ou parcelado, conforme disponibilidade).</p>
-          <p><strong>11.3.</strong> Os valores dos serviços incluem mão de obra e peças, salvo indicação em contrário no orçamento.</p>
-
-          <h2>12. Política de Cancelamento</h2>
-          <p><strong>12.1.</strong> O cliente pode cancelar o agendamento a qualquer momento antes do início do serviço, <strong>sem custo</strong>.</p>
-          <p><strong>12.2.</strong> Caso o serviço já tenha sido iniciado e o cliente deseje cancelar, poderão ser cobrados os custos de diagnóstico e mão de obra já empregada.</p>
-          <p><strong>12.3.</strong> Se o cliente reprovar o orçamento após o diagnóstico, o equipamento será remontado e devolvido. Poderá haver cobrança de taxa de diagnóstico, se aplicável e previamente informada.</p>
-
-          <h2>13. Responsabilidade sobre o Dispositivo</h2>
-          <p><strong>13.1.</strong> A iPro se responsabiliza pelo dispositivo do cliente enquanto este estiver em sua posse, comprometendo-se a tratá-lo com o máximo cuidado técnico.</p>
-          <p><strong>13.2.</strong> A iPro <strong>não se responsabiliza por dados, arquivos, fotos, vídeos, senhas ou qualquer conteúdo armazenado no dispositivo</strong>. É de responsabilidade exclusiva do cliente realizar backup antes de entregar o equipamento.</p>
-          <p><strong>13.3.</strong> Casos, capinhas, películas, carregadores e acessórios não fazem parte do serviço e devem ser retirados pelo cliente antes da entrega do dispositivo.</p>
-
-          <h2>14. Retirada do Equipamento</h2>
-          <p><strong>14.1.</strong> O cliente será notificado via WhatsApp quando o serviço for concluído. A retirada deve ser feita no prazo máximo de <strong>30 (trinta) dias</strong> após a notificação de conclusão.</p>
-          <p><strong>14.2.</strong> O equipamento só será entregue ao titular do agendamento ou a pessoa autorizada mediante apresentação de documento de identificação.</p>
-
-          <h2>15. Abandono de Equipamento</h2>
-          <p><strong>15.1.</strong> O equipamento não retirado no prazo de <strong>90 (noventa) dias</strong> após a notificação de conclusão do serviço será considerado abandonado, nos termos do art. 1.263 do Código Civil Brasileiro.</p>
-          <p><strong>15.2.</strong> A iPro enviará ao menos 2 (duas) notificações via WhatsApp antes de considerar o equipamento abandonado. Após o prazo, a iPro poderá dar a destinação que julgar adequada ao equipamento, sem direito a indenização por parte do cliente.</p>
-
-          <h2>16. Backup e Dados Pessoais</h2>
-          <p><strong>16.1.</strong> É <strong>responsabilidade exclusiva do cliente</strong> realizar o backup de todos os dados, fotos, vídeos, contatos, mensagens e demais conteúdos armazenados no dispositivo antes de entregá-lo para reparo.</p>
-          <p><strong>16.2.</strong> Alguns serviços podem resultar na formatação total do dispositivo (reinstalação de sistema, troca de placa lógica, etc.). Nesses casos, o cliente será informado previamente.</p>
-          <p><strong>16.3.</strong> A iPro oferece serviço de backup e migração de dados como serviço avulso, mediante agendamento e pagamento específico.</p>
-
-          <h2>17. Privacidade e LGPD</h2>
-          <p><strong>17.1.</strong> Os dados pessoais coletados durante o agendamento (nome, CPF, e-mail, WhatsApp, endereço e IP) são utilizados exclusivamente para a prestação do serviço contratado, comunicação com o cliente e cumprimento de obrigações legais.</p>
-          <p><strong>17.2.</strong> A iPro compromete-se a tratar os dados em conformidade com a <strong>Lei Geral de Proteção de Dados (Lei nº 13.709/2018 — LGPD)</strong>, adotando medidas técnicas e organizacionais adequadas para proteger os dados contra acesso não autorizado, destruição, perda ou alteração.</p>
-          <p><strong>17.3.</strong> Os dados pessoais não serão compartilhados com terceiros, exceto quando necessário para o cumprimento de obrigações legais ou por determinação judicial.</p>
-          <p><strong>17.4.</strong> O cliente pode solicitar a exclusão de seus dados pessoais a qualquer momento, entrando em contato via WhatsApp ou e-mail, respeitados os prazos legais de guarda obrigatória.</p>
-
-          <h2>18. Assinatura Digital e Aceite Eletrônico</h2>
-          <p><strong>18.1.</strong> Ao confirmar o agendamento pelo sistema online, o cliente fornece seu nome completo e CPF como forma de <strong>assinatura digital</strong>, declarando ter lido, compreendido e aceito integralmente os presentes Termos e Condições.</p>
-          <p><strong>18.2.</strong> Este aceite eletrônico possui <strong>validade jurídica</strong> nos termos da Medida Provisória nº 2.200-2/2001, que institui a Infraestrutura de Chaves Públicas Brasileira (ICP-Brasil) e reconhece a validade de documentos eletrônicos.</p>
-          <p><strong>18.3.</strong> São registrados para fins de comprovação: nome completo, CPF, data e hora do aceite, endereço IP do dispositivo utilizado e os termos específicos aceitos pelo cliente.</p>
-          <p><strong>18.4.</strong> O cliente declara que as informações fornecidas são verdadeiras e de sua responsabilidade, respondendo civil e criminalmente por eventuais falsidades.</p>
-
-          <h2>19. Limitação de Responsabilidade</h2>
-          <p><strong>19.1.</strong> A responsabilidade da iPro está limitada ao valor do serviço contratado. Em nenhuma hipótese a iPro será responsável por lucros cessantes, danos indiretos, perda de negócios ou quaisquer danos consequenciais.</p>
-          <p><strong>19.2.</strong> A iPro não se responsabiliza por defeitos pré-existentes não identificáveis sem desmontagem completa, defeitos ocultos de fabricação ou problemas decorrentes do desgaste natural do equipamento.</p>
-          <p><strong>19.3.</strong> Em caso de dano acidental durante o reparo causado pela iPro, a empresa se compromete a reparar o dano ou, quando não for possível, oferecer solução equivalente ao cliente.</p>
-
-          <h2>20. Disposições Gerais</h2>
-          <p><strong>20.1.</strong> Estes Termos e Condições podem ser atualizados a qualquer momento. A versão vigente será sempre a publicada no site da iPro. É responsabilidade do cliente consultar esta página periodicamente.</p>
-          <p><strong>20.2.</strong> A eventual nulidade ou inaplicabilidade de qualquer cláusula destes Termos não afetará a validade das demais disposições.</p>
-          <p><strong>20.3.</strong> Estes Termos são regidos pelas leis da República Federativa do Brasil.</p>
-          <p><strong>20.4.</strong> Fica eleito o foro da <strong>Comarca de Campinas/SP</strong> para dirimir quaisquer questões oriundas destes Termos, com renúncia expressa a qualquer outro, por mais privilegiado que seja.</p>
-
-          <div style="margin-top:20px;padding-top:16px;border-top:1px solid #e5e5e5;text-align:center">
-            <p style="font-size:12px;color:#888;margin:0"><strong style="color:#555">iPro Assistência Técnica Apple</strong></p>
-            <p style="font-size:11px;color:#aaa;margin:4px 0 0">CNPJ: 32.819.954/0001-17 · Campinas/SP</p>
-          </div>
-        </div>
-        <button onclick="window.agendCloseTermosContent()" style="margin-top:16px;width:100%;padding:14px;border-radius:14px;background:#1a1a1a;color:#fff;font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:Inter,sans-serif;transition:all .2s" onmouseover="this.style.background='#1a6cff'" onmouseout="this.style.background='#1a1a1a'">Fechar</button>
+                <div class="termos-body" style="font-family:Inter,sans-serif">
+          <h2 style="font-size:15px;font-weight:800;margin:0 0 8px;color:#1a1a1a">TERMO GERAL DE PRESTAÇÃO DE SERVIÇOS, GARANTIA E PAGAMENTO</h2>
+          <p style="font-size:12px;color:#888;margin:0 0 12px">DISPOSITIVOS ELETRÔNICOS (APPLE E SIMILARES)</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">1. IDENTIFICAÇÃO DO FORNECEDOR</h3>
+          <p>O presente instrumento regula a prestação de serviços técnicos especializados e o fornecimento de peças por empresa de assistência técnica independente. A empresa declara não possuir vínculo com a fabricante Apple Inc., não sendo assistência autorizada, atuando de forma autônoma, nos termos dos Arts. 421 e 425 do Código Civil. O CONTRATANTE declara ciência inequívoca de que a intervenção por assistência não autorizada poderá acarretar a perda de garantias vigentes junto ao fabricante original.</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">2. FUNDAMENTAÇÃO LEGAL</h3>
+          <p>Este contrato é regido pelo Código de Defesa do Consumidor (Lei nº 8.078/90) e Código Civil (Lei nº 10.406⁄2002), especialmente pelos Arts. 6º, 12, 14, 18, 20, 26, 30, 35, 39, 46, 50, 51 e 101 do CDC e Arts. 187, 389, 395, 408, 409, 418, 421, 422, 476 e 927 do Código Civil. As cláusulas aqui dispostas visam o equilíbrio contratual e a preservação da boa-fé objetiva (Art. 422, CC).</p>
+          <p style="font-weight:700;margin:12px 0 4px">🔧 PARTE I – PRESTAÇÃO DE SERVIÇOS</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">3. NATUREZA DO SERVIÇO</h3>
+          <p>A assistência realiza manutenção, reparo e substituição de componentes, podendo utilizar:</p>
+          <ul><li>peças originais (retiradas de outro aparelho)</li><li>peças compatíveis premium</li><li>peças compatíveis standard</li></ul>
+          <p>O cliente declara ciência de que a assistência não realiza pareamento com servidores da fabricante nem possui acesso a sistemas proprietários, podendo haver limitações de funcionalidade, desde que previamente informadas, conforme Art. 6º, III do CDC. A escolha da peça será formalizada no orçamento, sendo o CONTRATANTE o único responsável pela opção técnica/financeira adotada.</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">4. DIAGNÓSTICO TÉCNICO</h3>
+          <p>O diagnóstico inicial possui caráter preliminar, podendo ser alterado após testes técnicos aprofundados. Qualquer alteração de orçamento dependerá de aprovação do cliente, inclusive por meios eletrônicos (WhatsApp, SMS ou sistema), nos termos do Art. 30 do CDC. A aprovação por meio digital possui força vinculante e autoriza o início imediato dos serviços e aquisição de insumos.</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">5. RISCO DO REPARO</h3>
+          <p>O cliente declara ciência de que reparos eletrônicos envolvem risco técnico. Em aparelhos com:</p>
+          <ul><li>oxidação</li><li>danos estruturais</li><li>intervenções anteriores</li><li>falhas graves</li></ul>
+          <p>poderá ocorrer agravamento ou perda total. A assistência não responde por danos decorrentes exclusivamente de vícios preexistentes, desde que comprovados por registros técnicos e inexistente falha na prestação do serviço. O CONTRATANTE assume o risco inerente à tentativa de recuperação de dispositivos em estado crítico ou com danos ocultos.</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">6. CLASSIFICAÇÃO DAS PEÇAS</h3>
+          <p>O cliente declara ciência quanto à natureza das peças utilizadas, conforme dever de informação (Art. 6º, III do CDC). A CONTRATADA garante que as peças utilizadas mantêm a compatibilidade técnica necessária para o funcionamento do dispositivo, ressalvadas as limitações de software impostas pelo fabricante.</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">7. PEÇAS FORNECIDAS PELO CLIENTE</h3>
+          <p>Não há garantia sobre peças fornecidas pelo cliente quanto à qualidade, compatibilidade ou procedência. A responsabilidade da assistência limita-se à execução do serviço. Eventuais danos causados ao dispositivo em decorrência de defeitos na peça fornecida pelo cliente são de inteira responsabilidade deste.</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">8. PEÇA NÃO RECONHECIDA</h3>
+          <p>Após substituição, poderá ocorrer aviso de:</p>
+          <ul><li>"peça não reconhecida"</li></ul>
+          <p>Isso não caracteriza defeito, desde que:</p>
+          <ul><li>não comprometa a função essencial</li><li>tenha sido previamente informado</li></ul>
+          <p>O CONTRATANTE declara estar ciente de que tais avisos são restrições de software da fabricante e não configuram vício do serviço ou da peça aplicada.</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">9. LIMITAÇÕES TÉCNICAS</h3>
+          <p>Após o reparo, poderão ocorrer:</p>
+          <ul><li>perda de vedação contra água</li><li>indisponibilidade de funções (Face ID, True Tone, etc.)</li><li>alterações por atualização de sistema</li></ul>
+          <p>Tais situações não caracterizam vício, quando previamente informadas. A CONTRATADA não se responsabiliza por atualizações de software posteriores que venham a restringir funcionalidades do dispositivo.</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">10. RESPONSABILIDADE SOBRE DADOS</h3>
+          <p>O cliente é responsável por realizar backup prévio. A assistência não se responsabiliza por perda de dados, salvo se comprovada culpa direta. A entrega do aparelho sem backup prévio implica na aceitação do risco de perda integral das informações armazenadas.</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">11. DEFEITOS PREEXISTENTES</h3>
+          <p>A assistência não responde por defeitos já existentes no momento da entrada, desde que registrados. O registro fotográfico ou checklist de entrada servirá como prova técnica absoluta da condição inicial do dispositivo.</p>
+          <p style="font-weight:700;margin:12px 0 4px">🛡️ PARTE II – GARANTIA</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">12. PRAZO DE GARANTIA</h3>
+          <ul><li>Telas e baterias (Original/Premium): até 12 meses</li><li>Peças Standard: 90 dias</li><li>Demais serviços: 90 dias</li></ul>
+          <p>Nos termos do Art. 26 do CDC. O prazo de garantia contratual soma-se à garantia legal, salvo disposição em contrário na Ordem de Serviço.</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">13. COBERTURA</h3>
+          <p>A garantia cobre exclusivamente:</p>
+          <ul><li>defeitos de fabricação</li><li>falhas técnicas diretamente relacionadas ao serviço</li></ul>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">14. EXCLUSÕES</h3>
+          <p>Não estão cobertos:</p>
+          <ul><li>queda ou impacto</li><li>contato com líquido</li><li>mau uso</li><li>intervenção de terceiros</li><li>desgaste natural</li><li>atualizações de sistema</li></ul>
+          <p>A presença de qualquer um dos itens acima invalida imediatamente a garantia prestada.</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">15. CONDIÇÕES DA GARANTIA</h3>
+          <p>A garantia depende de:</p>
+          <ul><li>apresentação do comprovante</li><li>ausência de violação do aparelho</li></ul>
+          <p>A remoção ou dano aos selos de garantia internos ou externos implica na perda total do direito à assistência gratuita.</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">16. PRAZO DE SOLUÇÃO</h3>
+          <p>Prazo de até 30 dias para solução, conforme Art. 18 do CDC. Em casos de complexidade técnica elevada ou dependência de importação de peças, o prazo poderá ser estendido mediante acordo entre as partes.</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">17. CIÊNCIA EXPRESSA DO CLIENTE</h3>
+          <p>O cliente declara ciência quanto a:</p>
+          <ul><li>peça não reconhecida</li><li>limitações técnicas</li><li>riscos do reparo</li><li>possíveis incompatibilidades futuras</li></ul>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">18. LIMITAÇÃO DE RESPONSABILIDADE</h3>
+          <p>A assistência não responde por restrições impostas por fabricante ou software, desde que não decorrentes de falha na prestação do serviço. A responsabilidade da CONTRATADA limita-se ao valor total do serviço contratado, não abrangendo lucros cessantes ou danos indiretos.</p>
+          <p style="font-weight:700;margin:12px 0 4px">💳 PARTE III – PAGAMENTO (FORTE / BLINDADA)</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">19. PAGAMENTO ANTECIPADO – ARRAS CONFIRMATÓRIAS</h3>
+          <p>Para início do serviço, será exigido pagamento antecipado de até 20% do valor total, com natureza jurídica de arras confirmatórias, nos termos dos Arts. 408, 409 e 418 do Código Civil. Este valor possui função de:</p>
+          <ul><li>confirmar a contratação</li><li>garantir execução</li><li>cobrir mobilização operacional</li></ul>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">20. VINCULAÇÃO CONTRATUAL</h3>
+          <p>O pagamento antecipado vincula as partes, autorizando:</p>
+          <ul><li>reserva de agenda</li><li>bloqueio de horário técnico</li><li>aquisição de peças</li><li>início da execução</li></ul>
+          <p>A contratação pode ser formalizada por meios eletrônicos, com plena validade jurídica.</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">21. IRRETRATABILIDADE RELATIVA</h3>
+          <p>Após iniciadas providências operacionais, o valor pago não será devolvido integralmente em caso de desistência imotivada. Poderá ser retido para cobertura de:</p>
+          <ul><li>custos administrativos</li><li>peças adquiridas</li><li>tempo técnico reservado</li><li>mobilização de equipe</li></ul>
+          <p>Sempre de forma proporcional e comprovada, vedado enriquecimento sem causa.</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">22. CANCELAMENTO</h3>
+          <p>Antes de custos: → devolução integral Após custos: → retenção proporcional ao prejuízo comprovado</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">23. DESISTÊNCIA APÓS INÍCIO</h3>
+          <p>Autoriza:</p>
+          <ul><li>retenção das arras</li><li>cobrança de custos já incorridos</li><li>cobrança complementar, se necessário</li></ul>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">24. NÃO COMPARECIMENTO (NO-SHOW)</h3>
+          <p>Autoriza:</p>
+          <ul><li>retenção proporcional</li><li>perda de prioridade de agenda</li><li>eventual nova cobrança para reagendamento</li></ul>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">25. PAGAMENTO FINAL</h3>
+          <p>A entrega do aparelho fica condicionada à quitação integral do débito, nos termos do Art. 476 do Código Civil. O CONTRATANTE renuncia ao direito de retirada do bem sem a devida contraprestação financeira.</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">26. DIREITO DE RETENÇÃO</h3>
+          <p>A assistência poderá reter o aparelho até pagamento integral, desde que:</p>
+          <ul><li>o valor seja certo e exigível</li><li>não haja abuso</li></ul>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">27. INADIMPLEMENTO</h3>
+          <p>O não pagamento autoriza:</p>
+          <ul><li>cobrança extrajudicial</li><li>negativação</li><li>protesto</li><li>ação judicial</li></ul>
+          <p>Com incidência de:</p>
+          <ul><li>juros</li><li>correção</li><li>honorários</li></ul>
+          <p>(Arts. 389 e 395 do Código Civil)</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">28. PROVA CONTRATUAL</h3>
+          <p>Este contrato, junto com:</p>
+          <ul><li>ordem de serviço</li><li>comprovantes</li><li>mensagens</li><li>registros técnicos</li></ul>
+          <p>constitui prova válida para cobrança. As conversas via aplicativos de mensagens são reconhecidas como prova documental de autorização e ciência.</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">29. CHARGEBACK</h3>
+          <p>A contestação indevida caracteriza inadimplemento e poderá gerar:</p>
+          <ul><li>cobrança judicial</li><li>indenização</li><li>envio de provas à operadora</li></ul>
+          <p>O CONTRATANTE declara que a retirada do aparelho após o reparo constitui aceite irrevogável da qualidade do serviço, tornando nula qualquer tentativa de chargeback por "serviço não prestado" ou "mercadoria não recebida".</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">30. ABANDONO DE APARELHO</h3>
+          <p>Após 90 dias sem retirada, caracteriza abandono (Art. 1.275, CC). A assistência poderá:</p>
+          <ul><li>vender o bem</li><li>quitar débitos</li><li>devolver eventual saldo</li></ul>
+          <p>O CONTRATANTE será notificado por 03 (três) vezes antes da caracterização do abandono.</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">31. ARMAZENAMENTO</h3>
+          <p>Poderá ser cobrada taxa de permanência após comunicação de conclusão. O valor da taxa será de R$ [Inserir Valor] por dia de atraso na retirada.</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">32. RETIRADA PARCIAL</h3>
+          <p>Não será permitida retirada sem pagamento integral, salvo acordo formal.</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">33. RENEGOCIAÇÃO</h3>
+          <p>Só terá validade se formalizada por escrito.</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">34. FORÇA PROBATÓRIA</h3>
+          <p>Este instrumento constitui início de prova escrita para fins judiciais.</p>
+          <p style="font-weight:700;margin:12px 0 4px">⚖️ PARTE IV – DISPOSIÇÕES FINAIS</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">35. BOA-FÉ CONTRATUAL</h3>
+          <p>As partes se obrigam a cumprir o contrato conforme os princípios da boa-fé objetiva (Art. 422 do Código Civil).</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">36. NULIDADE PARCIAL</h3>
+          <p>A eventual nulidade de cláusula não invalida o restante do contrato.</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">37. FORO</h3>
+          <p>Fica eleito o foro do domicílio do consumidor, nos termos do Art. 101 do CDC.</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">38. ACEITE</h3>
+          <p>O cliente declara que leu, compreendeu e concorda integralmente com os termos.</p>
+          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">39. VALIDADE DIGITAL</h3>
+          <p>Este contrato possui validade jurídica inclusive quando firmado por meios eletrônicos.</p>
+        </div><button onclick="window.agendCloseTermosContent()" style="margin-top:16px;width:100%;padding:14px;border-radius:14px;background:#1a1a1a;color:#fff;font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:Inter,sans-serif;transition:all .2s" onmouseover="this.style.background='#1a6cff'" onmouseout="this.style.background='#1a1a1a'">Fechar</button>
       </div>`;
       document.body.appendChild(tcOvl);
       // Close on overlay click
@@ -1434,20 +1439,8 @@
       }
     }
 
-    // Use DB items if found, else fall back to STATIC_FAQ
-    let items, title;
-    if (dbItems && dbItems.length) {
-      items = dbItems;
-      title = dynamicTitle || 'Saiba mais';
-    } else {
-      const staticData = STATIC_FAQ[key];
-      if (!staticData) return;
-      items = staticData.items;
-      title = staticData.title;
-    }
-
-    // Always use popup
-    showFaqItems(title, items);
+    if (!(dbItems && dbItems.length)) return;
+    showFaqItems(dynamicTitle || 'Saiba mais', dbItems);
   };
 
   window.agendShowFaqServico = async function () {
@@ -1460,8 +1453,6 @@
     if (items && items.length) {
       const title = sel.servico ? 'Saiba mais — ' + sel.servico.nome : 'Saiba mais';
       showFaqItems(title, items);
-    } else {
-      window.agendShowFaq('opcao');
     }
   };
 
@@ -1470,11 +1461,6 @@
     const items = await fetchDbFaq(param, id);
     if (items && items.length) {
       showFaqItems('Saiba mais — ' + nome, items);
-    } else {
-      // Fallback to static FAQ based on param type
-      const keyMap = { produto_id: 'produto', modelo_id: 'modelo', servico_id: 'servico', opcao_id: 'opcao' };
-      const staticData = STATIC_FAQ[keyMap[param]];
-      if (staticData) showFaqItems(staticData.title, staticData.items);
     }
   };
 
@@ -1484,9 +1470,6 @@
     const items = await fetchDbFaq('modelo_id', sel.modelo.id);
     if (items && items.length) {
       showFaqItems('Saiba mais — ' + sel.modelo.nome, items);
-    } else {
-      const staticData = STATIC_FAQ['modelo'];
-      if (staticData) showFaqItems(staticData.title, staticData.items);
     }
   };
 

@@ -3026,34 +3026,30 @@ async function confirmDuplicarModelo() {
   const targetIds = checks.map(c => c.value);
 
   try {
-    // 1. Buscar modelo original
-    const srcModelos = await API('/api/modelos?produto_id=' + _duplicarProdutoAtualId);
+    // 1. Buscar modelo original + serviços + FAQs do modelo em paralelo
+    const [srcModelos, srcServicos, modeloFaqs] = await Promise.all([
+      API('/api/modelos?produto_id=' + _duplicarProdutoAtualId),
+      API('/api/servicos?modelo_id=' + _duplicarModeloId),
+      API('/api/faq?modelo_id=' + _duplicarModeloId).catch(() => []),
+    ]);
     const srcModelo = srcModelos.find(m => m.id === _duplicarModeloId);
     if (!srcModelo) throw new Error('Modelo de origem não encontrado');
 
-    // 2. Buscar serviços do modelo original
-    const srcServicos = await API('/api/servicos?modelo_id=' + _duplicarModeloId);
-
-    // 3. Buscar opções + FAQs de cada serviço (incluindo FAQs de cada opção)
+    // 2. Buscar opções + FAQs de todos os serviços em paralelo
     progEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Carregando serviços e opções...';
-    const servicoData = [];
-    for (const svc of srcServicos) {
+    const servicoData = await Promise.all(srcServicos.map(async svc => {
       const [opcoes, faqs] = await Promise.all([
         API('/api/opcoes?servico_id=' + svc.id),
         API('/api/faq?servico_id=' + svc.id).catch(() => []),
       ]);
-      const opcoesComFaq = [];
-      for (const op of opcoes) {
+      const opcoesComFaq = await Promise.all(opcoes.map(async op => {
         const opFaqs = await API('/api/faq?opcao_id=' + op.id).catch(() => []);
-        opcoesComFaq.push({ op, faqs: opFaqs });
-      }
-      servicoData.push({ svc, opcoes: opcoesComFaq, faqs });
-    }
+        return { op, faqs: opFaqs };
+      }));
+      return { svc, opcoes: opcoesComFaq, faqs };
+    }));
 
-    // 4. Buscar FAQs do modelo original
-    const modeloFaqs = await API('/api/faq?modelo_id=' + _duplicarModeloId).catch(() => []);
-
-    // 5. Duplicar para cada dispositivo selecionado
+    // 3. Duplicar para cada dispositivo selecionado
     let doneCount = 0;
     for (const produtoId of targetIds) {
       progEl.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i>Duplicando... (${doneCount + 1}/${targetIds.length})`;
@@ -3067,58 +3063,51 @@ async function confirmDuplicarModelo() {
         imagem: srcModelo.imagem ?? null,
       }});
 
-      // Copiar FAQs do modelo
-      for (const faq of modeloFaqs) {
-        await API('/api/faq', { method: 'POST', body: {
+      // Copiar FAQs do modelo + todos os serviços em paralelo
+      await Promise.all([
+        Promise.all(modeloFaqs.map(faq => API('/api/faq', { method: 'POST', body: {
           modelo_id: newModelo.id,
           pergunta: faq.pergunta,
           resposta: faq.resposta,
           ordem: faq.ordem ?? 0,
-        }}).catch(() => {});
-      }
-
-      // Copiar serviços
-      for (const { svc, opcoes, faqs } of servicoData) {
-        const newSvc = await API('/api/servicos', { method: 'POST', body: {
-          modelo_id: newModelo.id,
-          nome: svc.nome,
-          ativo: svc.ativo,
-          ordem: svc.ordem ?? 0,
-        }});
-
-        // Copiar FAQs do serviço
-        for (const faq of faqs) {
-          await API('/api/faq', { method: 'POST', body: {
-            servico_id: newSvc.id,
-            pergunta: faq.pergunta,
-            resposta: faq.resposta,
-            ordem: faq.ordem ?? 0,
-          }}).catch(() => {});
-        }
-
-        // Copiar opções e seus FAQs
-        for (const { op, faqs: opFaqs } of opcoes) {
-          const newOp = await API('/api/opcoes', { method: 'POST', body: {
-            servico_id: newSvc.id,
-            nome: op.nome,
-            preco: op.preco,
-            descricao: op.descricao ?? '',
-            tempo_estimado: op.tempo_estimado ?? null,
-            ativo: op.ativo,
-            ordem: op.ordem ?? 0,
-          }}).catch(() => null);
-          if (newOp) {
-            for (const faq of opFaqs) {
-              await API('/api/faq', { method: 'POST', body: {
-                opcao_id: newOp.id,
-                pergunta: faq.pergunta,
-                resposta: faq.resposta,
-                ordem: faq.ordem ?? 0,
-              }}).catch(() => {});
-            }
-          }
-        }
-      }
+        }}).catch(() => {}))),
+        Promise.all(servicoData.map(async ({ svc, opcoes, faqs }) => {
+          const newSvc = await API('/api/servicos', { method: 'POST', body: {
+            modelo_id: newModelo.id,
+            nome: svc.nome,
+            ativo: svc.ativo,
+            ordem: svc.ordem ?? 0,
+          }});
+          // Copiar FAQs do serviço + opções em paralelo
+          await Promise.all([
+            Promise.all(faqs.map(faq => API('/api/faq', { method: 'POST', body: {
+              servico_id: newSvc.id,
+              pergunta: faq.pergunta,
+              resposta: faq.resposta,
+              ordem: faq.ordem ?? 0,
+            }}).catch(() => {}))),
+            Promise.all(opcoes.map(async ({ op, faqs: opFaqs }) => {
+              const newOp = await API('/api/opcoes', { method: 'POST', body: {
+                servico_id: newSvc.id,
+                nome: op.nome,
+                preco: op.preco,
+                descricao: op.descricao ?? '',
+                tempo_estimado: op.tempo_estimado ?? null,
+                ativo: op.ativo,
+                ordem: op.ordem ?? 0,
+              }}).catch(() => null);
+              if (newOp) {
+                await Promise.all(opFaqs.map(faq => API('/api/faq', { method: 'POST', body: {
+                  opcao_id: newOp.id,
+                  pergunta: faq.pergunta,
+                  resposta: faq.resposta,
+                  ordem: faq.ordem ?? 0,
+                }}).catch(() => {})));
+              }
+            })),
+          ]);
+        })),
+      ]);
 
       doneCount++;
     }

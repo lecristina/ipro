@@ -1097,7 +1097,9 @@ app.post("/api/asaas/criar-cobranca", async (req, res) => {
       status: "aguardando_pagamento",
       expires_at: new Date(Date.now() + 30 * 60 * 1000).toISOString()
     });
-    if (dbErr) console.error("[Asaas] Erro ao salvar pagamento pendente:", dbErr.message);
+    if (dbErr) {
+      console.error("[Asaas] CRÍTICO — Erro ao salvar pagamento pendente:", dbErr.message, "| payment_id:", payment.id, "| Atenção: tabela pagamentos_pendentes pode não existir. Execute o SQL de migração no Supabase.");
+    }
 
     console.log(`[Asaas] ✓ Cobrança criada: ${payment.id} | R$ ${valorEntrada} | ${nome}`);
     res.json({
@@ -1116,13 +1118,16 @@ app.post("/api/asaas/criar-cobranca", async (req, res) => {
 
 // ── Shared: process confirmed payment → create agendamento + send notifications
 async function processAsaasPagamento(paymentId) {
-  const { data: pending } = await supabase
+  const { data: pending, error: pendErr } = await supabase
     .from("pagamentos_pendentes")
     .select("*")
     .eq("asaas_payment_id", paymentId)
     .eq("status", "aguardando_pagamento")
     .single();
 
+  if (pendErr && pendErr.code !== "PGRST116") {
+    console.error("[Asaas] processAsaasPagamento — erro ao buscar pendente:", pendErr.message, "| payment_id:", paymentId);
+  }
   if (!pending) return null; // already processed or not found
 
   const bk = pending.booking_data;

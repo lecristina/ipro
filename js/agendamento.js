@@ -1868,11 +1868,6 @@
         { id: null, nome: 'Premium', descricao: 'Melhor versão disponível — cores, toque e durabilidade superiores', preco: 0, ativo: true }
       ];
     }
-    hideAllSub1();
-    document.getElementById('agend-sub1-opcao').style.display = '';
-    document.getElementById('agend-opcao-title').textContent = s.nome;
-    document.getElementById('agend-opcao-subtitle').textContent = 'Escolha a qualidade da peça para ' + s.nome.toLowerCase();
-    const list = document.getElementById('agend-opcoes');
     list.innerHTML = '';
     activeOpcoes.forEach(o => {
       const preco = o.preco ? parseFloat(o.preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : '';

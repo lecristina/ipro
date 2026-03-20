@@ -1788,7 +1788,12 @@
     list.innerHTML = '';
     const active = servicosData.filter(s => s.ativo !== false);
     if (!active.length) { list.innerHTML = '<p style="font-size:13px;color:#999">Nenhum serviço disponível.</p>'; return; }
-    active.forEach(s => {
+
+    const LIMIT = 9;
+    const principais = active.slice(0, LIMIT);
+    const extras = active.slice(LIMIT);
+
+    function buildServicoCard(s) {
       const card = document.createElement('div');
       card.className = 'agend-card';
       card.style.flexDirection = 'column';
@@ -1804,8 +1809,32 @@
           <button data-fp="servico_id" data-fi="${s.id}" data-fn="${s.nome.replace(/"/g, '&quot;')}" onclick="window.agendShowCardFaq(this.dataset.fp,this.dataset.fi,this.dataset.fn)" style="background:none;border:none;cursor:pointer;font-size:11px;color:#1a6cff;font-family:Inter,sans-serif;font-weight:600;display:inline-flex;align-items:center;gap:4px"><i class="fa-solid fa-circle-question" style="font-size:10px"></i> Saiba mais</button>
         </div>`;
       card.onclick = () => selectServico(s);
-      list.appendChild(card);
-    });
+      return card;
+    }
+
+    principais.forEach(s => list.appendChild(buildServicoCard(s)));
+
+    if (extras.length) {
+      // "Outros Serviços" expandable button
+      const outrosBtn = document.createElement('button');
+      outrosBtn.id = 'agend-outros-servicos-btn';
+      outrosBtn.style.cssText = 'width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 16px;background:#f5f5f7;border:1.5px dashed #d0ccc8;border-radius:14px;cursor:pointer;font-size:13px;font-weight:700;color:#555;font-family:Inter,sans-serif;margin-top:2px;transition:background .2s';
+      outrosBtn.innerHTML = '<i class="fa-solid fa-wrench" style="font-size:11px;color:#1a6cff"></i> Outros Serviços';
+      outrosBtn.onmouseenter = () => { outrosBtn.style.background = '#ebebed'; };
+      outrosBtn.onmouseleave = () => { outrosBtn.style.background = '#f5f5f7'; };
+
+      const extrasWrap = document.createElement('div');
+      extrasWrap.style.cssText = 'display:none;flex-direction:column;gap:8px;margin-top:2px';
+      extras.forEach(s => extrasWrap.appendChild(buildServicoCard(s)));
+
+      outrosBtn.onclick = () => {
+        extrasWrap.style.display = 'flex';
+        outrosBtn.style.display = 'none';
+      };
+
+      list.appendChild(outrosBtn);
+      list.appendChild(extrasWrap);
+    }
   }
 
   async function selectServico(s) {

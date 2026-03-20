@@ -338,18 +338,33 @@
     <button onclick="hidePopup('duplicar-modelo-modal')" class="absolute top-4 right-4 w-9 h-9 bg-[#f5f5f7] hover:bg-[#e0e0e0] rounded-full flex items-center justify-center z-10">
       <i class="fa-solid fa-xmark text-[#1a1a1a]"></i>
     </button>
-    <div class="flex items-center gap-3 mb-1">
+    <div class="flex items-center gap-3 mb-3">
       <div class="w-10 h-10 rounded-xl bg-[#f0fff4] flex items-center justify-center shrink-0"><i class="fa-solid fa-copy text-[#22c55e]"></i></div>
-      <h3 class="text-xl font-bold">Duplicar modelo</h3>
+      <h3 class="text-xl font-bold">Copiar conteúdo do modelo</h3>
     </div>
-    <p class="text-sm text-[#888] mb-5">Selecione os dispositivos para onde quer duplicar <strong id="duplicar-modelo-nome" class="text-[#1a1a1a]"></strong> com todos os serviços, opções e FAQs. Você pode selecionar o mesmo dispositivo para duplicar dentro dele.</p>
-    <div id="duplicar-modal-loading" class="hidden py-8 text-center text-[#999] text-sm"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Carregando dispositivos...</div>
-    <div id="duplicar-produtos-list" class="space-y-2 mb-5"></div>
+    <!-- Step indicator -->
+    <div class="flex items-center gap-2 mb-4">
+      <span id="dup-mod-ind-1" class="text-xs font-bold px-2.5 py-1 rounded-full bg-[#1a6cff] text-white">1 · Dispositivo</span>
+      <i class="fa-solid fa-chevron-right text-[#ccc] text-[10px]"></i>
+      <span id="dup-mod-ind-2" class="text-xs font-bold px-2.5 py-1 rounded-full bg-[#f0f0f0] text-[#aaa]">2 · Modelo destino</span>
+    </div>
+    <p class="text-sm text-[#888] mb-5">Copia todos os serviços, opções e FAQs de <strong id="duplicar-modelo-nome" class="text-[#1a1a1a]"></strong> para dentro de um modelo já existente.</p>
+    <!-- Step 1: dispositivos -->
+    <div id="dup-mod-step1">
+      <div id="duplicar-modal-loading" class="hidden py-8 text-center text-[#999] text-sm"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Carregando dispositivos...</div>
+      <div id="duplicar-produtos-list" class="space-y-2 mb-5"></div>
+    </div>
+    <!-- Step 2: modelos destino por dispositivo -->
+    <div id="dup-mod-step2" class="hidden">
+      <div id="dup-mod-loading2" class="hidden py-6 text-center text-[#999] text-sm"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Carregando modelos...</div>
+      <div id="dup-mod-modelos-list" class="space-y-4 mb-5"></div>
+    </div>
     <div id="duplicar-modal-progress" class="hidden mb-4 text-sm font-semibold bg-[#f0f4ff] text-[#1a6cff] rounded-xl px-4 py-3"></div>
     <div id="duplicar-modal-err" class="hidden mb-4 text-sm font-semibold text-red-600 bg-red-50 border border-red-200 rounded-xl px-4 py-2.5"></div>
     <div class="flex gap-2">
-      <button onclick="confirmDuplicarModelo()" id="duplicar-confirm-btn" class="flex-1 bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold py-3 rounded-xl text-sm transition-colors flex items-center justify-center gap-2"><i class="fa-solid fa-copy text-xs"></i> Duplicar selecionados</button>
-      <button onclick="hidePopup('duplicar-modelo-modal')" class="px-5 py-3 bg-white border border-[#e0ddd9] rounded-xl text-sm text-[#888] hover:bg-[#f5f5f7] transition-colors">Cancelar</button>
+      <button id="dup-mod-back-btn" onclick="dupModGoStep1()" class="hidden px-4 py-3 bg-white border border-[#e0ddd9] rounded-xl text-sm text-[#555] hover:bg-[#f5f5f7] transition-colors flex items-center gap-1.5"><i class="fa-solid fa-arrow-left text-xs"></i> Voltar</button>
+      <button onclick="dupModNextOrConfirm()" id="duplicar-confirm-btn" class="flex-1 bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold py-3 rounded-xl text-sm transition-colors flex items-center justify-center gap-2">Próximo <i class="fa-solid fa-arrow-right text-xs"></i></button>
+      <button onclick="hidePopup('duplicar-modelo-modal')" id="dup-mod-cancel-btn" class="px-5 py-3 bg-white border border-[#e0ddd9] rounded-xl text-sm text-[#888] hover:bg-[#f5f5f7] transition-colors">Cancelar</button>
     </div>
   </div>
 </div>
@@ -3003,16 +3018,12 @@ async function openDuplicarModelo(modeloId, modeloNome) {
   _duplicarModeloId = modeloId;
   _duplicarProdutoAtualId = adminDrill.produto.id;
 
-  // Reset state
   document.getElementById('duplicar-modelo-nome').textContent = modeloNome;
   document.getElementById('duplicar-modal-progress').classList.add('hidden');
   document.getElementById('duplicar-modal-err').classList.add('hidden');
   document.getElementById('duplicar-produtos-list').innerHTML = '';
-  const btn = document.getElementById('duplicar-confirm-btn');
-  btn.disabled = false;
-  btn.innerHTML = '<i class="fa-solid fa-copy text-xs"></i> Duplicar selecionados';
-  btn.onclick = confirmDuplicarModelo;
-  btn.className = 'flex-1 bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold py-3 rounded-xl text-sm transition-colors flex items-center justify-center gap-2';
+  document.getElementById('dup-mod-modelos-list').innerHTML = '';
+  dupModGoStep1(true);
 
   document.getElementById('duplicar-modal-loading').classList.remove('hidden');
   showPopup('duplicar-modelo-modal');
@@ -3020,19 +3031,16 @@ async function openDuplicarModelo(modeloId, modeloNome) {
   try {
     const todosOsProdutos = await API('/api/produtos');
     document.getElementById('duplicar-modal-loading').classList.add('hidden');
-
     const listEl = document.getElementById('duplicar-produtos-list');
-
     if (!todosOsProdutos.length) {
       listEl.innerHTML = '<p class="text-sm text-[#999] py-4 text-center">Nenhum dispositivo cadastrado.</p>';
       return;
     }
-
     listEl.innerHTML = todosOsProdutos.map(p => {
       const isAtual = p.id === _duplicarProdutoAtualId;
       return `
       <label class="flex items-center gap-3 p-3 rounded-xl border-2 ${isAtual ? 'border-[#1a6cff] bg-[#f0f4ff]' : 'border-[#e0ddd9]'} cursor-pointer hover:border-[#1a6cff] hover:bg-[#f8fbff] transition-all" style="user-select:none">
-        <input type="checkbox" name="dup-produto" value="${p.id}" class="w-4 h-4 accent-[#1a6cff] shrink-0">
+        <input type="checkbox" name="dup-produto" value="${p.id}" ${isAtual ? 'checked' : ''} class="w-4 h-4 accent-[#1a6cff] shrink-0">
         ${p.imagem ? `<img loading="lazy" src="${p.imagem}" onerror="this.style.display='none'" class="w-7 h-7 object-contain shrink-0">` : '<div class="w-7 h-7 rounded-lg bg-[#f0f0f2] shrink-0"></div>'}
         <span class="flex-1 text-sm font-semibold">${p.nome}${isAtual ? ' <span class="text-[10px] font-semibold text-[#1a6cff] bg-[#dbeafe] px-1.5 py-0.5 rounded-full ml-1">atual</span>' : ''}</span>
         <span class="text-xs px-2 py-0.5 rounded-full ${p.ativo ? 'bg-green-100 text-green-700' : 'bg-[#f0f0f0] text-[#aaa]'}">${p.ativo ? 'Ativo' : 'Inativo'}</span>
@@ -3045,36 +3053,131 @@ async function openDuplicarModelo(modeloId, modeloNome) {
   }
 }
 
+function dupModGoStep1(initial) {
+  document.getElementById('dup-mod-step1').classList.remove('hidden');
+  document.getElementById('dup-mod-step2').classList.add('hidden');
+  document.getElementById('dup-mod-back-btn').classList.add('hidden');
+  document.getElementById('dup-mod-cancel-btn').classList.remove('hidden');
+  document.getElementById('dup-mod-ind-1').className = 'text-xs font-bold px-2.5 py-1 rounded-full bg-[#1a6cff] text-white';
+  document.getElementById('dup-mod-ind-2').className = 'text-xs font-bold px-2.5 py-1 rounded-full bg-[#f0f0f0] text-[#aaa]';
+  const btn = document.getElementById('duplicar-confirm-btn');
+  btn.disabled = false;
+  btn.innerHTML = 'Próximo <i class="fa-solid fa-arrow-right text-xs"></i>';
+  btn.className = 'flex-1 bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold py-3 rounded-xl text-sm transition-colors flex items-center justify-center gap-2';
+  btn.onclick = dupModNextOrConfirm;
+  if (!initial) document.getElementById('duplicar-modal-err').classList.add('hidden');
+  if (!initial) document.getElementById('duplicar-modal-progress').classList.add('hidden');
+}
+
+async function dupModNextOrConfirm() {
+  const currentStep = document.getElementById('dup-mod-step2').classList.contains('hidden') ? 1 : 2;
+  if (currentStep === 1) {
+    // Validate and advance to step 2
+    const checks = [...document.querySelectorAll('input[name="dup-produto"]:checked')];
+    const errEl = document.getElementById('duplicar-modal-err');
+    if (!checks.length) {
+      errEl.textContent = 'Selecione pelo menos um dispositivo.';
+      errEl.classList.remove('hidden');
+      return;
+    }
+    errEl.classList.add('hidden');
+    const selectedProdutos = checks.map(c => c.value);
+
+    // Switch to step 2
+    document.getElementById('dup-mod-step1').classList.add('hidden');
+    document.getElementById('dup-mod-step2').classList.remove('hidden');
+    document.getElementById('dup-mod-back-btn').classList.remove('hidden');
+    document.getElementById('dup-mod-cancel-btn').classList.add('hidden');
+    document.getElementById('dup-mod-ind-1').className = 'text-xs font-bold px-2.5 py-1 rounded-full bg-green-500 text-white';
+    document.getElementById('dup-mod-ind-2').className = 'text-xs font-bold px-2.5 py-1 rounded-full bg-[#1a6cff] text-white';
+    const btn = document.getElementById('duplicar-confirm-btn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-xs"></i> Carregando...';
+
+    document.getElementById('dup-mod-loading2').classList.remove('hidden');
+    document.getElementById('dup-mod-modelos-list').innerHTML = '';
+
+    try {
+      // Fetch all products to get names/images, then fetch their models
+      const todosProdutos = await API('/api/produtos');
+      const produtosMap = Object.fromEntries(todosProdutos.map(p => [p.id, p]));
+      const produtosComModelos = await Promise.all(
+        selectedProdutos.map(async pid => {
+          const modelos = await API('/api/modelos?produto_id=' + pid).catch(() => []);
+          return { produto: produtosMap[pid] || { id: pid, nome: pid }, modelos };
+        })
+      );
+
+      document.getElementById('dup-mod-loading2').classList.add('hidden');
+
+      let html = '';
+      for (const { produto, modelos } of produtosComModelos) {
+        const ativos = modelos.filter(m => m.id !== _duplicarModeloId);
+        html += `<div>
+          <p class="text-xs font-bold text-[#555] mb-2 flex items-center gap-1.5">
+            ${produto.imagem ? `<img loading="lazy" src="${produto.imagem}" onerror="this.style.display='none'" class="w-4 h-4 object-contain">` : ''}
+            ${produto.nome}
+          </p>
+          <div class="space-y-1.5" id="dup-mod-m-${produto.id}">`;
+        if (!ativos.length) {
+          html += `<p class="text-xs text-[#aaa] italic px-2">Nenhum modelo disponível neste dispositivo.</p>`;
+        } else {
+          html += ativos.map(m => `
+            <label class="flex items-center gap-3 p-2.5 rounded-xl border-2 border-[#e0ddd9] cursor-pointer hover:border-[#1a6cff] hover:bg-[#f8fbff] transition-all" style="user-select:none">
+              <input type="radio" name="dup-destino-mod-${produto.id}" value="${m.id}" class="w-4 h-4 accent-[#1a6cff] shrink-0">
+              <div class="w-7 h-7 rounded-lg bg-[#e8eeff] flex items-center justify-center shrink-0"><i class="fa-solid fa-mobile-screen text-[#1a6cff] text-xs"></i></div>
+              <span class="flex-1 text-sm font-semibold">${m.nome}</span>
+              <span class="text-xs px-2 py-0.5 rounded-full ${m.ativo ? 'bg-green-100 text-green-700' : 'bg-[#f0f0f0] text-[#aaa]'}">${m.ativo ? 'Ativo' : 'Inativo'}</span>
+            </label>`).join('');
+        }
+        html += `</div></div>`;
+      }
+      document.getElementById('dup-mod-modelos-list').innerHTML = html;
+      document.getElementById('dup-mod-modelos-list').dataset.produtos = JSON.stringify(selectedProdutos);
+
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-copy text-xs"></i> Confirmar cópia';
+      btn.className = 'flex-1 bg-[#22c55e] hover:bg-[#16a34a] text-white font-semibold py-3 rounded-xl text-sm transition-colors flex items-center justify-center gap-2';
+    } catch(e) {
+      document.getElementById('dup-mod-loading2').classList.add('hidden');
+      document.getElementById('duplicar-modal-err').textContent = 'Erro ao carregar modelos: ' + e.message;
+      document.getElementById('duplicar-modal-err').classList.remove('hidden');
+      btn.disabled = false;
+      btn.innerHTML = 'Próximo <i class="fa-solid fa-arrow-right text-xs"></i>';
+    }
+  } else {
+    // Step 2: confirm copy
+    await confirmDuplicarModelo();
+  }
+}
+
 async function confirmDuplicarModelo() {
-  const checks = [...document.querySelectorAll('input[name="dup-produto"]:checked')];
   const errEl = document.getElementById('duplicar-modal-err');
-  if (!checks.length) {
-    errEl.textContent = 'Selecione pelo menos um dispositivo.';
+  errEl.classList.add('hidden');
+
+  const selectedProdutos = JSON.parse(document.getElementById('dup-mod-modelos-list').dataset.produtos || '[]');
+  // Build list of target model IDs (one per product via radio)
+  const targetModelIds = [];
+  for (const pid of selectedProdutos) {
+    const radio = document.querySelector(`input[name="dup-destino-mod-${pid}"]:checked`);
+    if (radio) targetModelIds.push(radio.value);
+  }
+
+  if (!targetModelIds.length) {
+    errEl.textContent = 'Selecione pelo menos um modelo destino.';
     errEl.classList.remove('hidden');
     return;
   }
-  errEl.classList.add('hidden');
 
   const btn = document.getElementById('duplicar-confirm-btn');
   const progEl = document.getElementById('duplicar-modal-progress');
   btn.disabled = true;
   progEl.classList.remove('hidden');
-  progEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Carregando dados do modelo...';
-
-  const targetIds = checks.map(c => c.value);
+  progEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Carregando serviços e opções...';
 
   try {
-    // 1. Buscar modelo original + serviços + 
-    const [srcModelos, srcServicos, modeloFaqs] = await Promise.all([
-      API('/api/modelos?produto_id=' + _duplicarProdutoAtualId),
-      API('/api/servicos?modelo_id=' + _duplicarModeloId),
-      API('/api/faq?modelo_id=' + _duplicarModeloId).catch(() => []),
-    ]);
-    const srcModelo = srcModelos.find(m => m.id === _duplicarModeloId);
-    if (!srcModelo) throw new Error('Modelo de origem não encontrado');
-
-    // 2. Buscar opções + FAQs de todos os serviços em paralelo
-    progEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Carregando serviços e opções...';
+    // Fetch all services + their options + FAQs from source model
+    const srcServicos = await API('/api/servicos?modelo_id=' + _duplicarModeloId);
     const servicoData = await Promise.all(srcServicos.map(async svc => {
       const [opcoes, faqs] = await Promise.all([
         API('/api/opcoes?servico_id=' + svc.id),
@@ -3087,74 +3190,53 @@ async function confirmDuplicarModelo() {
       return { svc, opcoes: opcoesComFaq, faqs };
     }));
 
-    // 3. Duplicar para cada dispositivo selecionado
     let doneCount = 0;
-    for (const produtoId of targetIds) {
-      progEl.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i>Duplicando... (${doneCount + 1}/${targetIds.length})`;
-
-      // Criar novo modelo
-      const newModelo = await API('/api/modelos', { method: 'POST', body: {
-        produto_id: produtoId,
-        nome: srcModelo.nome,
-        ativo: srcModelo.ativo,
-        ordem: srcModelo.ordem ?? 0,
-        imagem: srcModelo.imagem ?? null,
-      }});
-
-      // Copiar FAQs do modelo + todos os serviços em paralelo
-      await Promise.all([
-        Promise.all(modeloFaqs.map(faq => API('/api/faq', { method: 'POST', body: {
-          modelo_id: newModelo.id,
-          pergunta: faq.pergunta,
-          resposta: faq.resposta,
-          ordem: faq.ordem ?? 0,
-        }}).catch(() => {}))),
-        Promise.all(servicoData.map(async ({ svc, opcoes, faqs }) => {
-          const newSvc = await API('/api/servicos', { method: 'POST', body: {
-            modelo_id: newModelo.id,
-            nome: svc.nome,
-            ativo: svc.ativo,
-            ordem: svc.ordem ?? 0,
-          }});
-          // Copiar FAQs do serviço + opções em paralelo
-          await Promise.all([
-            Promise.all(faqs.map(faq => API('/api/faq', { method: 'POST', body: {
+    for (const modeloDestinoId of targetModelIds) {
+      progEl.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i>Copiando para modelo ${doneCount + 1}/${targetModelIds.length}...`;
+      await Promise.all(servicoData.map(async ({ svc, opcoes, faqs }) => {
+        const newSvc = await API('/api/servicos', { method: 'POST', body: {
+          modelo_id: modeloDestinoId,
+          nome: svc.nome,
+          ativo: svc.ativo,
+          ordem: svc.ordem ?? 0,
+        }});
+        await Promise.all([
+          Promise.all(faqs.map(faq => API('/api/faq', { method: 'POST', body: {
+            servico_id: newSvc.id,
+            pergunta: faq.pergunta,
+            resposta: faq.resposta,
+            ordem: faq.ordem ?? 0,
+          }}).catch(() => {}))),
+          Promise.all(opcoes.map(async ({ op, faqs: opFaqs }) => {
+            const newOp = await API('/api/opcoes', { method: 'POST', body: {
               servico_id: newSvc.id,
-              pergunta: faq.pergunta,
-              resposta: faq.resposta,
-              ordem: faq.ordem ?? 0,
-            }}).catch(() => {}))),
-            Promise.all(opcoes.map(async ({ op, faqs: opFaqs }) => {
-              const newOp = await API('/api/opcoes', { method: 'POST', body: {
-                servico_id: newSvc.id,
-                nome: op.nome,
-                preco: op.preco,
-                descricao: op.descricao ?? '',
-                tempo_estimado: op.tempo_estimado ?? null,
-                ativo: op.ativo,
-                ordem: op.ordem ?? 0,
-              }}).catch(() => null);
-              if (newOp) {
-                await Promise.all(opFaqs.map(faq => API('/api/faq', { method: 'POST', body: {
-                  opcao_id: newOp.id,
-                  pergunta: faq.pergunta,
-                  resposta: faq.resposta,
-                  ordem: faq.ordem ?? 0,
-                }}).catch(() => {})));
-              }
-            })),
-          ]);
-        })),
-      ]);
-
+              nome: op.nome,
+              preco: op.preco,
+              descricao: op.descricao ?? '',
+              tempo_estimado: op.tempo_estimado ?? null,
+              ativo: op.ativo,
+              ordem: op.ordem ?? 0,
+            }}).catch(() => null);
+            if (newOp) {
+              await Promise.all(opFaqs.map(faq => API('/api/faq', { method: 'POST', body: {
+                opcao_id: newOp.id,
+                pergunta: faq.pergunta,
+                resposta: faq.resposta,
+                ordem: faq.ordem ?? 0,
+              }}).catch(() => {})));
+            }
+          })),
+        ]);
+      }));
       doneCount++;
     }
 
-    progEl.innerHTML = `<i class="fa-solid fa-check text-green-600 mr-2"></i><span class="text-green-700">Concluído! Modelo duplicado para ${doneCount} dispositivo${doneCount > 1 ? 's' : ''}.</span>`;
+    progEl.innerHTML = `<i class="fa-solid fa-check text-green-600 mr-2"></i><span class="text-green-700">Concluído! Conteúdo copiado para ${doneCount} modelo${doneCount > 1 ? 's' : ''}.</span>`;
     btn.disabled = false;
     btn.innerHTML = 'Fechar';
     btn.className = 'flex-1 bg-[#1a1a1a] hover:bg-[#333] text-white font-semibold py-3 rounded-xl text-sm transition-colors';
     btn.onclick = () => hidePopup('duplicar-modelo-modal');
+    document.getElementById('dup-mod-back-btn').classList.add('hidden');
   } catch(e) {
     btn.disabled = false;
     progEl.classList.add('hidden');

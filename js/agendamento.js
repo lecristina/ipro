@@ -1034,7 +1034,7 @@
           <div style="font-size:48px;margin-bottom:10px">✅</div>
           <p style="font-size:16px;font-weight:800;color:#16a34a;margin:0 0 6px">Pagamento confirmado!</p>
           <p style="font-size:13px;color:#555;margin:0 0 18px">Seu agendamento foi registrado. Aguarde o contato da iPro.</p>
-          <button onclick="window.agendClosePix()" style="width:100%;padding:14px;border-radius:14px;background:#16a34a;color:#fff;font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:Inter,sans-serif">Fechar</button>
+          <button onclick="window.location.href='/index.html'" style="width:100%;padding:14px;border-radius:14px;background:#16a34a;color:#fff;font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:Inter,sans-serif">Fechar</button>
         </div>
         <div style="background:#fffbeb;border:1.5px solid #fde68a;border-radius:12px;padding:12px 14px;font-size:12px;color:#78350f;margin-top:14px;line-height:1.7" id="agend-pix-aviso">
           <strong>⚠️ Atenção:</strong> O agendamento só será confirmado após a identificação do pagamento. O código PIX expira em <strong>30 minutos</strong>.
@@ -2332,6 +2332,8 @@
           if (linkEl) linkEl.style.display = 'none';
           if (linkCopyBtn) linkCopyBtn.style.display = 'none';
           if (successEl) successEl.style.display = 'block';
+          // Redirecionar para index após 4 segundos
+          setTimeout(function() { window.location.href = '/index.html'; }, 4000);
         }
       } catch(e) { /* silent */ }
     }, 3000);

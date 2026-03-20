@@ -1166,7 +1166,7 @@ async function processAsaasPagamento(paymentId) {
   const adminPhone = process.env.WHATSAPP_NUMERO || "5519994063782";
   sendWhatsApp(adminPhone, `\uD83D\uDD14 *NOVO AGENDAMENTO \u2014 PAGAMENTO CONFIRMADO*\n\n${msg}`).catch(() => {});
 
-  if (bk.aceite_termos_digital && bk.email) {
+  if (bk.email) {
     try {
       const dataFormatada = new Date().toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" });
       const htmlEmail = buildTermosEmailHtml({

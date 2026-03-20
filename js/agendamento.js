@@ -109,7 +109,7 @@
           <h3>Qual serviço deseja?</h3>
         </div>
         <p style="font-size:12px;color:#aaa;margin-bottom:14px">Selecione o serviço que você precisa</p>
-        <div id="agend-servicos" style="display:flex;flex-direction:column;gap:8px;max-height:340px;overflow-y:auto;padding-right:4px"></div>
+        <div id="agend-servicos" style="display:flex;flex-direction:column;gap:8px"></div>
       `;
     }
     // Step 1: Opção

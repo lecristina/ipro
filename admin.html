@@ -354,6 +354,42 @@
   </div>
 </div>
 
+<!-- ═══ DUPLICAR SERVIÇOS MODAL ═══ -->
+<div id="duplicar-servicos-modal" class="fixed inset-0 z-[9999] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300 modal-bg">
+  <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto relative p-8 transform scale-95 transition-transform duration-300" id="duplicar-servicos-modal-inner">
+    <button onclick="hidePopup('duplicar-servicos-modal')" class="absolute top-4 right-4 w-9 h-9 bg-[#f5f5f7] hover:bg-[#e0e0e0] rounded-full flex items-center justify-center z-10">
+      <i class="fa-solid fa-xmark text-[#1a1a1a]"></i>
+    </button>
+    <div class="flex items-center gap-3 mb-1">
+      <div class="w-10 h-10 rounded-xl bg-[#f0f9ff] flex items-center justify-center shrink-0"><i class="fa-solid fa-layer-group text-[#0ea5e9]"></i></div>
+      <h3 class="text-xl font-bold">Duplicar serviços</h3>
+    </div>
+    <p class="text-sm text-[#888] mb-5">Selecione quais serviços de <strong id="dup-svc-modelo-nome" class="text-[#1a1a1a]"></strong> deseja duplicar e para quais modelos destino.</p>
+    <div id="dup-svc-loading" class="hidden py-8 text-center text-[#999] text-sm"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Carregando...</div>
+    <!-- Section 1: Serviços -->
+    <div id="dup-svc-section-servicos" class="hidden">
+      <div class="flex items-center justify-between mb-2">
+        <p class="text-xs font-bold uppercase text-[#555] tracking-wide">Serviços a duplicar</p>
+        <button onclick="toggleAllDupServicos()" id="dup-svc-toggle-all" class="text-xs text-[#1a6cff] hover:underline font-semibold">Selecionar todos</button>
+      </div>
+      <div id="dup-servicos-list" class="space-y-2 mb-5 max-h-48 overflow-y-auto pr-1"></div>
+    </div>
+    <!-- Section 2: Destino (modelos) -->
+    <div id="dup-svc-section-destino" class="hidden">
+      <div class="flex items-center justify-between mb-2">
+        <p class="text-xs font-bold uppercase text-[#555] tracking-wide">Destino — modelos</p>
+      </div>
+      <div id="dup-destino-list" class="space-y-2 mb-5 max-h-52 overflow-y-auto pr-1"></div>
+    </div>
+    <div id="dup-svc-progress" class="hidden mb-4 text-sm font-semibold bg-[#f0f4ff] text-[#1a6cff] rounded-xl px-4 py-3"></div>
+    <div id="dup-svc-err" class="hidden mb-4 text-sm font-semibold text-red-600 bg-red-50 border border-red-200 rounded-xl px-4 py-2.5"></div>
+    <div class="flex gap-2">
+      <button onclick="confirmDuplicarServicos()" id="dup-svc-confirm-btn" class="flex-1 bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold py-3 rounded-xl text-sm transition-colors flex items-center justify-center gap-2"><i class="fa-solid fa-layer-group text-xs"></i> Duplicar selecionados</button>
+      <button onclick="hidePopup('duplicar-servicos-modal')" class="px-5 py-3 bg-white border border-[#e0ddd9] rounded-xl text-sm text-[#888] hover:bg-[#f5f5f7] transition-colors">Cancelar</button>
+    </div>
+  </div>
+</div>
+
 <!-- ═══ MODAL GENÉRICO ═══ -->
 <div id="generic-modal" class="fixed inset-0 z-[9999] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300 modal-bg">
   <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto relative p-8 transform scale-95 transition-transform duration-300" id="generic-modal-inner">
@@ -1021,7 +1057,8 @@ async function renderModelosView(container) {
           </div>
           <div class="flex gap-1.5 shrink-0" onclick="event.stopPropagation()">
             <button onclick="editModelo('${m.id}')" class="w-7 h-7 bg-[#f0f4ff] hover:bg-[#1a6cff] hover:text-white rounded-lg flex items-center justify-center text-[#1a6cff] transition-colors" title="Editar"><i class="fa-solid fa-pen" style="font-size:10px"></i></button>
-            <button onclick="openDuplicarModelo('${m.id}',${JSON.stringify(m.nome).replace(/"/g,'&quot;')})" class="w-7 h-7 bg-[#f0fff4] hover:bg-[#22c55e] hover:text-white rounded-lg flex items-center justify-center text-[#22c55e] transition-colors" title="Duplicar para outros dispositivos"><i class="fa-solid fa-copy" style="font-size:10px"></i></button>
+            <button onclick="openDuplicarModelo('${m.id}',${JSON.stringify(m.nome).replace(/"/g,'&quot;')})" class="w-7 h-7 bg-[#f0fff4] hover:bg-[#22c55e] hover:text-white rounded-lg flex items-center justify-center text-[#22c55e] transition-colors" title="Duplicar modelo para outros dispositivos"><i class="fa-solid fa-copy" style="font-size:10px"></i></button>
+            <button onclick="openDuplicarServicos('${m.id}',${JSON.stringify(m.nome).replace(/"/g,'&quot;')})" class="w-7 h-7 bg-[#f0f9ff] hover:bg-[#0ea5e9] hover:text-white rounded-lg flex items-center justify-center text-[#0ea5e9] transition-colors" title="Duplicar serviços para outros modelos"><i class="fa-solid fa-layer-group" style="font-size:10px"></i></button>
             <button onclick="deleteModeloInline('${m.id}','${p.id}')" class="w-7 h-7 bg-red-50 hover:bg-red-500 hover:text-white rounded-lg flex items-center justify-center text-red-400 transition-colors" title="Excluir"><i class="fa-solid fa-trash" style="font-size:10px"></i></button>
           </div>
           <i class="fa-solid fa-arrow-right text-xs text-[#1a6cff] opacity-0 group-hover:opacity-100 transition-all"></i>
@@ -3124,6 +3161,196 @@ async function confirmDuplicarModelo() {
     errEl.classList.remove('hidden');
   }
 }
+// ═══════════════════════════════════════════════════════════
+// DUPLICAR SERVIÇOS
+// ═══════════════════════════════════════════════════════════
+let _dupSvcModeloId = null;
+let _dupSvcAllServicos = [];
+
+async function openDuplicarServicos(modeloId, modeloNome) {
+  _dupSvcModeloId = modeloId;
+  _dupSvcAllServicos = [];
+
+  document.getElementById('dup-svc-modelo-nome').textContent = modeloNome;
+  document.getElementById('dup-svc-progress').classList.add('hidden');
+  document.getElementById('dup-svc-err').classList.add('hidden');
+  document.getElementById('dup-servicos-list').innerHTML = '';
+  document.getElementById('dup-destino-list').innerHTML = '';
+  document.getElementById('dup-svc-section-servicos').classList.add('hidden');
+  document.getElementById('dup-svc-section-destino').classList.add('hidden');
+  document.getElementById('dup-svc-toggle-all').textContent = 'Selecionar todos';
+  const btn = document.getElementById('dup-svc-confirm-btn');
+  btn.disabled = false;
+  btn.innerHTML = '<i class="fa-solid fa-layer-group text-xs"></i> Duplicar selecionados';
+  btn.onclick = confirmDuplicarServicos;
+  btn.className = 'flex-1 bg-[#1a6cff] hover:bg-[#0057e6] text-white font-semibold py-3 rounded-xl text-sm transition-colors flex items-center justify-center gap-2';
+
+  document.getElementById('dup-svc-loading').classList.remove('hidden');
+  showPopup('duplicar-servicos-modal');
+
+  try {
+    const [servicos, todosOsProdutos] = await Promise.all([
+      API('/api/servicos?modelo_id=' + modeloId),
+      API('/api/produtos'),
+    ]);
+    _dupSvcAllServicos = servicos;
+
+    // Render lista de serviços
+    const svcList = document.getElementById('dup-servicos-list');
+    if (!servicos.length) {
+      svcList.innerHTML = '<p class="text-sm text-[#999] text-center py-3">Nenhum serviço neste modelo.</p>';
+    } else {
+      svcList.innerHTML = servicos.map(s => `
+        <label class="flex items-center gap-3 p-2.5 rounded-xl border-2 border-[#e0ddd9] cursor-pointer hover:border-[#1a6cff] hover:bg-[#f8fbff] transition-all" style="user-select:none">
+          <input type="checkbox" name="dup-svc" value="${s.id}" class="w-4 h-4 accent-[#1a6cff] shrink-0">
+          <div class="w-7 h-7 rounded-lg bg-[#e8f5e9] flex items-center justify-center shrink-0"><i class="fa-solid fa-wrench text-[#2e7d32] text-xs"></i></div>
+          <span class="flex-1 text-sm font-semibold">${s.nome}</span>
+          <span class="text-xs px-2 py-0.5 rounded-full ${s.ativo ? 'bg-green-100 text-green-700' : 'bg-[#f0f0f0] text-[#aaa]'}">${s.ativo ? 'Ativo' : 'Inativo'}</span>
+        </label>`).join('');
+    }
+
+    // Fetch modelos de todos os produtos em paralelo
+    const produtosComModelos = await Promise.all(
+      todosOsProdutos.map(async p => {
+        const modelos = await API('/api/modelos?produto_id=' + p.id).catch(() => []);
+        return { produto: p, modelos };
+      })
+    );
+
+    // Render destinos agrupados por dispositivo
+    const destinoList = document.getElementById('dup-destino-list');
+    let html = '';
+    for (const { produto, modelos } of produtosComModelos) {
+      if (!modelos.length) continue;
+      html += `<div class="mb-3">
+        <p class="text-xs font-bold text-[#888] mb-1.5 px-1 flex items-center gap-1.5">
+          ${produto.imagem ? `<img loading="lazy" src="${produto.imagem}" onerror="this.style.display='none'" class="w-4 h-4 object-contain">` : ''}
+          ${produto.nome}
+        </p>
+        <div class="space-y-1.5">
+          ${modelos.map(m => {
+            const isOrigem = m.id === modeloId;
+            return `<label class="flex items-center gap-3 p-2.5 rounded-xl border-2 ${isOrigem ? 'border-[#e0ddd9] opacity-50 cursor-not-allowed' : 'border-[#e0ddd9] cursor-pointer hover:border-[#1a6cff] hover:bg-[#f8fbff]'} transition-all" style="user-select:none">
+              <input type="checkbox" name="dup-destino" value="${m.id}" ${isOrigem ? 'disabled' : ''} class="w-4 h-4 accent-[#1a6cff] shrink-0">
+              <span class="flex-1 text-sm font-semibold">${m.nome}${isOrigem ? ' <span class="text-[10px] font-semibold text-[#888] bg-[#f0f0f0] px-1.5 py-0.5 rounded-full ml-1">origem</span>' : ''}</span>
+            </label>`;
+          }).join('')}
+        </div>
+      </div>`;
+    }
+    destinoList.innerHTML = html || '<p class="text-sm text-[#999] text-center py-3">Nenhum modelo disponível.</p>';
+
+    document.getElementById('dup-svc-loading').classList.add('hidden');
+    document.getElementById('dup-svc-section-servicos').classList.remove('hidden');
+    document.getElementById('dup-svc-section-destino').classList.remove('hidden');
+  } catch(e) {
+    document.getElementById('dup-svc-loading').classList.add('hidden');
+    const errEl = document.getElementById('dup-svc-err');
+    errEl.textContent = 'Erro ao carregar: ' + e.message;
+    errEl.classList.remove('hidden');
+  }
+}
+
+function toggleAllDupServicos() {
+  const checks = document.querySelectorAll('input[name="dup-svc"]');
+  const allChecked = [...checks].every(c => c.checked);
+  checks.forEach(c => { c.checked = !allChecked; });
+  document.getElementById('dup-svc-toggle-all').textContent = allChecked ? 'Selecionar todos' : 'Desmarcar todos';
+}
+
+async function confirmDuplicarServicos() {
+  const svcChecks = [...document.querySelectorAll('input[name="dup-svc"]:checked')];
+  const destChecks = [...document.querySelectorAll('input[name="dup-destino"]:checked')];
+  const errEl = document.getElementById('dup-svc-err');
+  errEl.classList.add('hidden');
+
+  if (!svcChecks.length) {
+    errEl.textContent = 'Selecione pelo menos um serviço.';
+    errEl.classList.remove('hidden');
+    return;
+  }
+  if (!destChecks.length) {
+    errEl.textContent = 'Selecione pelo menos um modelo de destino.';
+    errEl.classList.remove('hidden');
+    return;
+  }
+
+  const selectedSvcIds = svcChecks.map(c => c.value);
+  const targetModelIds = destChecks.map(c => c.value);
+  const selServicos = _dupSvcAllServicos.filter(s => selectedSvcIds.includes(s.id));
+
+  const btn = document.getElementById('dup-svc-confirm-btn');
+  const progEl = document.getElementById('dup-svc-progress');
+  btn.disabled = true;
+  progEl.classList.remove('hidden');
+  progEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Carregando opções e FAQs...';
+
+  try {
+    // Fetch opções + FAQs de cada serviço selecionado
+    const servicoData = await Promise.all(selServicos.map(async svc => {
+      const [opcoes, faqs] = await Promise.all([
+        API('/api/opcoes?servico_id=' + svc.id),
+        API('/api/faq?servico_id=' + svc.id).catch(() => []),
+      ]);
+      const opcoesComFaq = await Promise.all(opcoes.map(async op => {
+        const opFaqs = await API('/api/faq?opcao_id=' + op.id).catch(() => []);
+        return { op, faqs: opFaqs };
+      }));
+      return { svc, opcoes: opcoesComFaq, faqs };
+    }));
+
+    let doneCount = 0;
+    for (const modeloDestinoId of targetModelIds) {
+      progEl.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i>Duplicando para modelo ${doneCount + 1}/${targetModelIds.length}...`;
+
+      await Promise.all(servicoData.map(async ({ svc, opcoes, faqs }) => {
+        const newSvc = await API('/api/servicos', { method: 'POST', body: {
+          modelo_id: modeloDestinoId,
+          nome: svc.nome,
+          ativo: svc.ativo,
+          ordem: svc.ordem ?? 0,
+        }});
+        await Promise.all([
+          Promise.all(faqs.map(faq => API('/api/faq', { method: 'POST', body: {
+            servico_id: newSvc.id,
+            pergunta: faq.pergunta,
+            resposta: faq.resposta,
+            ordem: faq.ordem ?? 0,
+          }}).catch(() => {}))),
+          Promise.all(opcoes.map(async ({ op, faqs: opFaqs }) => {
+            const newOp = await API('/api/opcoes', { method: 'POST', body: {
+              servico_id: newSvc.id,
+              nome: op.nome,
+              preco: op.preco,
+              descricao: op.descricao ?? '',
+              tempo_estimado: op.tempo_estimado ?? null,
+              ativo: op.ativo,
+              ordem: op.ordem ?? 0,
+            }}).catch(() => null);
+            if (newOp) {
+              await Promise.all(opFaqs.map(faq => API('/api/faq', { method: 'POST', body: {
+                opcao_id: newOp.id,
+                pergunta: faq.pergunta,
+                resposta: faq.resposta,
+                ordem: faq.ordem ?? 0,
+              }}).catch(() => {})));
+            }
+          })),
+        ]);
+      }));
+      doneCount++;
+    }
+
+    progEl.innerHTML = `<i class="fa-solid fa-check text-green-600 mr-2"></i><span class="text-green-700">Concluído! ${selServicos.length} serviço${selServicos.length > 1 ? 's' : ''} duplicado${selServicos.length > 1 ? 's' : ''} para ${doneCount} modelo${doneCount > 1 ? 's' : ''}.</span>`;
+    btn.disabled = false;
+    btn.innerHTML = 'Fechar';
+    btn.className = 'flex-1 bg-[#1a1a1a] hover:bg-[#333] text-white font-semibold py-3 rounded-xl text-sm transition-colors';
+    btn.onclick = () => hidePopup('duplicar-servicos-modal');
+  } catch(e) {
+    btn.disabled = false;
+    progEl.classList.add('hidden');
+    errEl.textContent = 'Erro: ' + e.message;
+    errEl.classList.remove('hidden');
+  }
+}
 </script>
-</body>
-</html>

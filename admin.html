@@ -1874,7 +1874,7 @@ document.getElementById('modal-form').addEventListener('submit', async e => {
     }
     const mdl = await API('/api/modelos?produto_id=' + selectedProdutoId);
     _modelosCache[selectedProdutoId] = mdl;
-    renderModelosList(selectedProdutoId, mdl);
+    renderAdminView();
   } else if (modalType === 'servico') {
     // Read modelo_id from captured hidden input (set at modal-open time) as primary, fallback to global
     const modeloIdForSave = document.getElementById('m-modelo-id')?.value || selectedModeloId;
@@ -3034,7 +3034,7 @@ async function confirmDuplicarModelo() {
     // 2. Buscar serviços do modelo original
     const srcServicos = await API('/api/servicos?modelo_id=' + _duplicarModeloId);
 
-    // 3. Buscar opções + FAQs de cada serviço
+    // 3. Buscar opções + FAQs de cada serviço (incluindo FAQs de cada opção)
     progEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Carregando serviços e opções...';
     const servicoData = [];
     for (const svc of srcServicos) {
@@ -3042,7 +3042,12 @@ async function confirmDuplicarModelo() {
         API('/api/opcoes?servico_id=' + svc.id),
         API('/api/faq?servico_id=' + svc.id).catch(() => []),
       ]);
-      servicoData.push({ svc, opcoes, faqs });
+      const opcoesComFaq = [];
+      for (const op of opcoes) {
+        const opFaqs = await API('/api/faq?opcao_id=' + op.id).catch(() => []);
+        opcoesComFaq.push({ op, faqs: opFaqs });
+      }
+      servicoData.push({ svc, opcoes: opcoesComFaq, faqs });
     }
 
     // 4. Buscar FAQs do modelo original
@@ -3091,9 +3096,9 @@ async function confirmDuplicarModelo() {
           }}).catch(() => {});
         }
 
-        // Copiar opções
-        for (const op of opcoes) {
-          await API('/api/opcoes', { method: 'POST', body: {
+        // Copiar opções e seus FAQs
+        for (const { op, faqs: opFaqs } of opcoes) {
+          const newOp = await API('/api/opcoes', { method: 'POST', body: {
             servico_id: newSvc.id,
             nome: op.nome,
             preco: op.preco,
@@ -3101,7 +3106,17 @@ async function confirmDuplicarModelo() {
             tempo_estimado: op.tempo_estimado ?? null,
             ativo: op.ativo,
             ordem: op.ordem ?? 0,
-          }}).catch(() => {});
+          }}).catch(() => null);
+          if (newOp) {
+            for (const faq of opFaqs) {
+              await API('/api/faq', { method: 'POST', body: {
+                opcao_id: newOp.id,
+                pergunta: faq.pergunta,
+                resposta: faq.resposta,
+                ordem: faq.ordem ?? 0,
+              }}).catch(() => {});
+            }
+          }
         }
       }
 

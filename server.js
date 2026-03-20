@@ -1063,7 +1063,7 @@ app.post("/api/asaas/criar-cobranca", async (req, res) => {
     }
 
     const precoNum    = parseFloat(preco_total);
-    const valorEntrada = Math.max(parseFloat((precoNum * 0.20).toFixed(2)), 1.0);
+    const valorEntrada = Math.max(parseFloat((precoNum * 0.20).toFixed(2)), 5.0);
     const nome  = booking_data.nome  || "Cliente";
     const cpf   = booking_data.cpf   || "";
     const email = booking_data.email || "";
@@ -1114,6 +1114,101 @@ app.post("/api/asaas/criar-cobranca", async (req, res) => {
   }
 });
 
+// ── Shared: process confirmed payment → create agendamento + send notifications
+async function processAsaasPagamento(paymentId) {
+  const { data: pending } = await supabase
+    .from("pagamentos_pendentes")
+    .select("*")
+    .eq("asaas_payment_id", paymentId)
+    .eq("status", "aguardando_pagamento")
+    .single();
+
+  if (!pending) return null; // already processed or not found
+
+  const bk = pending.booking_data;
+  const insertObj = {
+    produto_nome: bk.produto_nome, modelo_nome: bk.modelo_nome || "",
+    servico_nome: bk.servico_nome, opcao_nome: bk.opcao_nome || "---",
+    opcao_preco: bk.opcao_preco || 0, opcao_descricao: bk.opcao_descricao || "",
+    data: bk.data || null, horario: bk.horario || null,
+    nome: bk.nome, cpf: bk.cpf || "", email: bk.email || "", whatsapp: bk.whatsapp,
+    cep: bk.cep || "", endereco_rua: bk.endereco_rua || "", endereco_numero: bk.endereco_numero || "",
+    endereco_complemento: bk.endereco_complemento || "", endereco_bairro: bk.endereco_bairro || "",
+    endereco_cidade: bk.endereco_cidade || "", endereco_uf: bk.endereco_uf || "",
+    ciente_aviso_peca: bk.ciente_aviso_peca ?? null, descricao_defeito: bk.descricao_defeito || "",
+    tipo_solicitacao: bk.tipo_solicitacao || "agendamento", ip: bk.ip || "",
+    status: "pendente",
+    aceite_termos_digital: bk.aceite_termos_digital || false,
+    termos_nome: bk.termos_nome || "", termos_cpf: bk.termos_cpf || "",
+    asaas_payment_id: paymentId, valor_entrada_pago: pending.valor_entrada,
+  };
+
+  let { data: agend, error: insertErr } = await supabase.from("agendamentos").insert(insertObj).select().single();
+  if (insertErr) {
+    console.error("[Asaas] Erro ao criar agendamento:", insertErr.message);
+    delete insertObj.asaas_payment_id; delete insertObj.valor_entrada_pago;
+    const retry = await supabase.from("agendamentos").insert(insertObj).select().single();
+    if (retry.error) throw new Error(retry.error.message);
+    agend = retry.data;
+  }
+
+  await supabase.from("pagamentos_pendentes")
+    .update({ status: "pago", agendamento_id: agend.id })
+    .eq("asaas_payment_id", paymentId);
+
+  const msg = buildAgendamentoMsg(agend);
+  sendWhatsApp(agend.whatsapp, msg).catch(e => console.error("[Asaas] WA cliente:", e.message));
+  const adminPhone = process.env.WHATSAPP_NUMERO || "5519994063782";
+  sendWhatsApp(adminPhone, `\uD83D\uDD14 *NOVO AGENDAMENTO \u2014 PAGAMENTO CONFIRMADO*\n\n${msg}`).catch(() => {});
+
+  if (bk.aceite_termos_digital && bk.email) {
+    try {
+      const dataFormatada = new Date().toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" });
+      const htmlEmail = buildTermosEmailHtml({
+        nome: bk.termos_nome || bk.nome, cpf: bk.termos_cpf || bk.cpf,
+        email: bk.email, ip: bk.ip || "", dataAceite: dataFormatada,
+        produto: bk.produto_nome, modelo: bk.modelo_nome,
+        servico: bk.servico_nome, opcao: bk.opcao_nome, preco: bk.opcao_preco
+      });
+      await resend.emails.send({ from: RESEND_FROM, to: [bk.email], subject: "Agendamento Confirmado \u2014 iPro Assist\u00eancia", html: htmlEmail });
+    } catch (emailErr) { console.error("[Asaas] Email:", emailErr.message); }
+  }
+
+  console.log("[Asaas] \u2705 Agendamento criado:", agend.id);
+  return agend;
+}
+
+// Recuperação manual — processa todos os pagamentos Asaas confirmados ainda pendentes
+app.post("/api/asaas/recuperar-pendentes", authAdmin, async (req, res) => {
+  try {
+    const { data: pendentes } = await supabase
+      .from("pagamentos_pendentes")
+      .select("*")
+      .eq("status", "aguardando_pagamento")
+      .order("created_at", { ascending: false });
+
+    if (!pendentes || !pendentes.length) return res.json({ processados: 0, msg: "Nenhum pagamento pendente encontrado." });
+
+    const resultados = [];
+    for (const p of pendentes) {
+      try {
+        const payment = await asaasRequest("GET", `/payments/${p.asaas_payment_id}`);
+        if (["RECEIVED", "CONFIRMED"].includes(payment.status)) {
+          const agend = await processAsaasPagamento(p.asaas_payment_id);
+          resultados.push({ id: p.asaas_payment_id, status: "processado", agendamento_id: agend?.id });
+        } else {
+          resultados.push({ id: p.asaas_payment_id, status: payment.status });
+        }
+      } catch (e) {
+        resultados.push({ id: p.asaas_payment_id, erro: e.message });
+      }
+    }
+    res.json({ processados: resultados.filter(r => r.status === "processado").length, resultados });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 // Polling de status — frontend verifica a cada 3s
 app.get("/api/asaas/status/:payment_id", async (req, res) => {
   try {
@@ -1123,11 +1218,25 @@ app.get("/api/asaas/status/:payment_id", async (req, res) => {
       .eq("asaas_payment_id", req.params.payment_id)
       .single();
 
-    if (pending) return res.json({ status: pending.status, agendamento_id: pending.agendamento_id });
+    // Already processed by webhook
+    if (pending && pending.status === "pago") {
+      return res.json({ status: "pago", agendamento_id: pending.agendamento_id });
+    }
 
-    // Fallback: consultar diretamente na Asaas
+    // Check Asaas directly
     const payment = await asaasRequest("GET", `/payments/${req.params.payment_id}`);
-    res.json({ status: payment.status, asaas_status: payment.status });
+    const asaasStatus = payment.status; // PENDING, RECEIVED, CONFIRMED, OVERDUE...
+
+    if (["RECEIVED", "CONFIRMED"].includes(asaasStatus)) {
+      // Webhook may not have fired — process here as fallback
+      const agend = await processAsaasPagamento(req.params.payment_id).catch(e => {
+        console.error("[Asaas/Polling] Erro ao processar pagamento:", e.message);
+        return null;
+      });
+      return res.json({ status: "pago", agendamento_id: agend ? agend.id : null });
+    }
+
+    res.json({ status: pending ? pending.status : asaasStatus });
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
@@ -1147,98 +1256,9 @@ app.post("/api/asaas/webhook", async (req, res) => {
     console.log("[Asaas/Webhook] Evento:", event, "| ID:", payment?.id, "| Status:", payment?.status);
 
     if (["PAYMENT_CONFIRMED", "PAYMENT_RECEIVED"].includes(event) && payment?.id) {
-      const { data: pending } = await supabase
-        .from("pagamentos_pendentes")
-        .select("*")
-        .eq("asaas_payment_id", payment.id)
-        .eq("status", "aguardando_pagamento")
-        .single();
-
-      if (!pending) {
-        console.log("[Asaas/Webhook] Já processado ou não encontrado:", payment.id);
-        return res.json({ ok: true });
-      }
-
-      const bk = pending.booking_data;
-
-      const insertObj = {
-        produto_nome:          bk.produto_nome,
-        modelo_nome:           bk.modelo_nome     || "",
-        servico_nome:          bk.servico_nome,
-        opcao_nome:            bk.opcao_nome       || "---",
-        opcao_preco:           bk.opcao_preco      || 0,
-        opcao_descricao:       bk.opcao_descricao  || "",
-        data:                  bk.data             || null,
-        horario:               bk.horario          || null,
-        nome:                  bk.nome,
-        cpf:                   bk.cpf              || "",
-        email:                 bk.email            || "",
-        whatsapp:              bk.whatsapp,
-        cep:                   bk.cep              || "",
-        endereco_rua:          bk.endereco_rua     || "",
-        endereco_numero:       bk.endereco_numero  || "",
-        endereco_complemento:  bk.endereco_complemento || "",
-        endereco_bairro:       bk.endereco_bairro  || "",
-        endereco_cidade:       bk.endereco_cidade  || "",
-        endereco_uf:           bk.endereco_uf      || "",
-        ciente_aviso_peca:     bk.ciente_aviso_peca ?? null,
-        descricao_defeito:     bk.descricao_defeito || "",
-        tipo_solicitacao:      bk.tipo_solicitacao  || "agendamento",
-        ip:                    bk.ip               || "",
-        status:                "pendente",
-        aceite_termos_digital: bk.aceite_termos_digital || false,
-        termos_nome:           bk.termos_nome      || "",
-        termos_cpf:            bk.termos_cpf       || "",
-        asaas_payment_id:      payment.id,
-        valor_entrada_pago:    pending.valor_entrada,
-      };
-
-      const { data: agend, error: insertErr } = await supabase
-        .from("agendamentos").insert(insertObj).select().single();
-
-      if (insertErr) {
-        console.error("[Asaas/Webhook] Erro ao criar agendamento:", insertErr.message);
-        // Try without Asaas-specific fields if columns don't exist yet
-        delete insertObj.asaas_payment_id; delete insertObj.valor_entrada_pago;
-        const retry = await supabase.from("agendamentos").insert(insertObj).select().single();
-        if (retry.error) return res.status(500).json({ error: retry.error.message });
-        Object.assign(insertObj, { id: retry.data.id });
-      }
-
-      const agendFinal = agend || insertObj;
-
-      // Marcar pendente como pago
-      await supabase.from("pagamentos_pendentes")
-        .update({ status: "pago", agendamento_id: agendFinal.id })
-        .eq("asaas_payment_id", payment.id);
-
-      // WhatsApp para o cliente
-      const msg = buildAgendamentoMsg(agendFinal);
-      sendWhatsApp(agendFinal.whatsapp, msg).catch(e => console.error("[Asaas/Webhook] WA cliente:", e.message));
-
-      // WhatsApp para a iPro (admin)
-      const adminPhone = process.env.WHATSAPP_NUMERO || "5519994063782";
-      const adminMsg = `🔔 *NOVO AGENDAMENTO — PAGAMENTO CONFIRMADO*\n\n${msg}`;
-      sendWhatsApp(adminPhone, adminMsg).catch(() => {});
-
-      // E-mail de termos (se aceito)
-      if (bk.aceite_termos_digital && bk.email) {
-        try {
-          const dataFormatada = new Date().toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" });
-          const htmlEmail = buildTermosEmailHtml({
-            nome: bk.termos_nome || bk.nome, cpf: bk.termos_cpf || bk.cpf,
-            email: bk.email, ip: bk.ip || "", dataAceite: dataFormatada,
-            produto: bk.produto_nome, modelo: bk.modelo_nome,
-            servico: bk.servico_nome, opcao: bk.opcao_nome, preco: bk.opcao_preco
-          });
-          await resend.emails.send({
-            from: RESEND_FROM, to: [bk.email],
-            subject: "Agendamento Confirmado — iPro Assistência", html: htmlEmail
-          });
-        } catch (emailErr) { console.error("[Asaas/Webhook] Email:", emailErr.message); }
-      }
-
-      console.log("[Asaas/Webhook] ✅ Agendamento criado:", agendFinal.id);
+      await processAsaasPagamento(payment.id).catch(e =>
+        console.error("[Asaas/Webhook] Erro:", e.message)
+      );
     }
 
     res.json({ ok: true });

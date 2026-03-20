@@ -383,7 +383,7 @@
     .agend-modelos-pag-btn{background:#f0f4ff;border:none;border-radius:10px;height:30px;min-width:30px;padding:0 10px;cursor:pointer;font-size:13px;color:#1a6cff;display:inline-flex;align-items:center;justify-content:center;transition:all .15s;font-family:Inter,sans-serif;font-weight:800;gap:4px}
     .agend-modelos-pag-btn:hover{background:#1a6cff;color:#fff}
     .agend-modelos-pag-num{font-size:13px;font-weight:700;color:#555;min-width:18px;text-align:center}
-    .agend-card{border:2px solid transparent;border-radius:16px;padding:14px 16px;cursor:pointer;transition:all .18s;background:#f7f7f8;display:flex;align-items:center;gap:12px}
+    .agend-card{border:2px solid #b8ccf7;border-radius:16px;padding:14px 16px;cursor:pointer;transition:all .18s;background:#f7f7f8;display:flex;align-items:center;gap:12px}
     .agend-card:hover{border-color:#1a6cff;background:#f0f4ff}
     .agend-card.selected{border-color:#1a6cff;background:#eef3ff}
     .agend-card-icon{width:38px;height:38px;border-radius:12px;background:#e8eeff;display:flex;align-items:center;justify-content:center;font-size:16px;color:#1a6cff;flex-shrink:0}
@@ -1805,7 +1805,7 @@
       card.style.padding = '0';
       card.innerHTML = `
         <div style="display:flex;align-items:center;gap:10px;padding:12px 14px">
-          <div class="agend-card-icon">🔧</div>
+          <div class="agend-card-icon"><img src="/images/maca.png" alt="" style="width:22px;height:22px;object-fit:contain"></div>
           <p style="font-size:13px;font-weight:700;margin:0;color:#1a1a1a;flex:1">${s.nome}</p>
           <span style="font-size:12px;color:#bbb">→</span>
         </div>
@@ -1823,7 +1823,7 @@
       const outrosBtn = document.createElement('button');
       outrosBtn.id = 'agend-outros-servicos-btn';
       outrosBtn.style.cssText = 'width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 16px;background:#f5f5f7;border:1.5px dashed #d0ccc8;border-radius:14px;cursor:pointer;font-size:13px;font-weight:700;color:#555;font-family:Inter,sans-serif;margin-top:2px;transition:background .2s';
-      outrosBtn.innerHTML = '<i class="fa-solid fa-wrench" style="font-size:11px;color:#1a6cff"></i> Outros Serviços';
+      outrosBtn.innerHTML = '<i class="fa-solid fa-chevron-down" style="font-size:11px;color:#1a6cff"></i> Mais Serviços';
       outrosBtn.onmouseenter = () => { outrosBtn.style.background = '#ebebed'; };
       outrosBtn.onmouseleave = () => { outrosBtn.style.background = '#f5f5f7'; };
 

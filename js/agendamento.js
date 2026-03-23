@@ -4,6 +4,14 @@
 //        Opção/Qualidade → Data (calendário azul/vermelho)
 //        → Horário → Dados → Revisão → Termos popup
 // ═══════════════════════════════════════════════════════════
+
+// ─── Evolution API Config ────────────────────────────────────
+var EVO_API_URL      = 'https://evolution.cosmosomsoc.lat';  // URL do servidor Evolution
+var EVO_API_KEY      = 'D3CAE83B749A-4871-AD6A-52D92D228C46'; // API Key global
+var EVO_INSTANCE     = 'sv distribuidora';                    // Nome da instância
+var EVO_DEST_NUMBER  = '5511972604416';                       // Número da empresa (DDI+DDD+número)
+// ─────────────────────────────────────────────────────────────
+
 (function () {
   if (window.__agendLoaded) return;
 
@@ -139,24 +147,6 @@
           <div>
             <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">Fale mais sobre o defeito</label>
             <textarea id="agend-nb-descricao" class="agend-input" rows="3" placeholder="Descreva o problema que está enfrentando com o notebook..." style="resize:vertical;min-height:70px"></textarea>
-          </div>
-          <div>
-            <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">Nome completo *</label>
-            <input type="text" id="agend-nb-nome" class="agend-input" placeholder="Seu nome completo">
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-            <div>
-              <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">CPF</label>
-              <input type="text" id="agend-nb-cpf" class="agend-input" placeholder="000.000.000-00" maxlength="14" oninput="window.agendFormatCpf(this)">
-            </div>
-            <div>
-              <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">E-mail</label>
-              <input type="email" id="agend-nb-email-direct" class="agend-input" placeholder="seu@email.com">
-            </div>
-          </div>
-          <div>
-            <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">Celular / WhatsApp *</label>
-            <input type="tel" id="agend-nb-celular" class="agend-input" placeholder="(11) 99999-9999" maxlength="15" oninput="window.agendFormatPhone(this)">
           </div>
         </div>
         <button onclick="window.nbContinuar()" style="margin-top:18px;width:100%;padding:14px;border-radius:14px;background:#1a6cff;color:#fff;font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:Inter,sans-serif;transition:background .2s" onmouseover="this.style.background='#0057e6'" onmouseout="this.style.background='#1a6cff'">Continuar →</button>
@@ -602,24 +592,6 @@
               <div>
                 <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">Fale mais sobre o defeito</label>
                 <textarea id="agend-nb-descricao" class="agend-input" rows="3" placeholder="Descreva o problema que está enfrentando com o notebook..." style="resize:vertical;min-height:70px"></textarea>
-              </div>
-              <div>
-                <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">Nome completo *</label>
-                <input type="text" id="agend-nb-nome" class="agend-input" placeholder="Seu nome completo">
-              </div>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-                <div>
-                  <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">CPF</label>
-                  <input type="text" id="agend-nb-cpf" class="agend-input" placeholder="000.000.000-00" maxlength="14" oninput="window.agendFormatCpf(this)">
-                </div>
-                <div>
-                  <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">E-mail</label>
-                  <input type="email" id="agend-nb-email-direct" class="agend-input" placeholder="seu@email.com">
-                </div>
-              </div>
-              <div>
-                <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">Celular / WhatsApp *</label>
-                <input type="tel" id="agend-nb-celular" class="agend-input" placeholder="(11) 99999-9999" maxlength="15" oninput="window.agendFormatPhone(this)">
               </div>
             </div>
             <button onclick="window.nbContinuar()" style="margin-top:18px;width:100%;padding:14px;border-radius:14px;background:#1a6cff;color:#fff;font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:Inter,sans-serif;transition:background .2s" onmouseover="this.style.background='#0057e6'" onmouseout="this.style.background='#1a6cff'">Continuar →</button>
@@ -1702,15 +1674,6 @@
     if (nbModelo) nbModelo.value = '';
     const nbDesc = document.getElementById('agend-nb-descricao');
     if (nbDesc) nbDesc.value = '';
-    // Reset contact fields
-    const nbNome = document.getElementById('agend-nb-nome');
-    if (nbNome) nbNome.value = '';
-    const nbCpf = document.getElementById('agend-nb-cpf');
-    if (nbCpf) nbCpf.value = '';
-    const nbEmailDirect = document.getElementById('agend-nb-email-direct');
-    if (nbEmailDirect) nbEmailDirect.value = '';
-    const nbCelular = document.getElementById('agend-nb-celular');
-    if (nbCelular) nbCelular.value = '';
   };
 
   window.nbSelectTipo = function(tipo) {
@@ -1726,28 +1689,48 @@
     const modelo = (document.getElementById('agend-nb-modelo')?.value || '').trim();
     const servico = (document.getElementById('agend-nb-servico')?.value || '').trim();
     const descricao = (document.getElementById('agend-nb-descricao')?.value || '').trim();
-    const nome = (document.getElementById('agend-nb-nome')?.value || '').trim();
-    const cpf = (document.getElementById('agend-nb-cpf')?.value || '').trim();
-    const email = (document.getElementById('agend-nb-email-direct')?.value || '').trim();
-    const celular = (document.getElementById('agend-nb-celular')?.value || '').trim();
     if (!modelo) { alert('Informe o modelo do notebook.'); return; }
     if (!servico) { alert('Selecione o tipo de serviço.'); return; }
-    if (!nome) { alert('Informe seu nome completo.'); return; }
-    if (!celular) { alert('Informe seu celular / WhatsApp.'); return; }
     const selectedSvcOpt = document.getElementById('agend-nb-servico')?.selectedOptions[0];
     const preco = parseFloat(selectedSvcOpt?.dataset?.nbSvcPreco) || 0;
     const precoStr = preco > 0 ? preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : 'A confirmar';
-    let msg = '💻 *SOLICITAÇÃO DE ATENDIMENTO – NOTEBOOK*\n\n';
-    msg += '👤 *Nome:* ' + nome + '\n';
-    msg += '📱 *Celular:* ' + celular + '\n';
-    if (email) msg += '📧 *E-mail:* ' + email + '\n';
-    if (cpf) msg += '🪪 *CPF:* ' + cpf + '\n';
-    msg += '\n💻 *Notebook:* ' + modelo + '\n';
+    const btns = document.querySelectorAll('[onclick="window.nbContinuar()"]');
+    btns.forEach(b => { b.disabled = true; b.textContent = 'Enviando...'; });
+    let msg = '💻 *NOVA SOLICITAÇÃO – NOTEBOOK*\n\n';
+    msg += '💻 *Notebook:* ' + modelo + '\n';
     msg += '🔧 *Serviço:* ' + servico + '\n';
     msg += '💰 *Valor a partir de:* ' + precoStr + '\n';
     if (descricao) msg += '\n📝 *Descrição:* ' + descricao + '\n';
     msg += '\n_iPro Assistência Apple – Campinas/SP_';
-    window.open('https://api.whatsapp.com/send?phone=5511972604416&text=' + encodeURIComponent(msg), '_blank');
+    try {
+      const res = await fetch(EVO_API_URL + '/message/sendText/' + EVO_INSTANCE, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': EVO_API_KEY
+        },
+        body: JSON.stringify({
+          number: EVO_DEST_NUMBER,
+          text: msg
+        })
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      btns.forEach(b => { b.disabled = false; b.textContent = 'Continuar →'; });
+      // Show success feedback
+      const wrap = document.getElementById('agend-sub1-notebook') || document.querySelector('.agend-step[data-step="1"]');
+      if (wrap) {
+        wrap.innerHTML = `
+          <div style="text-align:center;padding:40px 20px">
+            <div style="font-size:48px;margin-bottom:16px">✅</div>
+            <h3 style="font-size:20px;font-weight:700;color:#1a1a1a;margin-bottom:8px">Solicitação enviada!</h3>
+            <p style="font-size:14px;color:#666;line-height:1.5">Recebemos sua solicitação para <strong>${modelo}</strong>.<br>Em breve entraremos em contato.</p>
+          </div>`;
+      }
+    } catch (err) {
+      console.error('Evolution API error:', err);
+      btns.forEach(b => { b.disabled = false; b.textContent = 'Continuar →'; });
+      alert('Erro ao enviar solicitação. Tente novamente ou entre em contato pelo WhatsApp.');
+    }
   };
 
   window.agendStep3Back = function() {
@@ -2281,6 +2264,29 @@
       window.closeAgendamento();
       const saved = await res.json();
       window._agendWhatsappLink = saved.whatsappLink || null;
+
+      // ── Evolution API: confirmação para o CLIENTE ──────────────
+      try {
+        const clientRaw = body.whatsapp.replace(/\D/g, '');
+        const clientNum = clientRaw.length <= 11 ? '55' + clientRaw : clientRaw;
+        const dataFmt = body.data ? new Date(body.data + 'T12:00:00').toLocaleDateString('pt-BR') : '';
+        let confirmMsg = '✅ *Agendamento confirmado!*\n\n';
+        confirmMsg += '📱 *Dispositivo:* ' + body.produto_nome + '\n';
+        if (body.modelo_nome) confirmMsg += '🔹 *Modelo:* ' + body.modelo_nome + '\n';
+        confirmMsg += '🔧 *Serviço:* ' + body.servico_nome + '\n';
+        if (dataFmt) confirmMsg += '📅 *Data:* ' + dataFmt + '\n';
+        if (body.horario) confirmMsg += '🕐 *Horário:* ' + body.horario.slice(0, 5) + '\n';
+        confirmMsg += '\n📍 *Local:* Rua Jorge Krug, 69 — Vila Itapura, Campinas/SP\n';
+        confirmMsg += '📞 *(19) 99406-3782*\n\n';
+        confirmMsg += '_iPro Assistência Apple — Campinas/SP_';
+        fetch(EVO_API_URL + '/message/sendText/' + encodeURIComponent(EVO_INSTANCE), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': EVO_API_KEY },
+          body: JSON.stringify({ number: clientNum, text: confirmMsg })
+        }).catch(function(e) { console.warn('Evolution client confirm error:', e); });
+      } catch (evoErr) { console.warn('Evolution confirm setup error:', evoErr); }
+      // ──────────────────────────────────────────────────────────
+
       const termsOvl = document.getElementById('agend-terms-overlay');
       if (termsOvl) termsOvl.classList.add('terms-open');
     } catch (err) {

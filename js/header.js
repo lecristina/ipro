@@ -592,7 +592,7 @@
     menu.classList.remove('menu-open');
     backdrop.classList.remove('menu-open');
     document.body.style.overflow = '';
-    var fb = document.querySelector('.agendamento-float'); if (fb) fb.style.display = '';
+    var fb = document.querySelector('.agendamento-float'); if (fb) fb.style.display = 'flex';
     spans[0].style.transform = '';
     spans[1].style.opacity = '1';
     spans[2].style.transform = '';
@@ -623,10 +623,9 @@
   (function () {
     var floatCss = document.createElement('style');
     floatCss.textContent = [
-      '.agendamento-float { position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: none; align-items: center; gap: 8px; padding: 14px 22px; border-radius: 50px; background: #1a6cff; color: #fff; box-shadow: 0 4px 20px rgba(26,108,255,0.4); transition: transform 0.25s ease, box-shadow 0.25s ease; text-decoration: none; font-family: Inter, sans-serif; font-size: 14px; font-weight: 700; }',
+      '.agendamento-float { position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: flex; align-items: center; gap: 8px; padding: 14px 22px; border-radius: 50px; background: #1a6cff; color: #fff; box-shadow: 0 4px 20px rgba(26,108,255,0.4); transition: transform 0.25s ease, box-shadow 0.25s ease; text-decoration: none; font-family: Inter, sans-serif; font-size: 14px; font-weight: 700; }',
       '.agendamento-float:hover { transform: scale(1.05); box-shadow: 0 6px 28px rgba(26,108,255,0.55); }',
-      '.agendamento-float svg { width: 20px; height: 20px; fill: #fff; }',
-      '@media(min-width:768px) { .agendamento-float { display: flex; } }'
+      '.agendamento-float svg { width: 20px; height: 20px; fill: #fff; }'
     ].join('\n');
     document.head.appendChild(floatCss);
 

@@ -109,8 +109,14 @@
               <li><a href="reparo-de-face-id-iphone-campinas.html" class="hover:text-white/70 transition-colors">Reparo de Face ID</a></li>
               <li><a href="reparo-de-conector-de-carga-iphone-campinas.html" class="hover:text-white/70 transition-colors">Reparo do Conector de Carga</a></li>
               <li><a href="reparo-de-camera-traseira-iphone-campinas.html" class="hover:text-white/70 transition-colors">Reparo de Câmera Traseira</a></li>
-              <li><a href="assistencia-iphone-campinas.html" class="hover:text-white/70 transition-colors">Reparo de Alto-falantes</a></li>
-              <li><a href="assistencia-iphone-campinas.html" class="hover:text-white/70 transition-colors">Reparo de Placa Lógica</a></li>
+              <li><a href="reparo-de-camera-frontal-iphone-campinas.html" class="hover:text-white/70 transition-colors">Reparo de Câmera Frontal</a></li>
+              <li><a href="reparo-de-alto-falante-iphone-campinas.html" class="hover:text-white/70 transition-colors">Reparo de Alto-falantes</a></li>
+              <li><a href="reparo-de-microfone-iphone-campinas.html" class="hover:text-white/70 transition-colors">Reparo de Microfone</a></li>
+              <li><a href="reparo-de-botoes-iphone-campinas.html" class="hover:text-white/70 transition-colors">Reparo de Botões</a></li>
+              <li><a href="reparo-de-sensor-de-proximidade-iphone-campinas.html" class="hover:text-white/70 transition-colors">Reparo Sensor de Proximidade</a></li>
+              <li><a href="diagnostico-completo-iphone-campinas.html" class="hover:text-white/70 transition-colors">Diagnóstico Completo</a></li>
+              <li><a href="backup-recuperacao-dados-iphone-campinas.html" class="hover:text-white/70 transition-colors">Backup e Recuperação de Dados</a></li>
+              <li><a href="atualizacao-reinstalacao-ios-campinas.html" class="hover:text-white/70 transition-colors">Atualização / Reinstalação do iOS</a></li>
             </ul>
           </div>
           <div>
@@ -119,13 +125,17 @@
               <li><a href="assistencia-macbook-campinas.html" class="hover:text-white/70 transition-colors">Assistência técnica</a></li>
               <li><a href="troca-de-tela-macbook-campinas.html" class="hover:text-white/70 transition-colors">Substituição de Tela</a></li>
               <li><a href="troca-de-bateria-macbook-campinas.html" class="hover:text-white/70 transition-colors">Substituição de Bateria</a></li>
-              <li><a href="assistencia-macbook-campinas.html" class="hover:text-white/70 transition-colors">Reparo de Placa Lógica</a></li>
+              <li><a href="reparo-de-placa-macbook-campinas.html" class="hover:text-white/70 transition-colors">Reparo de Placa Lógica</a></li>
+              <li><a href="reparo-de-conector-de-carga-macbook-campinas.html" class="hover:text-white/70 transition-colors">Reparo do Conector de Carga</a></li>
+              <li><a href="reparo-de-alto-falante-macbook-campinas.html" class="hover:text-white/70 transition-colors">Reparo de Alto-falantes</a></li>
               <li><a href="troca-de-teclado-touchpad-macbook-campinas.html" class="hover:text-white/70 transition-colors">Substituição de Teclado</a></li>
               <li><a href="troca-de-teclado-touchpad-macbook-campinas.html" class="hover:text-white/70 transition-colors">Substituição de Trackpad</a></li>
               <li><a href="limpeza-completa-macbook-campinas.html" class="hover:text-white/70 transition-colors">Limpeza Interna Completa</a></li>
               <li><a href="ins-de-ssd-m-sata-macbook-campinas.html" class="hover:text-white/70 transition-colors">Upgrade de Armazenamento</a></li>
-              <li><a href="assistencia-macbook-campinas.html" class="hover:text-white/70 transition-colors">Reinstalação do macOS</a></li>
-              <li><a href="assistencia-macbook-campinas.html" class="hover:text-white/70 transition-colors">Diagnóstico Completo</a></li>
+              <li><a href="reinstalacao-macos-macbook-campinas.html" class="hover:text-white/70 transition-colors">Reinstalação do macOS</a></li>
+              <li><a href="atualizacao-sistema-macbook-campinas.html" class="hover:text-white/70 transition-colors">Atualização do Sistema</a></li>
+              <li><a href="backup-migracao-dados-macbook-campinas.html" class="hover:text-white/70 transition-colors">Backup e Migração de Dados</a></li>
+              <li><a href="diagnostico-completo-macbook-campinas.html" class="hover:text-white/70 transition-colors">Diagnóstico Completo</a></li>
             </ul>
           </div>
           <div>
@@ -135,9 +145,10 @@
               <li><a href="troca-de-tela-apple-watch-campinas.html" class="hover:text-white/70 transition-colors">Substituição de Tela</a></li>
               <li><a href="troca-de-vidro-touch-apple-watch-campinas.html" class="hover:text-white/70 transition-colors">Substituição de Vidro / Touch</a></li>
               <li><a href="troca-de-bateria-apple-watch-campinas.html" class="hover:text-white/70 transition-colors">Substituição de Bateria</a></li>
-              <li><a href="assistencia-apple-watch-campinas.html" class="hover:text-white/70 transition-colors">Reparo de Placa</a></li>
-              <li><a href="assistencia-apple-watch-campinas.html" class="hover:text-white/70 transition-colors">Reparo do Conector de Carga</a></li>
-              <li><a href="assistencia-apple-watch-campinas.html" class="hover:text-white/70 transition-colors">Reparo da Coroa Digital</a></li>
+              <li><a href="reparo-de-coroa-digital-apple-watch-campinas.html" class="hover:text-white/70 transition-colors">Reparo da Coroa Digital</a></li>
+              <li><a href="reparo-de-alto-falante-apple-watch-campinas.html" class="hover:text-white/70 transition-colors">Reparo de Alto-falante</a></li>
+              <li><a href="reparo-de-microfone-apple-watch-campinas.html" class="hover:text-white/70 transition-colors">Reparo de Microfone</a></li>
+              <li><a href="diagnostico-completo-apple-watch-campinas.html" class="hover:text-white/70 transition-colors">Diagnóstico Completo</a></li>
             </ul>
           </div>
           <div>
@@ -147,11 +158,14 @@
               <li><a href="reparo-de-placa-imac-campinas.html" class="hover:text-white/70 transition-colors">Reparo de Placa Lógica</a></li>
               <li><a href="reparo-de-fonte-imac-campinas.html" class="hover:text-white/70 transition-colors">Reparo da Fonte de Alimentação</a></li>
               <li><a href="troca-de-tela-imac-campinas.html" class="hover:text-white/70 transition-colors">Substituição de Tela</a></li>
+              <li><a href="troca-de-cooler-imac-campinas.html" class="hover:text-white/70 transition-colors">Substituição Cooler / Ventoinha</a></li>
+              <li><a href="upgrade-de-ram-imac-campinas.html" class="hover:text-white/70 transition-colors">Upgrade de Memória (RAM)</a></li>
               <li><a href="upgrade-de-SSD-e-M-sata-imac-campinas.html" class="hover:text-white/70 transition-colors">Upgrade de Armazenamento</a></li>
               <li><a href="limpeza-completa-imac-campinas.html" class="hover:text-white/70 transition-colors">Limpeza Interna Completa</a></li>
-              <li><a href="assistencia-imac-campinas.html" class="hover:text-white/70 transition-colors">Upgrade de Memória (RAM)</a></li>
-              <li><a href="assistencia-imac-campinas.html" class="hover:text-white/70 transition-colors">Reinstalação do macOS</a></li>
-              <li><a href="assistencia-imac-campinas.html" class="hover:text-white/70 transition-colors">Diagnóstico Completo</a></li>
+              <li><a href="reinstalacao-macos-imac-campinas.html" class="hover:text-white/70 transition-colors">Reinstalação do macOS</a></li>
+              <li><a href="atualizacao-sistema-imac-campinas.html" class="hover:text-white/70 transition-colors">Atualização do Sistema</a></li>
+              <li><a href="backup-recuperacao-dados-imac-campinas.html" class="hover:text-white/70 transition-colors">Backup e Recuperação de Dados</a></li>
+              <li><a href="diagnostico-completo-imac-campinas.html" class="hover:text-white/70 transition-colors">Diagnóstico Completo</a></li>
             </ul>
           </div>
           <div>
@@ -161,11 +175,17 @@
               <li><a href="troca-de-tela-ipad-campinas.html" class="hover:text-white/70 transition-colors">Substituição de Tela</a></li>
               <li><a href="troca-de-bateria-ipad-campinas.html" class="hover:text-white/70 transition-colors">Substituição de Bateria</a></li>
               <li><a href="troca-de-vidro-frontal-ipad-campinas.html" class="hover:text-white/70 transition-colors">Troca de Vidro Frontal</a></li>
+              <li><a href="troca-de-vidro-traseiro-ipad-campinas.html" class="hover:text-white/70 transition-colors">Troca de Vidro Traseiro</a></li>
               <li><a href="reparo-de-face-id-ipad-campinas.html" class="hover:text-white/70 transition-colors">Reparo de Face ID</a></li>
               <li><a href="reparo-de-conector-de-carga-ipad-campinas.html" class="hover:text-white/70 transition-colors">Reparo do Conector de Carga</a></li>
               <li><a href="reparo-de-camera-traseira-ipad-campinas.html" class="hover:text-white/70 transition-colors">Reparo de Câmera Traseira</a></li>
-              <li><a href="assistencia-ipad-campinas.html" class="hover:text-white/70 transition-colors">Reparo de Placa Lógica</a></li>
-              <li><a href="assistencia-ipad-campinas.html" class="hover:text-white/70 transition-colors">Reinstalação do iPadOS</a></li>
+              <li><a href="reparo-de-camera-frontal-ipad-campinas.html" class="hover:text-white/70 transition-colors">Reparo de Câmera Frontal</a></li>
+              <li><a href="reparo-de-alto-falante-ipad-campinas.html" class="hover:text-white/70 transition-colors">Reparo de Alto-falante</a></li>
+              <li><a href="reparo-de-microfone-ipad-campinas.html" class="hover:text-white/70 transition-colors">Reparo de Microfone</a></li>
+              <li><a href="reparo-de-botoes-ipad-campinas.html" class="hover:text-white/70 transition-colors">Reparo de Botões</a></li>
+              <li><a href="backup-recuperacao-dados-ipad-campinas.html" class="hover:text-white/70 transition-colors">Backup e Recuperação de Dados</a></li>
+              <li><a href="atualizacao-reinstalacao-ipados-campinas.html" class="hover:text-white/70 transition-colors">Reinstalação do iPadOS</a></li>
+              <li><a href="diagnostico-completo-ipad-campinas.html" class="hover:text-white/70 transition-colors">Diagnóstico Completo</a></li>
             </ul>
           </div>
           <div>
@@ -177,9 +197,10 @@
               <li><a href="upgrade-do-mac-mini-campinas.html" class="hover:text-white/70 transition-colors">Upgrade de Hardware</a></li>
               <li><a href="ins-de-ssd-ou-m-sata-mac-mini-campinas.html" class="hover:text-white/70 transition-colors">Instalação de SSD / M.2</a></li>
               <li><a href="limpeza-completa-mac-mini-campinas.html" class="hover:text-white/70 transition-colors">Limpeza Interna Completa</a></li>
-              <li><a href="assistencia-mac-mini-campinas.html" class="hover:text-white/70 transition-colors">Reinstalação do macOS</a></li>
-              <li><a href="assistencia-mac-mini-campinas.html" class="hover:text-white/70 transition-colors">Backup e Recuperação de Dados</a></li>
-              <li><a href="assistencia-mac-mini-campinas.html" class="hover:text-white/70 transition-colors">Diagnóstico Completo</a></li>
+              <li><a href="reinstalacao-macos-mac-mini-campinas.html" class="hover:text-white/70 transition-colors">Reinstalação do macOS</a></li>
+              <li><a href="atualizacao-sistema-mac-mini-campinas.html" class="hover:text-white/70 transition-colors">Atualização do Sistema</a></li>
+              <li><a href="backup-recuperacao-dados-mac-mini-campinas.html" class="hover:text-white/70 transition-colors">Backup e Recuperação de Dados</a></li>
+              <li><a href="diagnostico-completo-mac-mini-campinas.html" class="hover:text-white/70 transition-colors">Diagnóstico Completo</a></li>
             </ul>
           </div>
         </div>

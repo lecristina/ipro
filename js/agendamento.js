@@ -141,17 +141,22 @@
             <textarea id="agend-nb-descricao" class="agend-input" rows="3" placeholder="Descreva o problema que está enfrentando com o notebook..." style="resize:vertical;min-height:70px"></textarea>
           </div>
           <div>
-            <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em">Como deseja prosseguir? *</label>
-            <div style="display:flex;flex-direction:column;gap:8px">
-              <label class="nb-radio-option selected" id="nb-opt-agendar" onclick="window.nbSelectTipo('agendamento')">
-                <input type="radio" name="nb-tipo" value="agendamento" checked>
-                <div><div class="nb-radio-label">📅 Quero agendar o atendimento</div><div class="nb-radio-desc">Escolha data e horário para levar seu notebook</div></div>
-              </label>
-              <label class="nb-radio-option" id="nb-opt-orcamento" onclick="window.nbSelectTipo('orcamento')">
-                <input type="radio" name="nb-tipo" value="orcamento">
-                <div><div class="nb-radio-label">💰 Quero o orçamento online</div><div class="nb-radio-desc">Receba o orçamento diretamente pelo WhatsApp</div></div>
-              </label>
+            <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">Nome completo *</label>
+            <input type="text" id="agend-nb-nome" class="agend-input" placeholder="Seu nome completo">
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div>
+              <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">CPF</label>
+              <input type="text" id="agend-nb-cpf" class="agend-input" placeholder="000.000.000-00" maxlength="14" oninput="window.agendFormatCpf(this)">
             </div>
+            <div>
+              <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">E-mail</label>
+              <input type="email" id="agend-nb-email-direct" class="agend-input" placeholder="seu@email.com">
+            </div>
+          </div>
+          <div>
+            <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">Celular / WhatsApp *</label>
+            <input type="tel" id="agend-nb-celular" class="agend-input" placeholder="(11) 99999-9999" maxlength="15" oninput="window.agendFormatPhone(this)">
           </div>
         </div>
         <button onclick="window.nbContinuar()" style="margin-top:18px;width:100%;padding:14px;border-radius:14px;background:#1a6cff;color:#fff;font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:Inter,sans-serif;transition:background .2s" onmouseover="this.style.background='#0057e6'" onmouseout="this.style.background='#1a6cff'">Continuar →</button>
@@ -286,7 +291,7 @@
     if (!document.getElementById('agend-faq-overlay')) {
       const faqOvl = document.createElement('div');
       faqOvl.id = 'agend-faq-overlay';
-      faqOvl.innerHTML = `<div id="agend-faq-box"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><h3 id="agend-faq-title" style="font-size:17px;font-weight:800;margin:0;color:#1a1a1a"></h3><button onclick="window.agendCloseFaq()" style="width:32px;height:32px;border-radius:50%;background:#f5f5f7;border:none;cursor:pointer;font-size:14px;color:#888">✕</button></div><div id="agend-faq-items"></div></div>`;
+      faqOvl.innerHTML = `<div id="agend-faq-box"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><h3 id="agend-faq-title" style="font-size:17px;font-weight:800;margin:0;color:#1a1a1a"></h3><button onclick="window.agendCloseFaq()" style="width:32px;height:32px;border-radius:50%;background:#ff3b30;border:none;cursor:pointer;font-size:14px;color:#fff">✕</button></div><div id="agend-faq-items"></div></div>`;
       document.body.appendChild(faqOvl);
       faqOvl.addEventListener('click', e => { if (e.target === faqOvl) window.agendCloseFaq(); });
     }
@@ -599,23 +604,22 @@
                 <textarea id="agend-nb-descricao" class="agend-input" rows="3" placeholder="Descreva o problema que está enfrentando com o notebook..." style="resize:vertical;min-height:70px"></textarea>
               </div>
               <div>
-                <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em">Como deseja prosseguir? *</label>
-                <div style="display:flex;flex-direction:column;gap:8px">
-                  <label class="nb-radio-option selected" id="nb-opt-agendar" onclick="window.nbSelectTipo('agendamento')">
-                    <input type="radio" name="nb-tipo" value="agendamento" checked>
-                    <div>
-                      <div class="nb-radio-label">📅 Quero agendar o atendimento</div>
-                      <div class="nb-radio-desc">Escolha data e horário para levar seu notebook</div>
-                    </div>
-                  </label>
-                  <label class="nb-radio-option" id="nb-opt-orcamento" onclick="window.nbSelectTipo('orcamento')">
-                    <input type="radio" name="nb-tipo" value="orcamento">
-                    <div>
-                      <div class="nb-radio-label">💰 Quero o orçamento online</div>
-                      <div class="nb-radio-desc">Receba o orçamento diretamente pelo WhatsApp</div>
-                    </div>
-                  </label>
+                <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">Nome completo *</label>
+                <input type="text" id="agend-nb-nome" class="agend-input" placeholder="Seu nome completo">
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                <div>
+                  <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">CPF</label>
+                  <input type="text" id="agend-nb-cpf" class="agend-input" placeholder="000.000.000-00" maxlength="14" oninput="window.agendFormatCpf(this)">
                 </div>
+                <div>
+                  <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">E-mail</label>
+                  <input type="email" id="agend-nb-email-direct" class="agend-input" placeholder="seu@email.com">
+                </div>
+              </div>
+              <div>
+                <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">Celular / WhatsApp *</label>
+                <input type="tel" id="agend-nb-celular" class="agend-input" placeholder="(11) 99999-9999" maxlength="15" oninput="window.agendFormatPhone(this)">
               </div>
             </div>
             <button onclick="window.nbContinuar()" style="margin-top:18px;width:100%;padding:14px;border-radius:14px;background:#1a6cff;color:#fff;font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:Inter,sans-serif;transition:background .2s" onmouseover="this.style.background='#0057e6'" onmouseout="this.style.background='#1a6cff'">Continuar →</button>
@@ -1684,7 +1688,8 @@
         }
         if (nbPrecoDisplay) {
           if (svcPreco > 0) {
-            nbPrecoDisplay.textContent = 'Valor estimado: ' + svcPreco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            const priceFormatted = svcPreco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            nbPrecoDisplay.innerHTML = 'a partir de: ' + priceFormatted + '<div style="margin-top:5px;font-size:11px;font-weight:600;color:#dc2626;padding:2px 0">⚠️ valores podem mudar após análise técnica na assistência</div>';
             nbPrecoDisplay.style.display = '';
           } else {
             nbPrecoDisplay.style.display = 'none';
@@ -1697,12 +1702,15 @@
     if (nbModelo) nbModelo.value = '';
     const nbDesc = document.getElementById('agend-nb-descricao');
     if (nbDesc) nbDesc.value = '';
-    // Reset radio buttons
-    document.querySelectorAll('input[name="nb-tipo"]').forEach(r => { r.checked = r.value === 'agendamento'; });
-    const optA = document.getElementById('nb-opt-agendar');
-    const optO = document.getElementById('nb-opt-orcamento');
-    if (optA) optA.classList.add('selected');
-    if (optO) optO.classList.remove('selected');
+    // Reset contact fields
+    const nbNome = document.getElementById('agend-nb-nome');
+    if (nbNome) nbNome.value = '';
+    const nbCpf = document.getElementById('agend-nb-cpf');
+    if (nbCpf) nbCpf.value = '';
+    const nbEmailDirect = document.getElementById('agend-nb-email-direct');
+    if (nbEmailDirect) nbEmailDirect.value = '';
+    const nbCelular = document.getElementById('agend-nb-celular');
+    if (nbCelular) nbCelular.value = '';
   };
 
   window.nbSelectTipo = function(tipo) {
@@ -1718,24 +1726,28 @@
     const modelo = (document.getElementById('agend-nb-modelo')?.value || '').trim();
     const servico = (document.getElementById('agend-nb-servico')?.value || '').trim();
     const descricao = (document.getElementById('agend-nb-descricao')?.value || '').trim();
+    const nome = (document.getElementById('agend-nb-nome')?.value || '').trim();
+    const cpf = (document.getElementById('agend-nb-cpf')?.value || '').trim();
+    const email = (document.getElementById('agend-nb-email-direct')?.value || '').trim();
+    const celular = (document.getElementById('agend-nb-celular')?.value || '').trim();
     if (!modelo) { alert('Informe o modelo do notebook.'); return; }
     if (!servico) { alert('Selecione o tipo de serviço.'); return; }
+    if (!nome) { alert('Informe seu nome completo.'); return; }
+    if (!celular) { alert('Informe seu celular / WhatsApp.'); return; }
     const selectedSvcOpt = document.getElementById('agend-nb-servico')?.selectedOptions[0];
-    notebookSel.modelo = modelo;
-    notebookSel.servico = servico;
-    notebookSel.descricao = descricao;
-    notebookSel.preco = parseFloat(selectedSvcOpt?.dataset?.nbSvcPreco) || 0;
-    sel.modelo = { nome: modelo };
-    sel.servico = { nome: servico };
-    if (notebookSel.tipoSolicitacao === 'agendamento') {
-      // Go to date/time selection (step 2)
-      showStep(2);
-      await loadCalendarMonth();
-      renderCalendar();
-    } else {
-      // Orçamento online — skip to step 3 (simplified: just name + phone)
-      showStep(3);
-    }
+    const preco = parseFloat(selectedSvcOpt?.dataset?.nbSvcPreco) || 0;
+    const precoStr = preco > 0 ? preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : 'A confirmar';
+    let msg = '💻 *SOLICITAÇÃO DE ATENDIMENTO – NOTEBOOK*\n\n';
+    msg += '👤 *Nome:* ' + nome + '\n';
+    msg += '📱 *Celular:* ' + celular + '\n';
+    if (email) msg += '📧 *E-mail:* ' + email + '\n';
+    if (cpf) msg += '🪪 *CPF:* ' + cpf + '\n';
+    msg += '\n💻 *Notebook:* ' + modelo + '\n';
+    msg += '🔧 *Serviço:* ' + servico + '\n';
+    msg += '💰 *Valor a partir de:* ' + precoStr + '\n';
+    if (descricao) msg += '\n📝 *Descrição:* ' + descricao + '\n';
+    msg += '\n_iPro Assistência Apple – Campinas/SP_';
+    window.open('https://api.whatsapp.com/send?phone=5511972604416&text=' + encodeURIComponent(msg), '_blank');
   };
 
   window.agendStep3Back = function() {

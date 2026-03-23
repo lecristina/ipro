@@ -148,6 +148,24 @@ var EVO_DEST_NUMBER  = '5511972604416';                       // Número da empr
             <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">Fale mais sobre o defeito</label>
             <textarea id="agend-nb-descricao" class="agend-input" rows="3" placeholder="Descreva o problema que está enfrentando com o notebook..." style="resize:vertical;min-height:70px"></textarea>
           </div>
+          <div>
+            <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">Nome completo *</label>
+            <input type="text" id="agend-nb-nome" class="agend-input" placeholder="Seu nome completo">
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div>
+              <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">CPF</label>
+              <input type="text" id="agend-nb-cpf" class="agend-input" placeholder="000.000.000-00" maxlength="14" oninput="window.agendFormatCpf(this)">
+            </div>
+            <div>
+              <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">E-mail</label>
+              <input type="email" id="agend-nb-email-direct" class="agend-input" placeholder="seu@email.com">
+            </div>
+          </div>
+          <div>
+            <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">Celular / WhatsApp *</label>
+            <input type="tel" id="agend-nb-celular" class="agend-input" placeholder="(11) 99999-9999" maxlength="15" oninput="window.agendFormatPhone(this)">
+          </div>
         </div>
         <button onclick="window.nbContinuar()" style="margin-top:18px;width:100%;padding:14px;border-radius:14px;background:#1a6cff;color:#fff;font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:Inter,sans-serif;transition:background .2s" onmouseover="this.style.background='#0057e6'" onmouseout="this.style.background='#1a6cff'">Continuar →</button>
       `;
@@ -592,6 +610,24 @@ var EVO_DEST_NUMBER  = '5511972604416';                       // Número da empr
               <div>
                 <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">Fale mais sobre o defeito</label>
                 <textarea id="agend-nb-descricao" class="agend-input" rows="3" placeholder="Descreva o problema que está enfrentando com o notebook..." style="resize:vertical;min-height:70px"></textarea>
+              </div>
+              <div>
+                <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">Nome completo *</label>
+                <input type="text" id="agend-nb-nome" class="agend-input" placeholder="Seu nome completo">
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                <div>
+                  <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">CPF</label>
+                  <input type="text" id="agend-nb-cpf" class="agend-input" placeholder="000.000.000-00" maxlength="14" oninput="window.agendFormatCpf(this)">
+                </div>
+                <div>
+                  <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">E-mail</label>
+                  <input type="email" id="agend-nb-email-direct" class="agend-input" placeholder="seu@email.com">
+                </div>
+              </div>
+              <div>
+                <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">Celular / WhatsApp *</label>
+                <input type="tel" id="agend-nb-celular" class="agend-input" placeholder="(11) 99999-9999" maxlength="15" oninput="window.agendFormatPhone(this)">
               </div>
             </div>
             <button onclick="window.nbContinuar()" style="margin-top:18px;width:100%;padding:14px;border-radius:14px;background:#1a6cff;color:#fff;font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:Inter,sans-serif;transition:background .2s" onmouseover="this.style.background='#0057e6'" onmouseout="this.style.background='#1a6cff'">Continuar →</button>
@@ -1674,6 +1710,14 @@ var EVO_DEST_NUMBER  = '5511972604416';                       // Número da empr
     if (nbModelo) nbModelo.value = '';
     const nbDesc = document.getElementById('agend-nb-descricao');
     if (nbDesc) nbDesc.value = '';
+    const nbNome = document.getElementById('agend-nb-nome');
+    if (nbNome) nbNome.value = '';
+    const nbCpf = document.getElementById('agend-nb-cpf');
+    if (nbCpf) nbCpf.value = '';
+    const nbEmailDirect = document.getElementById('agend-nb-email-direct');
+    if (nbEmailDirect) nbEmailDirect.value = '';
+    const nbCelular = document.getElementById('agend-nb-celular');
+    if (nbCelular) nbCelular.value = '';
   };
 
   window.nbSelectTipo = function(tipo) {
@@ -1689,15 +1733,25 @@ var EVO_DEST_NUMBER  = '5511972604416';                       // Número da empr
     const modelo = (document.getElementById('agend-nb-modelo')?.value || '').trim();
     const servico = (document.getElementById('agend-nb-servico')?.value || '').trim();
     const descricao = (document.getElementById('agend-nb-descricao')?.value || '').trim();
+    const nome = (document.getElementById('agend-nb-nome')?.value || '').trim();
+    const cpf = (document.getElementById('agend-nb-cpf')?.value || '').trim();
+    const email = (document.getElementById('agend-nb-email-direct')?.value || '').trim();
+    const celular = (document.getElementById('agend-nb-celular')?.value || '').trim();
     if (!modelo) { alert('Informe o modelo do notebook.'); return; }
     if (!servico) { alert('Selecione o tipo de serviço.'); return; }
+    if (!nome) { alert('Informe seu nome completo.'); return; }
+    if (!celular) { alert('Informe seu celular / WhatsApp.'); return; }
     const selectedSvcOpt = document.getElementById('agend-nb-servico')?.selectedOptions[0];
     const preco = parseFloat(selectedSvcOpt?.dataset?.nbSvcPreco) || 0;
     const precoStr = preco > 0 ? preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : 'A confirmar';
     const btns = document.querySelectorAll('[onclick="window.nbContinuar()"]');
     btns.forEach(b => { b.disabled = true; b.textContent = 'Enviando...'; });
     let msg = '💻 *NOVA SOLICITAÇÃO – NOTEBOOK*\n\n';
-    msg += '💻 *Notebook:* ' + modelo + '\n';
+    msg += '👤 *Nome:* ' + nome + '\n';
+    msg += '📱 *Celular:* ' + celular + '\n';
+    if (email) msg += '📧 *E-mail:* ' + email + '\n';
+    if (cpf) msg += '🪪 *CPF:* ' + cpf + '\n';
+    msg += '\n💻 *Notebook:* ' + modelo + '\n';
     msg += '🔧 *Serviço:* ' + servico + '\n';
     msg += '💰 *Valor a partir de:* ' + precoStr + '\n';
     if (descricao) msg += '\n📝 *Descrição:* ' + descricao + '\n';

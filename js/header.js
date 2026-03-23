@@ -126,7 +126,7 @@
                 <a href="reparo-de-camera-frontal-iphone-campinas.html">Reparo de Câmera Frontal</a>
                 <a href="reparo-de-alto-falante-iphone-campinas.html">Reparo de Alto-falantes</a>
                 <a href="reparo-de-microfone-iphone-campinas.html">Reparo do Microfone</a>
-                <a href="assistencia-iphone-campinas.html">Reparo de Placa Lógica</a>
+                <a href="reparo-de-placa-iphone-campinas.html">Reparo de Placa Lógica</a>
                 <a href="reparo-de-sensor-de-proximidade-iphone-campinas.html">Troca do Sensor de Proximidade</a>
                 <a href="reparo-de-botoes-iphone-campinas.html">Reparo do Botão Lateral / Volume</a>
                 <a href="diagnostico-completo-iphone-campinas.html">Diagnóstico Completo</a>
@@ -152,8 +152,8 @@
                 <a href="troca-de-tela-apple-watch-campinas.html">Substituição de Tela</a>
                 <a href="troca-de-vidro-touch-apple-watch-campinas.html">Substituição de Vidro / Touch</a>
                 <a href="troca-de-bateria-apple-watch-campinas.html">Substituição de Bateria</a>
-                <a href="assistencia-apple-watch-campinas.html">Reparo de Placa</a>
-                <a href="assistencia-apple-watch-campinas.html">Reparo do Conector de Carga</a>
+                <a href="reparo-de-placa-apple-watch-campinas.html">Reparo de Placa</a>
+                <a href="reparo-de-conector-de-carga-apple-watch-campinas.html">Reparo do Conector de Carga</a>
                 <a href="reparo-de-coroa-digital-apple-watch-campinas.html">Reparo da Coroa Digital</a>
                 <a href="diagnostico-completo-apple-watch-campinas.html">Diagnóstico Completo</a>
               </div>
@@ -182,7 +182,7 @@
                 <a href="reparo-de-camera-traseira-ipad-campinas.html">Reparo de Câmera Traseira</a>
                 <a href="reparo-de-camera-frontal-ipad-campinas.html">Reparo de Câmera Frontal</a>
                 <a href="reparo-de-alto-falante-ipad-campinas.html">Reparo de Alto-falantes</a>
-                <a href="assistencia-ipad-campinas.html">Reparo de Placa Lógica</a>
+                <a href="reparo-de-placa-ipad-campinas.html">Reparo de Placa Lógica</a>
                 <a href="backup-recuperacao-dados-ipad-campinas.html">Backup e Migração de Dados</a>
                 <a href="atualizacao-reinstalacao-ipados-campinas.html">Reinstalação do iPadOS</a>
                 <a href="atualizacao-reinstalacao-ipados-campinas.html">Atualização do Sistema</a>
@@ -314,7 +314,7 @@
                   <a href="reparo-de-camera-frontal-iphone-campinas.html" class="block py-2 px-3 text-[12px] text-[#555] rounded-lg hover:bg-[#f0f4ff] hover:text-[#1a6cff] transition-colors">Reparo de Câmera Frontal</a>
                   <a href="reparo-de-alto-falante-iphone-campinas.html" class="block py-2 px-3 text-[12px] text-[#555] rounded-lg hover:bg-[#f0f4ff] hover:text-[#1a6cff] transition-colors">Reparo de Alto-falantes</a>
                   <a href="reparo-de-microfone-iphone-campinas.html" class="block py-2 px-3 text-[12px] text-[#555] rounded-lg hover:bg-[#f0f4ff] hover:text-[#1a6cff] transition-colors">Reparo do Microfone</a>
-                  <a href="assistencia-iphone-campinas.html" class="block py-2 px-3 text-[12px] text-[#555] rounded-lg hover:bg-[#f0f4ff] hover:text-[#1a6cff] transition-colors">Reparo de Placa Lógica</a>
+                  <a href="reparo-de-placa-iphone-campinas.html" class="block py-2 px-3 text-[12px] text-[#555] rounded-lg hover:bg-[#f0f4ff] hover:text-[#1a6cff] transition-colors">Reparo de Placa Lógica</a>
                   <a href="reparo-de-sensor-de-proximidade-iphone-campinas.html" class="block py-2 px-3 text-[12px] text-[#555] rounded-lg hover:bg-[#f0f4ff] hover:text-[#1a6cff] transition-colors">Troca do Sensor de Proximidade</a>
                   <a href="reparo-de-botoes-iphone-campinas.html" class="block py-2 px-3 text-[12px] text-[#555] rounded-lg hover:bg-[#f0f4ff] hover:text-[#1a6cff] transition-colors">Reparo do Botão Lateral / Volume</a>
                   <a href="diagnostico-completo-iphone-campinas.html" class="block py-2 px-3 text-[12px] text-[#555] rounded-lg hover:bg-[#f0f4ff] hover:text-[#1a6cff] transition-colors">Diagnóstico Completo</a>
@@ -356,8 +356,8 @@
                   <a href="troca-de-tela-apple-watch-campinas.html" class="block py-2 px-3 text-[12px] text-[#555] rounded-lg hover:bg-[#f0f4ff] hover:text-[#1a6cff] transition-colors">Substituição de Tela</a>
                   <a href="troca-de-vidro-touch-apple-watch-campinas.html" class="block py-2 px-3 text-[12px] text-[#555] rounded-lg hover:bg-[#f0f4ff] hover:text-[#1a6cff] transition-colors">Substituição de Vidro / Touch</a>
                   <a href="troca-de-bateria-apple-watch-campinas.html" class="block py-2 px-3 text-[12px] text-[#555] rounded-lg hover:bg-[#f0f4ff] hover:text-[#1a6cff] transition-colors">Substituição de Bateria</a>
-                  <a href="assistencia-apple-watch-campinas.html" class="block py-2 px-3 text-[12px] text-[#555] rounded-lg hover:bg-[#f0f4ff] hover:text-[#1a6cff] transition-colors">Reparo de Placa</a>
-                  <a href="assistencia-apple-watch-campinas.html" class="block py-2 px-3 text-[12px] text-[#555] rounded-lg hover:bg-[#f0f4ff] hover:text-[#1a6cff] transition-colors">Reparo do Conector de Carga</a>
+                  <a href="reparo-de-placa-apple-watch-campinas.html" class="block py-2 px-3 text-[12px] text-[#555] rounded-lg hover:bg-[#f0f4ff] hover:text-[#1a6cff] transition-colors">Reparo de Placa</a>
+                  <a href="reparo-de-conector-de-carga-apple-watch-campinas.html" class="block py-2 px-3 text-[12px] text-[#555] rounded-lg hover:bg-[#f0f4ff] hover:text-[#1a6cff] transition-colors">Reparo do Conector de Carga</a>
                   <a href="reparo-de-coroa-digital-apple-watch-campinas.html" class="block py-2 px-3 text-[12px] text-[#555] rounded-lg hover:bg-[#f0f4ff] hover:text-[#1a6cff] transition-colors">Reparo da Coroa Digital</a>
                   <a href="diagnostico-completo-apple-watch-campinas.html" class="block py-2 px-3 text-[12px] text-[#555] rounded-lg hover:bg-[#f0f4ff] hover:text-[#1a6cff] transition-colors">Diagnóstico Completo</a>
                 </div>
@@ -402,7 +402,7 @@
                   <a href="reparo-de-camera-traseira-ipad-campinas.html" class="block py-2 px-3 text-[12px] text-[#555] rounded-lg hover:bg-[#f0f4ff] hover:text-[#1a6cff] transition-colors">Reparo de Câmera Traseira</a>
                   <a href="reparo-de-camera-frontal-ipad-campinas.html" class="block py-2 px-3 text-[12px] text-[#555] rounded-lg hover:bg-[#f0f4ff] hover:text-[#1a6cff] transition-colors">Reparo de Câmera Frontal</a>
                   <a href="reparo-de-alto-falante-ipad-campinas.html" class="block py-2 px-3 text-[12px] text-[#555] rounded-lg hover:bg-[#f0f4ff] hover:text-[#1a6cff] transition-colors">Reparo de Alto-falantes</a>
-                  <a href="assistencia-ipad-campinas.html" class="block py-2 px-3 text-[12px] text-[#555] rounded-lg hover:bg-[#f0f4ff] hover:text-[#1a6cff] transition-colors">Reparo de Placa Lógica</a>
+                  <a href="reparo-de-placa-ipad-campinas.html" class="block py-2 px-3 text-[12px] text-[#555] rounded-lg hover:bg-[#f0f4ff] hover:text-[#1a6cff] transition-colors">Reparo de Placa Lógica</a>
                   <a href="backup-recuperacao-dados-ipad-campinas.html" class="block py-2 px-3 text-[12px] text-[#555] rounded-lg hover:bg-[#f0f4ff] hover:text-[#1a6cff] transition-colors">Backup e Migração de Dados</a>
                   <a href="atualizacao-reinstalacao-ipados-campinas.html" class="block py-2 px-3 text-[12px] text-[#555] rounded-lg hover:bg-[#f0f4ff] hover:text-[#1a6cff] transition-colors">Reinstalação do iPadOS</a>
                   <a href="atualizacao-reinstalacao-ipados-campinas.html" class="block py-2 px-3 text-[12px] text-[#555] rounded-lg hover:bg-[#f0f4ff] hover:text-[#1a6cff] transition-colors">Atualização do Sistema</a>

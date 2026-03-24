@@ -194,73 +194,70 @@ function buildAgendamentoMsg(agend) {
 
   if (isNotebook && isOrcamento) {
     return (
-      `SOLICITAÇÃO DE ORÇAMENTO ONLINE\n\n` +
-      `Olá ${agend.nome}, recebemos sua solicitação de orçamento.\n\n` +
+      `💻 *SOLICITAÇÃO DE ORÇAMENTO – NOTEBOOK*\n\n` +
+      `Recebemos sua solicitação de orçamento para atendimento técnico.\n\n` +
+      `⚠️ *Importante:* Esta solicitação está sujeita à análise e confirmação da nossa equipe.\n\n` +
+      `${SEP}\n` +
+      `👤 *DADOS DO CLIENTE*\n` +
+      `Nome: ${agend.nome}\n` +
+      `Telefone: ${agend.whatsapp}\n` +
+      `${SEP}\n` +
+      `💻 *EQUIPAMENTO E SERVIÇO*\n` +
+      `Equipamento: ${agend.produto_nome}\n` +
+      `Modelo: ${modeloStr}\n` +
+      `Serviço: ${agend.servico_nome}\n` +
+      (agend.descricao_defeito ? `${SEP}\n📝 *DESCRIÇÃO*\n${agend.descricao_defeito}\n` : '') +
       `${SEP}\n\n` +
-      `🔹 DADOS DO CLIENTE\n\n` +
-      `👤 Nome: ${agend.nome}\n` +
-      `📞 WhatsApp: ${agend.whatsapp}\n` +
-      `\n${SEP}\n\n` +
-      `🔹 INFORMAÇÕES DO NOTEBOOK\n\n` +
-      `💻 Dispositivo: ${agend.produto_nome}\n` +
-      `📦 Modelo: ${modeloStr}\n` +
-      `🔧 Serviço: ${agend.servico_nome}\n` +
-      (agend.descricao_defeito ? `📝 Descrição do defeito: ${agend.descricao_defeito}\n` : '') +
-      `\n${SEP}\n\n` +
-      `📊 STATUS DO PEDIDO:\n\n` +
-      `⏳ Orçamento recebido. Aguarde a confirmação.`
+      `Em breve entraremos em contato para confirmação.`
     );
   } else if (isNotebook) {
     const dataFormatted = agend.data ? new Date(agend.data + 'T12:00:00').toLocaleDateString('pt-BR') : '—';
     const horaFormatted = agend.horario ? agend.horario.slice(0, 5) : '—';
     return (
-      `PEDIDO DE AGENDAMENTO DE ATENDIMENTO\n\n` +
-      `Olá ${agend.nome}, recebemos sua solicitação.\n` +
-      `Confira os dados abaixo:\n\n` +
+      `💻 *SOLICITAÇÃO DE AGENDAMENTO – NOTEBOOK*\n\n` +
+      `Recebemos sua solicitação de agendamento para atendimento técnico.\n\n` +
+      `⚠️ *Importante:* Este agendamento é apenas uma solicitação e está sujeito à análise e confirmação da nossa equipe. Não compareça sem confirmação prévia.\n\n` +
+      `${SEP}\n` +
+      `👤 *DADOS DO CLIENTE*\n` +
+      `Nome: ${agend.nome}\n` +
+      `Telefone: ${agend.whatsapp}\n` +
+      `${SEP}\n` +
+      `💻 *EQUIPAMENTO E SERVIÇO*\n` +
+      `Equipamento: ${agend.produto_nome}\n` +
+      `Modelo: ${modeloStr}\n` +
+      `Serviço: ${agend.servico_nome}\n` +
+      `${SEP}\n` +
+      `📅 *PREFERÊNCIA DE ATENDIMENTO*\n` +
+      `Data: ${dataFormatted}\n` +
+      `Horário: ${horaFormatted}\n` +
+      (agend.descricao_defeito ? `${SEP}\n📝 *DESCRIÇÃO*\n${agend.descricao_defeito}\n` : '') +
       `${SEP}\n\n` +
-      `🔹 DADOS DO CLIENTE\n\n` +
-      `👤 Nome: ${agend.nome}\n` +
-      `📞 WhatsApp: ${agend.whatsapp}\n` +
-      `\n${SEP}\n\n` +
-      `🔹 INFORMAÇÕES DO NOTEBOOK\n\n` +
-      `💻 Dispositivo: ${agend.produto_nome}\n` +
-      `📦 Modelo: ${modeloStr}\n` +
-      `🔧 Serviço: ${agend.servico_nome}\n` +
-      (agend.descricao_defeito ? `📝 Descrição do defeito: ${agend.descricao_defeito}\n` : '') +
-      `\n${SEP}\n\n` +
-      `🔹 AGENDAMENTO\n\n` +
-      `📅 Data solicitada: ${dataFormatted}\n` +
-      `⏰ Horário: ${horaFormatted}\n\n` +
-      `${SEP}\n\n` +
-      `📊 STATUS DO PEDIDO:\n\n` +
-      `⏳ Agendamento recebido. Aguarde a confirmação.`
+      `Em breve entraremos em contato para confirmação do agendamento.`
     );
   } else {
     const dataFormatted = agend.data ? new Date(agend.data + 'T12:00:00').toLocaleDateString('pt-BR') : '—';
     const horaFormatted = agend.horario ? agend.horario.slice(0, 5) : '—';
     return (
-      `PEDIDO DE AGENDAMENTO DE ATENDIMENTO\n\n` +
-      `Olá ${agend.nome}, recebemos sua solicitação.\n` +
-      `Confira os dados abaixo:\n\n` +
+      `📱 *SOLICITAÇÃO DE AGENDAMENTO – ${(agend.produto_nome || 'DISPOSITIVO').toUpperCase()}*\n\n` +
+      `Recebemos sua solicitação de agendamento para atendimento técnico.\n\n` +
+      `⚠️ *Importante:* Este agendamento é apenas uma solicitação e está sujeito à análise e confirmação da nossa equipe. Não compareça sem confirmação prévia.\n\n` +
+      `${SEP}\n` +
+      `👤 *DADOS DO CLIENTE*\n` +
+      `Nome: ${agend.nome}\n` +
+      `CPF: ${agend.cpf}\n` +
+      `E-mail: ${agend.email}\n` +
+      `Telefone: ${agend.whatsapp}\n` +
+      `${SEP}\n` +
+      `📱 *EQUIPAMENTO E SERVIÇO*\n` +
+      `Dispositivo: ${agend.produto_nome}\n` +
+      `Modelo: ${modeloStr}\n` +
+      `Serviço: ${agend.servico_nome}${agend.opcao_nome && agend.opcao_nome !== '---' ? ' - ' + agend.opcao_nome : ''}\n` +
+      `${SEP}\n` +
+      `📅 *PREFERÊNCIA DE ATENDIMENTO*\n` +
+      `Data: ${dataFormatted}\n` +
+      `Horário: ${horaFormatted}\n` +
       `${SEP}\n\n` +
-      `🔹 DADOS DO CLIENTE\n\n` +
-      `👤 Nome: ${agend.nome}\n` +
-      `🪪 CPF: ${agend.cpf}\n` +
-      `📧 Email: ${agend.email}\n` +
-      `📞 WhatsApp: ${agend.whatsapp}\n` +
-      `\n${SEP}\n\n` +
-      `🔹 INFORMAÇÕES DO DISPOSITIVO\n\n` +
-      `📱 Dispositivo: ${agend.produto_nome}\n` +
-      `📦 Modelo: ${modeloStr}\n` +
-      `🔧 Serviço solicitado: ${agend.servico_nome}${agend.opcao_nome && agend.opcao_nome !== '---' ? ' - ' + agend.opcao_nome : ''}\n` +
-      `${SEP}\n\n` +
-      `🔹 AGENDAMENTO\n\n` +
-      `📅 Data solicitada: ${dataFormatted}\n` +
-      `⏰ Horário: ${horaFormatted}\n` +
-      `⚡ Prioridade: Rápido\n\n` +
-      `${SEP}\n\n` +
-      `📊 STATUS DO PEDIDO:\n\n` +
-      `⏳ Agendamento recebido. Aguarde a confirmação.`
+      `Em breve entraremos em contato para confirmação do agendamento.`
     );
   }
 }

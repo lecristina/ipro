@@ -2738,23 +2738,39 @@ var EVO_DEST_NUMBER  = '5519994063782';                       // Número da empr
         const servico = notebookSel.servico || '';
         const descricao = notebookSel.descricao || '';
         const preco = notebookSel.preco || 0;
+        const SEP = '────────────────────';
         const isDiag = servico.toLowerCase().match(/diagn|or[çc]amento/);
         const precoStr = preco > 0 ? preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : 'A confirmar';
-        const precoLabel = isDiag ? ('💰 *Valor:* ' + precoStr) : ('💰 *Valor a partir de:* ' + precoStr);
+        const precoFieldLabel = isDiag ? 'Taxa' : 'Valor estimado';
         const dataFmt = sel.data ? new Date(sel.data + 'T12:00:00').toLocaleDateString('pt-BR') : '';
         const horaFmt = sel.horario ? sel.horario.slice(0, 5) : '';
-        let msg = '💻 *NOVO AGENDAMENTO – NOTEBOOK*\n\n';
-        msg += '👤 *Nome:* ' + nome + '\n';
-        msg += '📱 *Celular:* ' + celular + '\n';
-        if (email) msg += '📧 *E-mail:* ' + email + '\n';
-        if (cpf) msg += '🪪 *CPF:* ' + cpf + '\n';
-        msg += '\n💻 *Notebook:* ' + modelo + '\n';
-        msg += '🔧 *Serviço:* ' + servico + '\n';
-        msg += precoLabel + '\n';
-        if (dataFmt) msg += '📅 *Data:* ' + dataFmt + '\n';
-        if (horaFmt) msg += '⏰ *Horário:* ' + horaFmt + '\n';
-        if (descricao) msg += '\n📝 *Descrição:* ' + descricao + '\n';
-        msg += '\n_xPro7 Assistência Premium – Campinas/SP_';
+        let msg = '💻 *SOLICITAÇÃO DE AGENDAMENTO – NOTEBOOK*\n\n';
+        msg += 'Recebemos sua solicitação de agendamento para atendimento técnico.\n\n';
+        msg += '⚠️ *Importante:* Este agendamento é apenas uma solicitação e está sujeito à análise e confirmação da nossa equipe. Não compareça sem confirmação prévia.\n\n';
+        msg += SEP + '\n';
+        msg += '👤 *DADOS DO CLIENTE*\n';
+        msg += 'Nome: ' + nome + '\n';
+        msg += 'Telefone: ' + celular + '\n';
+        if (email) msg += 'E-mail: ' + email + '\n';
+        if (cpf) msg += 'CPF: ' + cpf + '\n';
+        msg += SEP + '\n';
+        msg += '💻 *EQUIPAMENTO E SERVIÇO*\n';
+        msg += 'Equipamento: ' + modelo + '\n';
+        msg += 'Serviço: ' + servico + '\n';
+        msg += precoFieldLabel + ': ' + precoStr + '\n';
+        if (dataFmt || horaFmt) {
+          msg += SEP + '\n';
+          msg += '📅 *PREFERÊNCIA DE ATENDIMENTO*\n';
+          if (dataFmt) msg += 'Data: ' + dataFmt + '\n';
+          if (horaFmt) msg += 'Horário: ' + horaFmt + '\n';
+        }
+        if (descricao) {
+          msg += SEP + '\n';
+          msg += '📝 *DESCRIÇÃO*\n';
+          msg += descricao + '\n';
+        }
+        msg += SEP + '\n\n';
+        msg += 'Em breve entraremos em contato para confirmação do agendamento.';
         // Enviar para o número específico do notebook
         var NB_DEST_NUMBER = '5519996666898';
         const res = await fetch(EVO_API_URL + '/message/sendText/' + encodeURIComponent(EVO_INSTANCE), {

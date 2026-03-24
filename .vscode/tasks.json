@@ -1,0 +1,29 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Update Contracts",
+			"type": "shell",
+			"command": "node _update_contracts.js",
+			"isBackground": false
+		},
+		{
+			"label": "Update Termos",
+			"type": "shell",
+			"command": "node _update_termos.js",
+			"isBackground": false
+		},
+		{
+			"label": "Update Termos 2",
+			"type": "shell",
+			"command": "node _update_termos.js",
+			"isBackground": false
+		},
+		{
+			"label": "Truncate Termos",
+			"type": "shell",
+			"command": "node _truncate_termos.js",
+			"isBackground": false
+		}
+	]
+}

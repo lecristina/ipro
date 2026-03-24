@@ -941,125 +941,91 @@ var EVO_DEST_NUMBER  = '5519994063782';                       // Número da empr
           📖 Role até o final para habilitar o aceite dos termos
         </div>
                 <div class="termos-body" style="font-family:Inter,sans-serif">
-          <h2 style="font-size:15px;font-weight:800;margin:0 0 8px;color:#1a1a1a">TERMO GERAL DE PRESTAÇÃO DE SERVIÇOS, GARANTIA E PAGAMENTO</h2>
-          <p style="font-size:12px;color:#888;margin:0 0 12px">DISPOSITIVOS ELETRÔNICOS (APPLE E SIMILARES)</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">1. IDENTIFICAÇÃO DO FORNECEDOR</h3>
-          <p>O presente instrumento regula a prestação de serviços técnicos especializados e o fornecimento de peças por empresa de assistência técnica independente. A empresa declara não possuir vínculo com a fabricante Apple Inc., não sendo assistência autorizada, atuando de forma autônoma, nos termos dos Arts. 421 e 425 do Código Civil. O CONTRATANTE declara ciência inequívoca de que a intervenção por assistência não autorizada poderá acarretar a perda de garantias vigentes junto ao fabricante original.</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">2. FUNDAMENTAÇÃO LEGAL</h3>
-          <p>Este contrato é regido pelo Código de Defesa do Consumidor (Lei nº 8.078/90) e Código Civil (Lei nº 10.406⁄2002), especialmente pelos Arts. 6º, 12, 14, 18, 20, 26, 30, 35, 39, 46, 50, 51 e 101 do CDC e Arts. 187, 389, 395, 408, 409, 418, 421, 422, 476 e 927 do Código Civil. As cláusulas aqui dispostas visam o equilíbrio contratual e a preservação da boa-fé objetiva (Art. 422, CC).</p>
-          <p style="font-weight:700;margin:12px 0 4px">🔧 PARTE I – PRESTAÇÃO DE SERVIÇOS</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">3. NATUREZA DO SERVIÇO</h3>
-          <p>A assistência realiza manutenção, reparo e substituição de componentes, podendo utilizar:</p>
-          <ul><li>peças originais (retiradas de outro aparelho)</li><li>peças compatíveis premium</li><li>peças compatíveis standard</li></ul>
-          <p>O cliente declara ciência de que a assistência não realiza pareamento com servidores da fabricante nem possui acesso a sistemas proprietários, podendo haver limitações de funcionalidade, desde que previamente informadas, conforme Art. 6º, III do CDC. A escolha da peça será formalizada no orçamento, sendo o CONTRATANTE o único responsável pela opção técnica/financeira adotada.</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">4. DIAGNÓSTICO TÉCNICO</h3>
-          <p>O diagnóstico inicial possui caráter preliminar, podendo ser alterado após testes técnicos aprofundados. Qualquer alteração de orçamento dependerá de aprovação do cliente, inclusive por meios eletrônicos (WhatsApp, SMS ou sistema), nos termos do Art. 30 do CDC. A aprovação por meio digital possui força vinculante e autoriza o início imediato dos serviços e aquisição de insumos.</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">5. RISCO DO REPARO</h3>
-          <p>O cliente declara ciência de que reparos eletrônicos envolvem risco técnico. Em aparelhos com:</p>
-          <ul><li>oxidação</li><li>danos estruturais</li><li>intervenções anteriores</li><li>falhas graves</li></ul>
-          <p>poderá ocorrer agravamento ou perda total. A assistência não responde por danos decorrentes exclusivamente de vícios preexistentes, desde que comprovados por registros técnicos e inexistente falha na prestação do serviço. O CONTRATANTE assume o risco inerente à tentativa de recuperação de dispositivos em estado crítico ou com danos ocultos.</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">6. CLASSIFICAÇÃO DAS PEÇAS</h3>
-          <p>O cliente declara ciência quanto à natureza das peças utilizadas, conforme dever de informação (Art. 6º, III do CDC). A CONTRATADA garante que as peças utilizadas mantêm a compatibilidade técnica necessária para o funcionamento do dispositivo, ressalvadas as limitações de software impostas pelo fabricante.</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">7. PEÇAS FORNECIDAS PELO CLIENTE</h3>
-          <p>Não há garantia sobre peças fornecidas pelo cliente quanto à qualidade, compatibilidade ou procedência. A responsabilidade da assistência limita-se à execução do serviço. Eventuais danos causados ao dispositivo em decorrência de defeitos na peça fornecida pelo cliente são de inteira responsabilidade deste.</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">8. PEÇA NÃO RECONHECIDA</h3>
-          <p>Após substituição, poderá ocorrer aviso de:</p>
-          <ul><li>"peça não reconhecida"</li></ul>
-          <p>Isso não caracteriza defeito, desde que:</p>
-          <ul><li>não comprometa a função essencial</li><li>tenha sido previamente informado</li></ul>
-          <p>O CONTRATANTE declara estar ciente de que tais avisos são restrições de software da fabricante e não configuram vício do serviço ou da peça aplicada.</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">9. LIMITAÇÕES TÉCNICAS</h3>
-          <p>Após o reparo, poderão ocorrer:</p>
-          <ul><li>perda de vedação contra água</li><li>indisponibilidade de funções (Face ID, True Tone, etc.)</li><li>alterações por atualização de sistema</li></ul>
-          <p>Tais situações não caracterizam vício, quando previamente informadas. A CONTRATADA não se responsabiliza por atualizações de software posteriores que venham a restringir funcionalidades do dispositivo.</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">10. RESPONSABILIDADE SOBRE DADOS</h3>
-          <p>O cliente é responsável por realizar backup prévio. A assistência não se responsabiliza por perda de dados, salvo se comprovada culpa direta. A entrega do aparelho sem backup prévio implica na aceitação do risco de perda integral das informações armazenadas.</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">11. DEFEITOS PREEXISTENTES</h3>
-          <p>A assistência não responde por defeitos já existentes no momento da entrada, desde que registrados. O registro fotográfico ou checklist de entrada servirá como prova técnica absoluta da condição inicial do dispositivo.</p>
-          <p style="font-weight:700;margin:12px 0 4px">🛡️ PARTE II – GARANTIA</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">12. PRAZO DE GARANTIA</h3>
-          <ul><li>Telas e baterias (Original/Premium): até 12 meses</li><li>Peças Standard: 90 dias</li><li>Demais serviços: 90 dias</li></ul>
-          <p>Nos termos do Art. 26 do CDC. O prazo de garantia contratual soma-se à garantia legal, salvo disposição em contrário na Ordem de Serviço.</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">13. COBERTURA</h3>
-          <p>A garantia cobre exclusivamente:</p>
-          <ul><li>defeitos de fabricação</li><li>falhas técnicas diretamente relacionadas ao serviço</li></ul>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">14. EXCLUSÕES</h3>
-          <p>Não estão cobertos:</p>
-          <ul><li>queda ou impacto</li><li>contato com líquido</li><li>mau uso</li><li>intervenção de terceiros</li><li>desgaste natural</li><li>atualizações de sistema</li></ul>
-          <p>A presença de qualquer um dos itens acima invalida imediatamente a garantia prestada.</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">15. CONDIÇÕES DA GARANTIA</h3>
-          <p>A garantia depende de:</p>
-          <ul><li>apresentação do comprovante</li><li>ausência de violação do aparelho</li></ul>
-          <p>A remoção ou dano aos selos de garantia internos ou externos implica na perda total do direito à assistência gratuita.</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">16. PRAZO DE SOLUÇÃO</h3>
-          <p>Prazo de até 30 dias para solução, conforme Art. 18 do CDC. Em casos de complexidade técnica elevada ou dependência de importação de peças, o prazo poderá ser estendido mediante acordo entre as partes.</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">17. CIÊNCIA EXPRESSA DO CLIENTE</h3>
-          <p>O cliente declara ciência quanto a:</p>
-          <ul><li>peça não reconhecida</li><li>limitações técnicas</li><li>riscos do reparo</li><li>possíveis incompatibilidades futuras</li></ul>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">18. LIMITAÇÃO DE RESPONSABILIDADE</h3>
-          <p>A assistência não responde por restrições impostas por fabricante ou software, desde que não decorrentes de falha na prestação do serviço. A responsabilidade da CONTRATADA limita-se ao valor total do serviço contratado, não abrangendo lucros cessantes ou danos indiretos.</p>
-          <p style="font-weight:700;margin:12px 0 4px">💳 PARTE III – PAGAMENTO (FORTE / BLINDADA)</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">19. PAGAMENTO ANTECIPADO – ARRAS CONFIRMATÓRIAS</h3>
-          <p>Para início do serviço, será exigido pagamento antecipado de até 20% do valor total, com natureza jurídica de arras confirmatórias, nos termos dos Arts. 408, 409 e 418 do Código Civil. Este valor possui função de:</p>
-          <ul><li>confirmar a contratação</li><li>garantir execução</li><li>cobrir mobilização operacional</li></ul>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">20. VINCULAÇÃO CONTRATUAL</h3>
-          <p>O pagamento antecipado vincula as partes, autorizando:</p>
-          <ul><li>reserva de agenda</li><li>bloqueio de horário técnico</li><li>aquisição de peças</li><li>início da execução</li></ul>
-          <p>A contratação pode ser formalizada por meios eletrônicos, com plena validade jurídica.</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">21. IRRETRATABILIDADE RELATIVA</h3>
-          <p>Após iniciadas providências operacionais, o valor pago não será devolvido integralmente em caso de desistência imotivada. Poderá ser retido para cobertura de:</p>
-          <ul><li>custos administrativos</li><li>peças adquiridas</li><li>tempo técnico reservado</li><li>mobilização de equipe</li></ul>
-          <p>Sempre de forma proporcional e comprovada, vedado enriquecimento sem causa.</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">22. CANCELAMENTO</h3>
-          <p>Antes de custos: → devolução integral Após custos: → retenção proporcional ao prejuízo comprovado</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">23. DESISTÊNCIA APÓS INÍCIO</h3>
-          <p>Autoriza:</p>
-          <ul><li>retenção das arras</li><li>cobrança de custos já incorridos</li><li>cobrança complementar, se necessário</li></ul>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">24. NÃO COMPARECIMENTO (NO-SHOW)</h3>
-          <p>Autoriza:</p>
-          <ul><li>retenção proporcional</li><li>perda de prioridade de agenda</li><li>eventual nova cobrança para reagendamento</li></ul>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">25. PAGAMENTO FINAL</h3>
-          <p>A entrega do aparelho fica condicionada à quitação integral do débito, nos termos do Art. 476 do Código Civil. O CONTRATANTE renuncia ao direito de retirada do bem sem a devida contraprestação financeira.</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">26. DIREITO DE RETENÇÃO</h3>
-          <p>A assistência poderá reter o aparelho até pagamento integral, desde que:</p>
-          <ul><li>o valor seja certo e exigível</li><li>não haja abuso</li></ul>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">27. INADIMPLEMENTO</h3>
-          <p>O não pagamento autoriza:</p>
-          <ul><li>cobrança extrajudicial</li><li>negativação</li><li>protesto</li><li>ação judicial</li></ul>
-          <p>Com incidência de:</p>
-          <ul><li>juros</li><li>correção</li><li>honorários</li></ul>
-          <p>(Arts. 389 e 395 do Código Civil)</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">28. PROVA CONTRATUAL</h3>
-          <p>Este contrato, junto com:</p>
-          <ul><li>ordem de serviço</li><li>comprovantes</li><li>mensagens</li><li>registros técnicos</li></ul>
-          <p>constitui prova válida para cobrança. As conversas via aplicativos de mensagens são reconhecidas como prova documental de autorização e ciência.</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">29. CHARGEBACK</h3>
-          <p>A contestação indevida caracteriza inadimplemento e poderá gerar:</p>
-          <ul><li>cobrança judicial</li><li>indenização</li><li>envio de provas à operadora</li></ul>
-          <p>O CONTRATANTE declara que a retirada do aparelho após o reparo constitui aceite irrevogável da qualidade do serviço, tornando nula qualquer tentativa de chargeback por "serviço não prestado" ou "mercadoria não recebida".</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">30. ABANDONO DE APARELHO</h3>
-          <p>Após 90 dias sem retirada, caracteriza abandono (Art. 1.275, CC). A assistência poderá:</p>
-          <ul><li>vender o bem</li><li>quitar débitos</li><li>devolver eventual saldo</li></ul>
-          <p>O CONTRATANTE será notificado por 03 (três) vezes antes da caracterização do abandono.</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">31. ARMAZENAMENTO</h3>
-          <p>Poderá ser cobrada taxa de permanência após comunicação de conclusão. O valor da taxa será de R$ [Inserir Valor] por dia de atraso na retirada.</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">32. RETIRADA PARCIAL</h3>
-          <p>Não será permitida retirada sem pagamento integral, salvo acordo formal.</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">33. RENEGOCIAÇÃO</h3>
-          <p>Só terá validade se formalizada por escrito.</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">34. FORÇA PROBATÓRIA</h3>
-          <p>Este instrumento constitui início de prova escrita para fins judiciais.</p>
-          <p style="font-weight:700;margin:12px 0 4px">⚖️ PARTE IV – DISPOSIÇÕES FINAIS</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">35. BOA-FÉ CONTRATUAL</h3>
-          <p>As partes se obrigam a cumprir o contrato conforme os princípios da boa-fé objetiva (Art. 422 do Código Civil).</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">36. NULIDADE PARCIAL</h3>
-          <p>A eventual nulidade de cláusula não invalida o restante do contrato.</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">37. FORO</h3>
-          <p>Fica eleito o foro do domicílio do consumidor, nos termos do Art. 101 do CDC.</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">38. ACEITE</h3>
-          <p>O cliente declara que leu, compreendeu e concorda integralmente com os termos.</p>
-          <h3 style="font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a">39. VALIDADE DIGITAL</h3>
-          <p>Este contrato possui validade jurídica inclusive quando firmado por meios eletrônicos.</p>
+          <h2 style="font-size:15px;font-weight:800;margin:0 0 8px;color:#1a1a1a">CONTRATO DE PRESTAÇÃO DE SERVIÇOS TÉCNICOS, TERMO DE GARANTIA E JURÍDICA TOTAL</h2>
+          <p style="font-size:12px;color:#888;margin:0 0 4px"><strong>xPro Assistência Técnica Premium</strong></p>
+          <p style="font-size:12px;color:#888;margin:0 0 4px">FORNECEDOR: xPro Assistência Técnica Premium</p>
+          <p style="font-size:12px;color:#888;margin:0 0 4px">CNPJ: 33.774.587/0001-45</p>
+          <p style="font-size:12px;color:#888;margin:0 0 12px">ENDEREÇO: Rua Alvaro Muller, 795, Vila Itapura, Campinas - SP, CEP: 13023-181</p>
+          <h2 style="font-size:14px;font-weight:800;margin:16px 0 8px;color:#1a1a1a">I. DAS DISPOSIÇÕES PRELIMINARES E IDENTIFICAÇÃO</h2>
+          <p>1. O presente instrumento regula a prestação de serviços técnicos especializados e o fornecimento de componentes eletrônicos pela xPro7, doravante denominada CONTRATADA, ao proprietário do dispositivo, doravante denominado CONTRATANTE.</p>
+          <p>2. A CONTRATADA declara-se assistência técnica independente, atuando com plena autonomia técnica, sem qualquer vínculo, autorização ou parceria oficial com a fabricante Apple Inc. ou outras marcas (Art. 421 e 425 do Código Civil).</p>
+          <p>3. O CONTRATANTE declara ciência inequívoca de que a intervenção técnica por empresa não autorizada implica na perda imediata de qualquer garantia de fábrica remanescente sobre o dispositivo (Art. 6º, III do CDC).</p>
+          <p>4. Este contrato é regido pelo Código de Defesa do Consumidor (Lei 8.078/90) e pelo Código Civil (Lei 10.406⁄02), interpretados sob a égide da boa-fé objetiva (Art. 422 do CC).</p>
+          <h2 style="font-size:14px;font-weight:800;margin:16px 0 8px;color:#1a1a1a">II. DA NATUREZA DO SERVIÇO E RESPONSABILIDADE</h2>
+          <p>1. A responsabilidade da CONTRATADA é objetiva quanto à prestação do serviço, nos termos do Art. 14 do CDC, respondendo por falhas técnicas comprovadas, ressalvadas as excludentes legais.</p>
+          <p>2. Nos termos do Art. 14, §3º, I e II do CDC, a CONTRATADA fica isenta de responsabilidade quando comprovada a inexistência do defeito no serviço ou a culpa exclusiva do consumidor ou de terceiros.</p>
+          <p>3. O serviço prestado possui natureza de obrigação de meio, consistindo na aplicação da melhor técnica disponível para a tentativa de reparo, não sendo garantido êxito absoluto em hardware severamente danificado.</p>
+          <p>4. A impossibilidade de reparo em dispositivos com danos estruturais, oxidação severa ou curto-circuito em placa lógica não configura falha na prestação do serviço (Art. 20, §2º do CDC).</p>
+          <h2 style="font-size:14px;font-weight:800;margin:16px 0 8px;color:#1a1a1a">III. DO DIAGNÓSTICO E ORÇAMENTO</h2>
+          <p>1. O diagnóstico inicial realizado no balcão possui caráter meramente preliminar, podendo ser alterado após testes técnicos aprofundados em bancada (Art. 40 do CDC).</p>
+          <p>2. Qualquer alteração de orçamento dependerá de aprovação expressa do CONTRATANTE, podendo ser formalizada por meios eletrônicos (WhatsApp, SMS ou E-mail), com plena validade jurídica.</p>
+          <p>3. A recusa do orçamento após a realização de análise técnica autoriza a cobrança de taxa de diagnóstico, previamente informada, para cobrir o tempo técnico e insumos (Art. 39, VI do CDC).</p>
+          <p>4. A aprovação do orçamento via meios digitais autoriza o início da execução do serviço e constitui obrigação de pagamento, nos termos acordados entre as partes, servindo como prova de autorização, nos termos do Art. 369 do Código de Processo Civil.</p>
+          <h2 style="font-size:14px;font-weight:800;margin:16px 0 8px;color:#1a1a1a">IV. DOS RISCOS INERENTES AO MANUSEIO TÉCNICO</h2>
+          <p>1. O CONTRATANTE declara ciência de que o dispositivo objeto do serviço pode apresentar desgaste natural decorrente do uso, tempo de utilização, ciclos de carga, envelhecimento de componentes ou condições anteriores à entrada em assistência.</p>
+          <p>2. Tais fatores podem influenciar direta ou indiretamente no funcionamento do aparelho, podendo ocasionar falhas supervenientes, sem que isso caracterize falha na prestação do serviço pela CONTRATADA.</p>
+          <p>3. Eventuais defeitos que venham a se manifestar após o reparo deverão ser analisados tecnicamente, sendo indispensável a comprovação de nexo causal entre o serviço executado e o problema apresentado para eventual responsabilização.</p>
+          <p>4. Em aparelhos com danos estruturais (empenamentos ou quedas graves), o processo de abertura e fechamento pode agravar falhas preexistentes ou levar à perda total do dispositivo.</p>
+          <p>5. O CONTRATANTE declara ciência de que dispositivos com danos estruturais, oxidação ou histórico de intervenções anteriores podem apresentar fragilidades ocultas, as quais podem se manifestar ou se agravar durante o procedimento técnico.</p>
+          <p>6. O serviço prestado consiste em tentativa técnica de recuperação, podendo não haver êxito em razão das condições pré-existentes do aparelho.</p>
+          <p>7. O CONTRATANTE declara ciência dos riscos inerentes ao processo de reparo, permanecendo a responsabilidade da CONTRATADA nos termos da legislação aplicável.</p>
+          <p>8. Não haverá responsabilidade da CONTRATADA por danos decorrentes exclusivamente de vícios preexistentes, ocultos ou relacionados à condição estrutural do dispositivo, desde que não haja relação de causa e efeito com o serviço executado, mediante comprovação técnica.</p>
+          <p>9. A responsabilidade da CONTRATADA limita-se aos componentes e serviços efetivamente objeto da intervenção técnica realizada.</p>
+          <p>10. Não haverá responsabilidade da CONTRATADA por defeitos, falhas ou mau funcionamento de componentes não relacionados ao serviço executado, especialmente quando decorrentes do estado geral do aparelho, desgaste natural, oxidação, danos estruturais ou falhas preexistentes.</p>
+          <p>11. Eventuais defeitos que venham a se manifestar após o reparo deverão ser analisados tecnicamente, sendo indispensável a comprovação de nexo causal entre o serviço realizado e o problema apresentado para eventual responsabilização da CONTRATADA.</p>
+          <p>12. Na ausência de comprovação de relação direta entre o serviço executado e o defeito alegado, não haverá responsabilidade da CONTRATADA por falhas supervenientes.</p>
+          <h2 style="font-size:14px;font-weight:800;margin:16px 0 8px;color:#1a1a1a">V. DAS PEÇAS E RESTRIÇÕES DE SOFTWARE</h2>
+          <p>1. Nos termos do Art. 21 do CDC, o CONTRATANTE autoriza o uso de componentes que podem ser: originais retirados, compatíveis premium ou compatíveis standard, conforme discriminado no orçamento.</p>
+          <p>2. O CONTRATANTE declara ciência de que fabricantes (especialmente Apple Inc.) impõem restrições de software via "pareamento de hardware" (Serialization).</p>
+          <p>3. Peças substituídas podem gerar avisos como "peça não reconhecida", "componente desconhecido", "usada" ou "histórico de peça".</p>
+          <p>4. Tais avisos decorrem de restrições técnicas e de software impostas pelo fabricante, especialmente relacionadas a mecanismos de pareamento de hardware, não estando relacionados a defeito da peça ou falha na prestação do serviço.</p>
+          <p>5. O CONTRATANTE declara ciência de que tais mensagens podem ocorrer inclusive na utilização de peças originais retiradas de outros dispositivos (semi-novas) ou peças compatíveis, não comprometendo, por si só, a funcionalidade essencial do aparelho.</p>
+          <p>6. A exibição de tais mensagens de software não caracteriza vício, defeito ou má prestação de serviço, sendo uma limitação imposta pela fabricante original (Art. 31 do CDC).</p>
+          <h2 style="font-size:14px;font-weight:800;margin:16px 0 8px;color:#1a1a1a">VI. DA GARANTIA E SUAS CONDIÇÕES</h2>
+          <p>1. O prazo de garantia legal é de 90 dias (Art. 26, II do CDC). A CONTRATADA poderá oferecer garantia contratual complementar, totalizando o prazo informado na Ordem de Serviço.</p>
+          <p>2. A garantia cobre exclusivamente defeitos de fabricação dos componentes substituídos ou falhas diretas da execução técnica do serviço prestado.</p>
+          <p>3. A garantia contratual cobre exclusivamente defeitos relacionados às peças substituídas ou à execução do serviço realizado pela CONTRATADA.</p>
+          <p>4. A exclusão da garantia dependerá de comprovação técnica de que o dano apresentado decorre de mau uso, queda, impacto, contato com líquidos, intervenção de terceiros ou qualquer fator externo alheio ao serviço prestado.</p>
+          <p>5. A simples ocorrência de dano no aparelho não implica, por si só, perda da garantia, sendo indispensável a verificação de nexo causal entre o evento danoso e a conduta do CONTRATANTE ou de terceiros.</p>
+          <p>6. Na ausência de comprovação técnica de causa excludente, permanece a responsabilidade da CONTRATADA nos termos da legislação aplicável.</p>
+          <p>7. O contato com líquidos (oxidação), ainda que em dispositivos com certificação de resistência à água (IP), poderá comprometer o funcionamento interno do aparelho e gerar danos progressivos.</p>
+          <p>8. A presença de oxidação poderá ensejar a exclusão da garantia, desde que comprovado, por meio de análise técnica, que o defeito apresentado possui relação direta com o dano causado por contato com líquido.</p>
+          <p>9. Em aparelhos previamente afetados por oxidação, o CONTRATANTE declara ciência de que poderão ocorrer falhas supervenientes em componentes distintos daqueles inicialmente reparados, em razão da propagação do dano interno.</p>
+          <p>10. Nessas hipóteses, não haverá responsabilidade da CONTRATADA por defeitos decorrentes da evolução natural do dano por oxidação, desde que não haja nexo causal com o serviço executado.</p>
+          <p>11. A intervenção de terceiros, abertura do dispositivo por pessoas não autorizadas ou rompimento de selos de garantia internos ou externos poderá implicar na perda da garantia, desde que comprovado, por meio de análise técnica, que tal intervenção possui relação direta com o defeito apresentado.</p>
+          <p>12. Na ausência de comprovação de nexo causal entre a intervenção de terceiros e o defeito alegado, a garantia permanecerá válida nos termos deste contrato e da legislação aplicável.</p>
+          <p>13. Atualizações de software realizadas pelo fabricante que venham a restringir funções de hardware (ex: Face ID, Touch ID) não são cobertas pela garantia da CONTRATADA.</p>
+          <h2 style="font-size:14px;font-weight:800;margin:16px 0 8px;color:#1a1a1a">VII. DO PAGAMENTO E DIREITO DE RETENÇÃO</h2>
+          <p>1. Poderá ser exigido pagamento antecipado de até 20% (Arras) para reserva de bancada ou aquisição de peças específicas (Arts. 417 a 420 do Código Civil).</p>
+          <p>2. Em caso de desistência imotivada após o início dos atos preparatórios, o valor das arras será retido proporcionalmente para compensar custos operacionais efetivamente incorridos.</p>
+          <p>3. A entrega do dispositivo reparado está condicionada à quitação integral dos valores acordados, nos termos do Art. 476 do Código Civil (Exceção do Contrato não Cumprido).</p>
+          <p>4. A CONTRATADA exerce o direito de retenção do bem (Art. 1.219 do CC) enquanto houver débito líquido e certo, não configurando abuso, mas exercício regular de direito.</p>
+          <h2 style="font-size:14px;font-weight:800;margin:16px 0 8px;color:#1a1a1a">VIII. DO ABANDONO E PROTEÇÃO DE DADOS</h2>
+          <p>1. Considera-se o bem abandonado caso não seja retirado no prazo de 90 (noventa) dias após a notificação de conclusão do serviço (Art. 1.275 do Código Civil).</p>
+          <p>2. A CONTRATADA realizará 03 (três) tentativas de contato comprovadas. Persistindo o silêncio, fica autorizada a alienar o bem para ressarcimento de custos e armazenamento.</p>
+          <p>3. O backup integral dos dados é de responsabilidade exclusiva do CONTRATANTE, devendo ser realizado antes da entrega do dispositivo para reparo.</p>
+          <p>4. O CONTRATANTE declara ciência de que procedimentos técnicos podem implicar na perda total ou parcial de dados armazenados no aparelho.</p>
+          <p>5. A CONTRATADA não se responsabiliza por perda de dados, exceto nos casos em que comprovada falha direta na prestação do serviço.</p>
+          <p>6. A entrega do aparelho sem a realização de backup prévio implica na aceitação dos riscos relacionados à eventual perda de informações.</p>
+          <p>7. A CONTRATADA compromete-se com a LGPD (Lei 13.709⁄18), utilizando dados do cliente apenas para fins de faturamento, comunicações técnicas e exercício de direitos.</p>
+          <h2 style="font-size:14px;font-weight:800;margin:16px 0 8px;color:#1a1a1a">IX. DAS CLÁUSULAS ANTI-FRAUDE E PROVAS</h2>
+          <p>1. A retirada do dispositivo pelo CONTRATANTE, após realização de testes funcionais, constitui presunção de aceitação quanto ao funcionamento do aparelho no momento da entrega, especialmente em relação a vícios aparentes.</p>
+          <p>2. O aceite no ato da retirada não afasta o direito do consumidor de reclamar posteriormente quanto a vícios ocultos, nos termos do Código de Defesa do Consumidor.</p>
+          <p>3. Eventuais alegações posteriores deverão ser acompanhadas da comprovação de que o defeito decorre de falha na prestação do serviço, observado o nexo causal entre o serviço executado e o problema apresentado.</p>
+          <p>4. Na ausência de comprovação de falha técnica relacionada ao serviço prestado, não haverá responsabilidade da CONTRATADA por defeitos supervenientes.</p>
+          <p>5. Em caso de contestação de pagamento junto à operadora (chargeback), a CONTRATADA poderá apresentar toda a documentação comprobatória da prestação do serviço, incluindo ordem de serviço, registros técnicos, comunicações eletrônicas e comprovantes de entrega.</p>
+          <p>6. A contestação considerada indevida, especialmente após a efetiva prestação do serviço e retirada do dispositivo, poderá caracterizar indícios de má-fé, sujeitando o CONTRATANTE às medidas administrativas e judiciais cabíveis.</p>
+          <p>7. A CONTRATADA poderá promover a cobrança dos valores devidos pelos meios legais disponíveis, inclusive com apresentação de provas à operadora de pagamento e, se necessário, ajuizamento de ação competente.</p>
+          <p>8. Os registros técnicos, incluindo checklist de entrada/saída, fotografias e laudos de bancada, constituem prova técnica relevante da condição do aparelho (Art. 369 do CPC).</p>
+          <p>9. O CONTRATANTE autoriza o registro fotográfico do dispositivo para fins de documentação técnica e prova de estado físico.</p>
+          <h2 style="font-size:14px;font-weight:800;margin:16px 0 8px;color:#1a1a1a">X. DAS DISPOSIÇÕES FINAIS</h2>
+          <p>1. As partes reconhecem a validade jurídica de assinaturas digitais e comunicações via aplicativos de mensagens para todos os fins de direito e prova documental.</p>
+          <p>2. A CONTRATADA disponibilizará canal de atendimento para análise da reclamação, comprometendo-se a avaliar tecnicamente o caso e apresentar resposta fundamentada.</p>
+          <p>3. O CONTRATANTE declara ciência de que a tentativa de solução prévia visa a resolução rápida e eficaz do conflito, podendo evitar custos, tempo e desgaste para ambas as partes.</p>
+          <p>4. O não exercício da tentativa de solução prévia não impede o acesso ao Poder Judiciário, mas será considerado para fins de análise da boa-fé das partes.</p>
+          <p>5. Fica eleito o foro do domicílio do consumidor (Art. 101, I do CDC) para dirimir quaisquer controvérsias oriundas deste contrato.</p>
+          <p style="margin-top:16px;font-size:12px;font-weight:700;color:#1a1a1a">DECLARAÇÃO DE CIÊNCIA E ACEITE:</p>
+          <p>O CONTRATANTE declara que leu, compreendeu e concorda com todos os 68 parágrafos, riscos e condições aqui expostos.</p>
         </div><button onclick="window.agendCloseTermosContent()" style="margin-top:16px;width:100%;padding:14px;border-radius:14px;background:#1a1a1a;color:#fff;font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:Inter,sans-serif;transition:all .2s" onmouseover="this.style.background='#1a6cff'" onmouseout="this.style.background='#1a1a1a'">Fechar</button>
       </div>`;
       document.body.appendChild(tcOvl);
@@ -1132,93 +1098,91 @@ var EVO_DEST_NUMBER  = '5519994063782';                       // Número da empr
         <!-- Contract body (embedded directly) -->
         <div id="agend-cc-contrato-body" style="padding:20px 0">
           <div class="termos-body" style="font-family:Inter,sans-serif">
-            <h2 style="font-size:15px;font-weight:800;margin:0 0 8px;color:#1a1a1a">TERMO GERAL DE PRESTAÇÃO DE SERVIÇOS, GARANTIA E PAGAMENTO</h2>
-            <p style="font-size:12px;color:#888;margin:0 0 12px">DISPOSITIVOS ELETRÔNICOS (APPLE E SIMILARES)</p>
-            <h3>1. IDENTIFICAÇÃO DO FORNECEDOR</h3>
-            <p>O presente instrumento regula a prestação de serviços técnicos especializados e o fornecimento de peças por empresa de assistência técnica independente. A empresa declara não possuir vínculo com a fabricante Apple Inc., não sendo assistência autorizada, atuando de forma autônoma, nos termos dos Arts. 421 e 425 do Código Civil. O CONTRATANTE declara ciência inequívoca de que a intervenção por assistência não autorizada poderá acarretar a perda de garantias vigentes junto ao fabricante original.</p>
-            <h3>2. FUNDAMENTAÇÃO LEGAL</h3>
-            <p>Este contrato é regido pelo Código de Defesa do Consumidor (Lei nº 8.078/90) e Código Civil (Lei nº 10.406/2002), especialmente pelos Arts. 6º, 12, 14, 18, 20, 26, 30, 35, 39, 46, 50, 51 e 101 do CDC e Arts. 187, 389, 395, 408, 409, 418, 421, 422, 476 e 927 do Código Civil.</p>
-            <p style="font-weight:700;margin:12px 0 4px">🔧 PARTE I – PRESTAÇÃO DE SERVIÇOS</p>
-            <h3>3. NATUREZA DO SERVIÇO</h3>
-            <p>A assistência realiza manutenção, reparo e substituição de componentes, podendo utilizar:</p>
-            <ul><li>peças originais (retiradas de outro aparelho)</li><li>peças compatíveis premium</li><li>peças compatíveis standard</li></ul>
-            <p>O cliente declara ciência de que a assistência não realiza pareamento com servidores da fabricante nem possui acesso a sistemas proprietários, podendo haver limitações de funcionalidade, desde que previamente informadas, conforme Art. 6º, III do CDC.</p>
-            <h3>4. DIAGNÓSTICO TÉCNICO</h3>
-            <p>O diagnóstico inicial possui caráter preliminar, podendo ser alterado após testes técnicos aprofundados. Qualquer alteração de orçamento dependerá de aprovação do cliente, inclusive por meios eletrônicos (WhatsApp, SMS ou sistema), nos termos do Art. 30 do CDC.</p>
-            <h3>5. RISCO DO REPARO</h3>
-            <p>O cliente declara ciência de que reparos eletrônicos envolvem risco técnico. Em aparelhos com oxidação, danos estruturais, intervenções anteriores ou falhas graves poderá ocorrer agravamento ou perda total. A assistência não responde por danos decorrentes exclusivamente de vícios preexistentes.</p>
-            <h3>6. CLASSIFICAÇÃO DAS PEÇAS</h3>
-            <p>O cliente declara ciência quanto à natureza das peças utilizadas, conforme dever de informação (Art. 6º, III do CDC). A CONTRATADA garante que as peças mantêm a compatibilidade técnica necessária para o funcionamento do dispositivo.</p>
-            <h3>7. PEÇAS FORNECIDAS PELO CLIENTE</h3>
-            <p>Não há garantia sobre peças fornecidas pelo cliente quanto à qualidade, compatibilidade ou procedência. A responsabilidade da assistência limita-se à execução do serviço.</p>
-            <h3>8. PEÇA NÃO RECONHECIDA</h3>
-            <p>Após substituição, poderá ocorrer aviso de "peça não reconhecida". Isso não caracteriza defeito, desde que não comprometa a função essencial e tenha sido previamente informado. O CONTRATANTE declara estar ciente de que tais avisos são restrições de software da fabricante.</p>
-            <h3>9. LIMITAÇÕES TÉCNICAS</h3>
-            <p>Após o reparo, poderão ocorrer: perda de vedação contra água, indisponibilidade de funções (Face ID, True Tone, etc.) e alterações por atualização de sistema. Tais situações não caracterizam vício, quando previamente informadas.</p>
-            <h3>10. RESPONSABILIDADE SOBRE DADOS</h3>
-            <p>O cliente é responsável por realizar backup prévio. A assistência não se responsabiliza por perda de dados, salvo se comprovada culpa direta.</p>
-            <h3>11. DEFEITOS PREEXISTENTES</h3>
-            <p>A assistência não responde por defeitos já existentes no momento da entrada, desde que registrados. O registro fotográfico ou checklist de entrada servirá como prova técnica absoluta.</p>
-            <p style="font-weight:700;margin:12px 0 4px">🛡️ PARTE II – GARANTIA</p>
-            <h3>12. PRAZO DE GARANTIA</h3>
-            <ul><li>Telas e baterias (Original/Premium): até 12 meses</li><li>Peças Standard: 90 dias</li><li>Demais serviços: 90 dias</li></ul>
-            <p>Nos termos do Art. 26 do CDC. O prazo de garantia contratual soma-se à garantia legal.</p>
-            <h3>13. COBERTURA</h3>
-            <p>A garantia cobre exclusivamente defeitos de fabricação e falhas técnicas diretamente relacionadas ao serviço.</p>
-            <h3>14. EXCLUSÕES</h3>
-            <p>Não estão cobertos: queda ou impacto, contato com líquido, mau uso, intervenção de terceiros, desgaste natural e atualizações de sistema. A presença de qualquer um desses itens invalida imediatamente a garantia.</p>
-            <h3>15. CONDIÇÕES DA GARANTIA</h3>
-            <p>A garantia depende de apresentação do comprovante e ausência de violação do aparelho. A remoção ou dano aos selos de garantia implica na perda total do direito à assistência gratuita.</p>
-            <h3>16. PRAZO DE SOLUÇÃO</h3>
-            <p>Prazo de até 30 dias para solução, conforme Art. 18 do CDC. Em casos de complexidade técnica elevada, o prazo poderá ser estendido mediante acordo entre as partes.</p>
-            <h3>17. CIÊNCIA EXPRESSA DO CLIENTE</h3>
-            <p>O cliente declara ciência quanto a: peça não reconhecida, limitações técnicas, riscos do reparo e possíveis incompatibilidades futuras.</p>
-            <h3>18. LIMITAÇÃO DE RESPONSABILIDADE</h3>
-            <p>A assistência não responde por restrições impostas por fabricante ou software. A responsabilidade da CONTRATADA limita-se ao valor total do serviço contratado, não abrangendo lucros cessantes ou danos indiretos.</p>
-            <p style="font-weight:700;margin:12px 0 4px">💳 PARTE III – PAGAMENTO</p>
-            <h3>19. PAGAMENTO ANTECIPADO – ARRAS CONFIRMATÓRIAS</h3>
-            <p>Para início do serviço, será exigido pagamento antecipado de até 20% do valor total, com natureza jurídica de arras confirmatórias, nos termos dos Arts. 408, 409 e 418 do Código Civil.</p>
-            <h3>20. VINCULAÇÃO CONTRATUAL</h3>
-            <p>O pagamento antecipado vincula as partes, autorizando: reserva de agenda, bloqueio de horário técnico, aquisição de peças e início da execução. A contratação pode ser formalizada por meios eletrônicos, com plena validade jurídica.</p>
-            <h3>21. IRRETRATABILIDADE RELATIVA</h3>
-            <p>Após iniciadas providências operacionais, o valor pago não será devolvido integralmente em caso de desistência imotivada. Poderá ser retido para cobertura de custos administrativos, peças adquiridas, tempo técnico reservado e mobilização de equipe, sempre de forma proporcional e comprovada.</p>
-            <h3>22. CANCELAMENTO</h3>
-            <p>Antes de custos: devolução integral. Após custos: retenção proporcional ao prejuízo comprovado.</p>
-            <h3>23. DESISTÊNCIA APÓS INÍCIO</h3>
-            <p>Autoriza: retenção das arras, cobrança de custos já incorridos e cobrança complementar, se necessário.</p>
-            <h3>24. NÃO COMPARECIMENTO (NO-SHOW)</h3>
-            <p>Autoriza: retenção proporcional, perda de prioridade de agenda e eventual nova cobrança para reagendamento.</p>
-            <h3>25. PAGAMENTO FINAL</h3>
-            <p>A entrega do aparelho fica condicionada à quitação integral do débito, nos termos do Art. 476 do Código Civil.</p>
-            <h3>26. DIREITO DE RETENÇÃO</h3>
-            <p>A assistência poderá reter o aparelho até pagamento integral, desde que o valor seja certo e exigível e não haja abuso.</p>
-            <h3>27. INADIMPLEMENTO</h3>
-            <p>O não pagamento autoriza cobrança extrajudicial, negativação, protesto e ação judicial, com incidência de juros, correção e honorários (Arts. 389 e 395 do Código Civil).</p>
-            <h3>28. PROVA CONTRATUAL</h3>
-            <p>Este contrato, junto com ordem de serviço, comprovantes, mensagens e registros técnicos, constitui prova válida para cobrança.</p>
-            <h3>29. CHARGEBACK</h3>
-            <p>A contestação indevida caracteriza inadimplemento e poderá gerar cobrança judicial, indenização e envio de provas à operadora. A retirada do aparelho após o reparo constitui aceite irrevogável da qualidade do serviço.</p>
-            <h3>30. ABANDONO DE APARELHO</h3>
-            <p>Após 90 dias sem retirada, caracteriza abandono (Art. 1.275, CC). O CONTRATANTE será notificado por 03 (três) vezes antes da caracterização do abandono.</p>
-            <h3>31. ARMAZENAMENTO</h3>
-            <p>Poderá ser cobrada taxa de permanência após comunicação de conclusão do serviço.</p>
-            <h3>32. RETIRADA PARCIAL</h3>
-            <p>Não será permitida retirada sem pagamento integral, salvo acordo formal.</p>
-            <h3>33. RENEGOCIAÇÃO</h3>
-            <p>Só terá validade se formalizada por escrito.</p>
-            <h3>34. FORÇA PROBATÓRIA</h3>
-            <p>Este instrumento constitui início de prova escrita para fins judiciais.</p>
-            <p style="font-weight:700;margin:12px 0 4px">⚖️ PARTE IV – DISPOSIÇÕES FINAIS</p>
-            <h3>35. BOA-FÉ CONTRATUAL</h3>
-            <p>As partes se obrigam a cumprir o contrato conforme os princípios da boa-fé objetiva (Art. 422 do Código Civil).</p>
-            <h3>36. NULIDADE PARCIAL</h3>
-            <p>A eventual nulidade de cláusula não invalida o restante do contrato.</p>
-            <h3>37. FORO</h3>
-            <p>Fica eleito o foro do domicílio do consumidor, nos termos do Art. 101 do CDC.</p>
-            <h3>38. ACEITE</h3>
-            <p>O cliente declara que leu, compreendeu e concorda integralmente com os termos.</p>
-            <h3>39. VALIDADE DIGITAL</h3>
-            <p>Este contrato possui validade jurídica inclusive quando firmado por meios eletrônicos.</p>
+            <h2 style="font-size:15px;font-weight:800;margin:0 0 8px;color:#1a1a1a">CONTRATO DE PRESTAÇÃO DE SERVIÇOS TÉCNICOS, TERMO DE GARANTIA E JURÍDICA TOTAL</h2>
+            <p style="font-size:12px;color:#888;margin:0 0 4px"><strong>xPro Assistência Técnica Premium</strong></p>
+            <p style="font-size:12px;color:#888;margin:0 0 4px">FORNECEDOR: xPro Assistência Técnica Premium</p>
+            <p style="font-size:12px;color:#888;margin:0 0 4px">CNPJ: 33.774.587/0001-45</p>
+            <p style="font-size:12px;color:#888;margin:0 0 12px">ENDEREÇO: Rua Alvaro Muller, 795, Vila Itapura, Campinas - SP, CEP: 13023-181</p>
+            <h3>I. DAS DISPOSIÇÕES PRELIMINARES E IDENTIFICAÇÃO</h3>
+            <p>1. O presente instrumento regula a prestação de serviços técnicos especializados e o fornecimento de componentes eletrônicos pela xPro7, doravante denominada CONTRATADA, ao proprietário do dispositivo, doravante denominado CONTRATANTE.</p>
+            <p>2. A CONTRATADA declara-se assistência técnica independente, atuando com plena autonomia técnica, sem qualquer vínculo, autorização ou parceria oficial com a fabricante Apple Inc. ou outras marcas (Art. 421 e 425 do Código Civil).</p>
+            <p>3. O CONTRATANTE declara ciência inequívoca de que a intervenção técnica por empresa não autorizada implica na perda imediata de qualquer garantia de fábrica remanescente sobre o dispositivo (Art. 6º, III do CDC).</p>
+            <p>4. Este contrato é regido pelo Código de Defesa do Consumidor (Lei 8.078/90) e pelo Código Civil (Lei 10.406⁄02), interpretados sob a égide da boa-fé objetiva (Art. 422 do CC).</p>
+            <h3>II. DA NATUREZA DO SERVIÇO E RESPONSABILIDADE</h3>
+            <p>1. A responsabilidade da CONTRATADA é objetiva quanto à prestação do serviço, nos termos do Art. 14 do CDC, respondendo por falhas técnicas comprovadas, ressalvadas as excludentes legais.</p>
+            <p>2. Nos termos do Art. 14, §3º, I e II do CDC, a CONTRATADA fica isenta de responsabilidade quando comprovada a inexistência do defeito no serviço ou a culpa exclusiva do consumidor ou de terceiros.</p>
+            <p>3. O serviço prestado possui natureza de obrigação de meio, consistindo na aplicação da melhor técnica disponível para a tentativa de reparo, não sendo garantido êxito absoluto em hardware severamente danificado.</p>
+            <p>4. A impossibilidade de reparo em dispositivos com danos estruturais, oxidação severa ou curto-circuito em placa lógica não configura falha na prestação do serviço (Art. 20, §2º do CDC).</p>
+            <h3>III. DO DIAGNÓSTICO E ORÇAMENTO</h3>
+            <p>1. O diagnóstico inicial realizado no balcão possui caráter meramente preliminar, podendo ser alterado após testes técnicos aprofundados em bancada (Art. 40 do CDC).</p>
+            <p>2. Qualquer alteração de orçamento dependerá de aprovação expressa do CONTRATANTE, podendo ser formalizada por meios eletrônicos (WhatsApp, SMS ou E-mail), com plena validade jurídica.</p>
+            <p>3. A recusa do orçamento após a realização de análise técnica autoriza a cobrança de taxa de diagnóstico, previamente informada, para cobrir o tempo técnico e insumos (Art. 39, VI do CDC).</p>
+            <p>4. A aprovação do orçamento via meios digitais autoriza o início da execução do serviço e constitui obrigação de pagamento, nos termos acordados entre as partes, servindo como prova de autorização, nos termos do Art. 369 do Código de Processo Civil.</p>
+            <h3>IV. DOS RISCOS INERENTES AO MANUSEIO TÉCNICO</h3>
+            <p>1. O CONTRATANTE declara ciência de que o dispositivo objeto do serviço pode apresentar desgaste natural decorrente do uso, tempo de utilização, ciclos de carga, envelhecimento de componentes ou condições anteriores à entrada em assistência.</p>
+            <p>2. Tais fatores podem influenciar direta ou indiretamente no funcionamento do aparelho, podendo ocasionar falhas supervenientes, sem que isso caracterize falha na prestação do serviço pela CONTRATADA.</p>
+            <p>3. Eventuais defeitos que venham a se manifestar após o reparo deverão ser analisados tecnicamente, sendo indispensável a comprovação de nexo causal entre o serviço executado e o problema apresentado para eventual responsabilização.</p>
+            <p>4. Em aparelhos com danos estruturais (empenamentos ou quedas graves), o processo de abertura e fechamento pode agravar falhas preexistentes ou levar à perda total do dispositivo.</p>
+            <p>5. O CONTRATANTE declara ciência de que dispositivos com danos estruturais, oxidação ou histórico de intervenções anteriores podem apresentar fragilidades ocultas, as quais podem se manifestar ou se agravar durante o procedimento técnico.</p>
+            <p>6. O serviço prestado consiste em tentativa técnica de recuperação, podendo não haver êxito em razão das condições pré-existentes do aparelho.</p>
+            <p>7. O CONTRATANTE declara ciência dos riscos inerentes ao processo de reparo, permanecendo a responsabilidade da CONTRATADA nos termos da legislação aplicável.</p>
+            <p>8. Não haverá responsabilidade da CONTRATADA por danos decorrentes exclusivamente de vícios preexistentes, ocultos ou relacionados à condição estrutural do dispositivo, desde que não haja relação de causa e efeito com o serviço executado, mediante comprovação técnica.</p>
+            <p>9. A responsabilidade da CONTRATADA limita-se aos componentes e serviços efetivamente objeto da intervenção técnica realizada.</p>
+            <p>10. Não haverá responsabilidade da CONTRATADA por defeitos, falhas ou mau funcionamento de componentes não relacionados ao serviço executado, especialmente quando decorrentes do estado geral do aparelho, desgaste natural, oxidação, danos estruturais ou falhas preexistentes.</p>
+            <p>11. Eventuais defeitos que venham a se manifestar após o reparo deverão ser analisados tecnicamente, sendo indispensável a comprovação de nexo causal entre o serviço realizado e o problema apresentado para eventual responsabilização da CONTRATADA.</p>
+            <p>12. Na ausência de comprovação de relação direta entre o serviço executado e o defeito alegado, não haverá responsabilidade da CONTRATADA por falhas supervenientes.</p>
+            <h3>V. DAS PEÇAS E RESTRIÇÕES DE SOFTWARE</h3>
+            <p>1. Nos termos do Art. 21 do CDC, o CONTRATANTE autoriza o uso de componentes que podem ser: originais retirados, compatíveis premium ou compatíveis standard, conforme discriminado no orçamento.</p>
+            <p>2. O CONTRATANTE declara ciência de que fabricantes (especialmente Apple Inc.) impõem restrições de software via "pareamento de hardware" (Serialization).</p>
+            <p>3. Peças substituídas podem gerar avisos como "peça não reconhecida", "componente desconhecido", "usada" ou "histórico de peça".</p>
+            <p>4. Tais avisos decorrem de restrições técnicas e de software impostas pelo fabricante, especialmente relacionadas a mecanismos de pareamento de hardware, não estando relacionados a defeito da peça ou falha na prestação do serviço.</p>
+            <p>5. O CONTRATANTE declara ciência de que tais mensagens podem ocorrer inclusive na utilização de peças originais retiradas de outros dispositivos (semi-novas) ou peças compatíveis, não comprometendo, por si só, a funcionalidade essencial do aparelho.</p>
+            <p>6. A exibição de tais mensagens de software não caracteriza vício, defeito ou má prestação de serviço, sendo uma limitação imposta pela fabricante original (Art. 31 do CDC).</p>
+            <h3>VI. DA GARANTIA E SUAS CONDIÇÕES</h3>
+            <p>1. O prazo de garantia legal é de 90 dias (Art. 26, II do CDC). A CONTRATADA poderá oferecer garantia contratual complementar, totalizando o prazo informado na Ordem de Serviço.</p>
+            <p>2. A garantia cobre exclusivamente defeitos de fabricação dos componentes substituídos ou falhas diretas da execução técnica do serviço prestado.</p>
+            <p>3. A garantia contratual cobre exclusivamente defeitos relacionados às peças substituídas ou à execução do serviço realizado pela CONTRATADA.</p>
+            <p>4. A exclusão da garantia dependerá de comprovação técnica de que o dano apresentado decorre de mau uso, queda, impacto, contato com líquidos, intervenção de terceiros ou qualquer fator externo alheio ao serviço prestado.</p>
+            <p>5. A simples ocorrência de dano no aparelho não implica, por si só, perda da garantia, sendo indispensável a verificação de nexo causal entre o evento danoso e a conduta do CONTRATANTE ou de terceiros.</p>
+            <p>6. Na ausência de comprovação técnica de causa excludente, permanece a responsabilidade da CONTRATADA nos termos da legislação aplicável.</p>
+            <p>7. O contato com líquidos (oxidação), ainda que em dispositivos com certificação de resistência à água (IP), poderá comprometer o funcionamento interno do aparelho e gerar danos progressivos.</p>
+            <p>8. A presença de oxidação poderá ensejar a exclusão da garantia, desde que comprovado, por meio de análise técnica, que o defeito apresentado possui relação direta com o dano causado por contato com líquido.</p>
+            <p>9. Em aparelhos previamente afetados por oxidação, o CONTRATANTE declara ciência de que poderão ocorrer falhas supervenientes em componentes distintos daqueles inicialmente reparados, em razão da propagação do dano interno.</p>
+            <p>10. Nessas hipóteses, não haverá responsabilidade da CONTRATADA por defeitos decorrentes da evolução natural do dano por oxidação, desde que não haja nexo causal com o serviço executado.</p>
+            <p>11. A intervenção de terceiros, abertura do dispositivo por pessoas não autorizadas ou rompimento de selos de garantia internos ou externos poderá implicar na perda da garantia, desde que comprovado, por meio de análise técnica, que tal intervenção possui relação direta com o defeito apresentado.</p>
+            <p>12. Na ausência de comprovação de nexo causal entre a intervenção de terceiros e o defeito alegado, a garantia permanecerá válida nos termos deste contrato e da legislação aplicável.</p>
+            <p>13. Atualizações de software realizadas pelo fabricante que venham a restringir funções de hardware (ex: Face ID, Touch ID) não são cobertas pela garantia da CONTRATADA.</p>
+            <h3>VII. DO PAGAMENTO E DIREITO DE RETENÇÃO</h3>
+            <p>1. Poderá ser exigido pagamento antecipado de até 20% (Arras) para reserva de bancada ou aquisição de peças específicas (Arts. 417 a 420 do Código Civil).</p>
+            <p>2. Em caso de desistência imotivada após o início dos atos preparatórios, o valor das arras será retido proporcionalmente para compensar custos operacionais efetivamente incorridos.</p>
+            <p>3. A entrega do dispositivo reparado está condicionada à quitação integral dos valores acordados, nos termos do Art. 476 do Código Civil (Exceção do Contrato não Cumprido).</p>
+            <p>4. A CONTRATADA exerce o direito de retenção do bem (Art. 1.219 do CC) enquanto houver débito líquido e certo, não configurando abuso, mas exercício regular de direito.</p>
+            <h3>VIII. DO ABANDONO E PROTEÇÃO DE DADOS</h3>
+            <p>1. Considera-se o bem abandonado caso não seja retirado no prazo de 90 (noventa) dias após a notificação de conclusão do serviço (Art. 1.275 do Código Civil).</p>
+            <p>2. A CONTRATADA realizará 03 (três) tentativas de contato comprovadas. Persistindo o silêncio, fica autorizada a alienar o bem para ressarcimento de custos e armazenamento.</p>
+            <p>3. O backup integral dos dados é de responsabilidade exclusiva do CONTRATANTE, devendo ser realizado antes da entrega do dispositivo para reparo.</p>
+            <p>4. O CONTRATANTE declara ciência de que procedimentos técnicos podem implicar na perda total ou parcial de dados armazenados no aparelho.</p>
+            <p>5. A CONTRATADA não se responsabiliza por perda de dados, exceto nos casos em que comprovada falha direta na prestação do serviço.</p>
+            <p>6. A entrega do aparelho sem a realização de backup prévio implica na aceitação dos riscos relacionados à eventual perda de informações.</p>
+            <p>7. A CONTRATADA compromete-se com a LGPD (Lei 13.709⁄18), utilizando dados do cliente apenas para fins de faturamento, comunicações técnicas e exercício de direitos.</p>
+            <h3>IX. DAS CLÁUSULAS ANTI-FRAUDE E PROVAS</h3>
+            <p>1. A retirada do dispositivo pelo CONTRATANTE, após realização de testes funcionais, constitui presunção de aceitação quanto ao funcionamento do aparelho no momento da entrega, especialmente em relação a vícios aparentes.</p>
+            <p>2. O aceite no ato da retirada não afasta o direito do consumidor de reclamar posteriormente quanto a vícios ocultos, nos termos do Código de Defesa do Consumidor.</p>
+            <p>3. Eventuais alegações posteriores deverão ser acompanhadas da comprovação de que o defeito decorre de falha na prestação do serviço, observado o nexo causal entre o serviço executado e o problema apresentado.</p>
+            <p>4. Na ausência de comprovação de falha técnica relacionada ao serviço prestado, não haverá responsabilidade da CONTRATADA por defeitos supervenientes.</p>
+            <p>5. Em caso de contestação de pagamento junto à operadora (chargeback), a CONTRATADA poderá apresentar toda a documentação comprobatória da prestação do serviço, incluindo ordem de serviço, registros técnicos, comunicações eletrônicas e comprovantes de entrega.</p>
+            <p>6. A contestação considerada indevida, especialmente após a efetiva prestação do serviço e retirada do dispositivo, poderá caracterizar indícios de má-fé, sujeitando o CONTRATANTE às medidas administrativas e judiciais cabíveis.</p>
+            <p>7. A CONTRATADA poderá promover a cobrança dos valores devidos pelos meios legais disponíveis, inclusive com apresentação de provas à operadora de pagamento e, se necessário, ajuizamento de ação competente.</p>
+            <p>8. Os registros técnicos, incluindo checklist de entrada/saída, fotografias e laudos de bancada, constituem prova técnica relevante da condição do aparelho (Art. 369 do CPC).</p>
+            <p>9. O CONTRATANTE autoriza o registro fotográfico do dispositivo para fins de documentação técnica e prova de estado físico.</p>
+            <h3>X. DAS DISPOSIÇÕES FINAIS</h3>
+            <p>1. As partes reconhecem a validade jurídica de assinaturas digitais e comunicações via aplicativos de mensagens para todos os fins de direito e prova documental.</p>
+            <p>2. A CONTRATADA disponibilizará canal de atendimento para análise da reclamação, comprometendo-se a avaliar tecnicamente o caso e apresentar resposta fundamentada.</p>
+            <p>3. O CONTRATANTE declara ciência de que a tentativa de solução prévia visa a resolução rápida e eficaz do conflito, podendo evitar custos, tempo e desgaste para ambas as partes.</p>
+            <p>4. O não exercício da tentativa de solução prévia não impede o acesso ao Poder Judiciário, mas será considerado para fins de análise da boa-fé das partes.</p>
+            <p>5. Fica eleito o foro do domicílio do consumidor (Art. 101, I do CDC) para dirimir quaisquer controvérsias oriundas deste contrato.</p>
+            <p style="margin-top:16px;font-size:12px;font-weight:700;color:#1a1a1a">DECLARAÇÃO DE CIÊNCIA E ACEITE:</p>
+            <p>O CONTRATANTE declara que leu, compreendeu e concorda com todos os 68 parágrafos, riscos e condições aqui expostos.</p>
             <div style="margin-top:16px;padding:14px;background:#fffbeb;border:1.5px solid #fde68a;border-radius:12px">
               <p style="font-size:13px;font-weight:700;color:#92400e;margin:0 0 4px">⚠️ Você chegou ao final do contrato</p>
               <p style="font-size:12px;color:#78350f;margin:0">Role a tela para cima para reler qualquer cláusula. Os campos de confirmação serão habilitados automaticamente.</p>

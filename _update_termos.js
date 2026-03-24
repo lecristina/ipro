@@ -1,53 +1,42 @@
-<!DOCTYPE html>
-<html lang="pt-BR" class="scroll-smooth">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Termos e Condições de uso dos serviços da iPro Assistência Técnica Apple em Campinas. Garantia, peças, agendamento e condições gerais." />
-  <title>Termos e Condições — iPro Assistência Apple Campinas</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { sans: ['Inter', 'sans-serif'] },
-          colors: {
-            apple: { black: '#1d1d1f', gray: '#f5f5f7', darkgray: '#86868b', blue: '#0066cc', border: '#d2d2d7' }
-          }
-        }
-      }
-    }
-  </script>
-  <style>
-    [data-aos] { opacity: 0; transform: translateY(24px); transition: opacity 0.8s cubic-bezier(0.4,0,0.2,1), transform 0.8s cubic-bezier(0.4,0,0.2,1); }
-    [data-aos].is-visible { opacity: 1; transform: translateY(0); }
-    .termos-section h2 { scroll-margin-top: 100px; }
-  </style>
-</head>
-<body class="bg-white text-apple-black font-sans antialiased selection:bg-apple-black selection:text-white overflow-x-hidden">
+#!/usr/bin/env node
+'use strict';
+const fs = require('fs');
+const path = require('path');
+const fp = path.join(__dirname, 'termos.html');
+let content = fs.readFileSync(fp, 'utf8');
 
-  <div id="site-header"></div>
-  <script src="js/header.js?v=2"></script>
-  <script defer src="js/agendamento.js?v=7"></script>
+// 1. Replace hero h1
+content = content.replace(
+  '<h1 class="text-[40px] md:text-7xl font-semibold tracking-tighter leading-[1.05] mb-6" data-aos>Termo Geral de<br>Prestação de Serviços.</h1>',
+  '<h1 class="text-[40px] md:text-7xl font-semibold tracking-tighter leading-[1.05] mb-6" data-aos>Contrato de Prestação de<br>Serviços Técnicos.</h1>'
+);
 
-  <main>
-    <!-- Hero -->
-    <section class="pt-32 pb-16 md:pt-40 md:pb-20 px-6 bg-apple-gray">
-      <div class="max-w-4xl mx-auto text-center">
-        <p class="text-apple-darkgray text-sm font-semibold uppercase tracking-widest mb-4" data-aos>Legal</p>
-        <h1 class="text-[40px] md:text-7xl font-semibold tracking-tighter leading-[1.05] mb-6" data-aos>Contrato de Prestação de<br>Serviços Técnicos.</h1>
-        <p class="text-lg md:text-xl text-apple-darkgray max-w-2xl mx-auto" data-aos>Termo de Garantia e Jurídica Total — xPro Assistência Técnica Premium</p>
-      </div>
-    </section>
+// 2. Replace hero subtitle
+content = content.replace(
+  '<p class="text-lg md:text-xl text-apple-darkgray max-w-2xl mx-auto" data-aos>Garantia e Pagamento — Dispositivos Eletrônicos (Apple e Similares)</p>',
+  '<p class="text-lg md:text-xl text-apple-darkgray max-w-2xl mx-auto" data-aos>Termo de Garantia e Jurídica Total — xPro Assistência Técnica Premium</p>'
+);
 
-    <!-- Table of Contents -->
-    <section class="py-12 px-6 bg-white border-b border-apple-border/40">
-      <div class="max-w-3xl mx-auto" data-aos>
-        <h2 class="text-lg font-semibold mb-6">Índice</h2>
+// 3. Replace the table of contents (from <h2 class="text-lg font-semibold mb-6">Índice down to close of grid div)
+
+
+
+
+// Use regex to match TOC section boundaries robustly
+const tocStartRe = /(<h2 class="text-lg font-semibold mb-6">[^<]*<\/h2>\s*<div class="grid[^"]*">)\s*<a href="#secao-1"/;
+if (!tocStartRe.test(content)) {
+  console.error('TOC start not found!');
+  process.exit(1);
+}
+// Replace entire TOC grid content (from h2 Indice line through closing </div>)
+const tocSectionRe = /(<h2 class="text-lg font-semibold mb-6">[^<]*<\/h2>\s*<div class="grid[^"]*">)[\s\S]*?<\/div>/;
+if (!tocSectionRe.test(content)) {
+  console.error('TOC section not found for replacement!');
+  process.exit(1);
+}
+content = content.replace(tocSectionRe, (match, prefix) => {
+  // Replace just the links, keep prefix (h2 + grid div opening)
+  return `        <h2 class="text-lg font-semibold mb-6">Índice</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-sm">
           <a href="#secao-I" class="text-apple-darkgray hover:text-[#1a6cff] transition-colors py-1">I. Das Disposições Preliminares e Identificação</a>
           <a href="#secao-II" class="text-apple-darkgray hover:text-[#1a6cff] transition-colors py-1">II. Da Natureza do Serviço e Responsabilidade</a>
@@ -59,15 +48,32 @@
           <a href="#secao-VIII" class="text-apple-darkgray hover:text-[#1a6cff] transition-colors py-1">VIII. Do Abandono e Proteção de Dados</a>
           <a href="#secao-IX" class="text-apple-darkgray hover:text-[#1a6cff] transition-colors py-1">IX. Das Cláusulas Anti-Fraude e Provas</a>
           <a href="#secao-X" class="text-apple-darkgray hover:text-[#1a6cff] transition-colors py-1">X. Das Disposições Finais</a>
+        </div>`;
+});
+
+// 4. Replace the entire terms body (from first section div to closing </div> before </section>)
+// The body starts at: <div class="mb-6" data-aos>
+//                       <h2 class="text-xl font-bold mb-4">1. IDENTIFICAÇÃO DO FORNECEDOR</h2>
+// And ends at: </div>\n\n      </div>\n    </section>
+
+const OLD_BODY_START = `        <div class="mb-6" data-aos>
+          <h2 class="text-xl font-bold mb-4">1. IDENTIFICAÇÃO DO FORNECEDOR</h2>`;
+
+const OLD_BODY_END = `        <div class="mb-6" data-aos>
+          <h2 class="text-xl font-bold mb-4" id="secao-39">39. VALIDADE DIGITAL</h2>
+          <p class="text-[15px] leading-relaxed text-apple-darkgray">Este contrato possui validade jurídica inclusive quando firmado por meios eletrônicos.</p>
         </div>
+
       </div>
-    </section>
+    </section>`;
 
-    <!-- Terms Content -->
-    <section class="py-16 md:py-24 px-6">
-      <div class="max-w-3xl mx-auto termos-section">
+const startIdx = content.indexOf(OLD_BODY_START);
+const endIdx = content.indexOf(OLD_BODY_END);
 
-        <div class="mb-4 pb-4 border-b border-apple-border/40" data-aos>
+if (startIdx === -1) { console.error('Body start not found'); process.exit(1); }
+if (endIdx === -1) { console.error('Body end not found'); process.exit(1); }
+
+const NEW_BODY = `        <div class="mb-4 pb-4 border-b border-apple-border/40" data-aos>
           <p class="text-sm text-apple-darkgray"><strong>FORNECEDOR:</strong> xPro Assistência Técnica Premium</p>
           <p class="text-sm text-apple-darkgray"><strong>CNPJ:</strong> 33.774.587/0001-45</p>
           <p class="text-sm text-apple-darkgray"><strong>ENDEREÇO:</strong> Rua Alvaro Muller, 795, Vila Itapura, Campinas - SP, CEP: 13023-181</p>
@@ -187,18 +193,11 @@
         </div>
 
       </div>
-    </section>
-  </main>
+    </section>`;
 
-  <div id="site-footer"></div>
-  <script src="js/footer.js"></script>
+const beforeBody = content.substring(0, startIdx);
+const afterBodyEnd = content.substring(endIdx + OLD_BODY_END.length);
+const newContent = beforeBody + NEW_BODY + afterBodyEnd;
 
-  <!-- Scroll animations -->
-  <script>
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); observer.unobserve(e.target); } });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('[data-aos]').forEach(el => observer.observe(el));
-  </script>
-</body>
-</html>
+fs.writeFileSync(fp, newContent, 'utf8');
+console.log('termos.html updated successfully');

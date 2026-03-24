@@ -1581,10 +1581,10 @@ var EVO_DEST_NUMBER  = '5519994063782';                       // Número da empr
         <input type="checkbox" id="agend-decl-check" style="accent-color:#7c3aed;width:18px;height:18px;margin-top:2px;flex-shrink:0" onchange="window._declValidate()">
         <span style="font-size:13px;color:#1a1a1a;line-height:1.5;font-weight:600">${checkLabel}</span>
       </label>
-      <div style="margin-bottom:16px">
+      ${step === total ? `<div style="margin-bottom:16px">
         <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">Para continuar, digite <strong style="color:#1a1a1a">SIM</strong> no campo abaixo</label>
         <input type="text" id="agend-decl-sim" class="agend-input" placeholder="SIM" oninput="window._declValidate()" autocomplete="off" style="text-transform:uppercase">
-      </div>
+      </div>` : ''}
       <button id="agend-decl-btn" onclick="window._declNext()" disabled style="width:100%;padding:14px;border-radius:14px;background:#16a34a;color:#fff;font-size:14px;font-weight:700;border:none;cursor:not-allowed;opacity:.4;font-family:Inter,sans-serif;transition:all .2s;margin-bottom:8px">${step < total ? '✅ ACEITO E CONTINUAR' : '✅ ACEITO E CONTINUAR'}</button>
       <button onclick="window._declCancel()" style="width:100%;padding:13px;border-radius:14px;background:#fff;border:2px solid #fca5a5;color:#dc2626;font-size:14px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;transition:all .2s">❌ NÃO ACEITO / VOLTAR</button>`;
 
@@ -1596,7 +1596,9 @@ var EVO_DEST_NUMBER  = '5519994063782';                       // Número da empr
   window._declValidate = function () {
     const cb = document.getElementById('agend-decl-check');
     const inp = document.getElementById('agend-decl-sim');
-    const valid = !!(cb && cb.checked && inp && inp.value.trim().toUpperCase() === 'SIM');
+    const isLastStep = _declIndex === _declQueue.length - 1;
+    const simOk = !isLastStep || !!(inp && inp.value.trim().toUpperCase() === 'SIM');
+    const valid = !!(cb && cb.checked && simOk);
     const btn = document.getElementById('agend-decl-btn');
     if (btn) {
       btn.disabled = !valid;

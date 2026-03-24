@@ -50,9 +50,10 @@ var EVO_DEST_NUMBER  = '5519994063782';                       // Número da empr
     // Header
     box.innerHTML = `
       <div class="agend-header">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-          <h2 id="agend-title" style="font-size:16px;font-weight:800;margin:0;color:#1a1a1a;letter-spacing:-.2px">Selecione o serviço</h2>
-          <button onclick="window.agendShowGuide()" style="font-size:11px;color:#1a6cff;background:#f0f4ff;border:none;cursor:pointer;font-family:Inter,sans-serif;font-weight:700;display:inline-flex;align-items:center;gap:4px;padding:5px 11px;border-radius:20px;flex-shrink:0;margin-left:8px" onmouseover="this.style.background='#dbeafe'" onmouseout="this.style.background='#f0f4ff'">&#9432; Como funciona?</button>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:8px">
+          <button id="agend-header-back-btn" onclick="window.agendHeaderBack()" style="display:none;align-items:center;gap:5px;background:none;border:none;cursor:pointer;font-size:12px;color:#888;font-weight:700;font-family:Inter,sans-serif;padding:5px 8px 5px 0;flex-shrink:0;transition:color .15s" onmouseover="this.style.color='#1a6cff'" onmouseout="this.style.color='#888'">← Voltar</button>
+          <h2 id="agend-title" style="font-size:16px;font-weight:800;margin:0;color:#1a1a1a;letter-spacing:-.2px;flex:1;text-align:center">Selecione o serviço</h2>
+          <button onclick="window.agendShowGuide()" style="font-size:11px;color:#1a6cff;background:#f0f4ff;border:none;cursor:pointer;font-family:Inter,sans-serif;font-weight:700;display:inline-flex;align-items:center;gap:4px;padding:5px 11px;border-radius:20px;flex-shrink:0" onmouseover="this.style.background='#dbeafe'" onmouseout="this.style.background='#f0f4ff'">&#9432; Como funciona?</button>
         </div>
         <div id="agend-progress" class="agend-progress"></div>
         <div style="height:1px;background:#f0eeeb;margin-top:10px"></div>
@@ -510,7 +511,7 @@ var EVO_DEST_NUMBER  = '5519994063782';                       // Número da empr
     .nb-radio-option.selected{border-color:#1a6cff;background:#eef3ff}
     #agend-decl-overlay{position:fixed;inset:0;z-index:9999999;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.8);backdrop-filter:blur(14px);opacity:0;pointer-events:none;transition:opacity .25s}
     #agend-decl-overlay.decl-open{opacity:1;pointer-events:auto}
-    #agend-decl-box{background:#fff;border-radius:24px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;padding:28px;box-shadow:0 32px 80px rgba(0,0,0,.35);transform:scale(.95) translateY(8px);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+    #agend-decl-box{background:#fff;border-radius:24px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;padding:24px 24px 20px;box-shadow:0 32px 80px rgba(0,0,0,.4);transform:scale(.95) translateY(8px);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
     #agend-decl-overlay.decl-open #agend-decl-box{transform:scale(1) translateY(0)}
     .nb-radio-option input[type="radio"]{accent-color:#1a6cff;width:18px;height:18px;cursor:pointer}
     .nb-radio-label{font-size:14px;font-weight:700;color:#1a1a1a}
@@ -532,6 +533,16 @@ var EVO_DEST_NUMBER  = '5519994063782';                       // Número da empr
     #agend-pix-status{text-align:center;font-size:13px;font-weight:600;color:#888;padding:10px 0}
     #agend-pix-countdown{text-align:center;font-size:12px;color:#aaa;margin-top:4px}
     #agend-pix-success{display:none;text-align:center;padding:16px 0}
+    #agend-contrato-confirm-overlay{position:fixed;inset:0;z-index:9999999;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.88);backdrop-filter:blur(16px);opacity:0;pointer-events:none;transition:opacity .25s}
+    #agend-contrato-confirm-overlay.cc-open{opacity:1;pointer-events:auto}
+    #agend-contrato-confirm-box{background:#fff;border-radius:24px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;padding:0 28px 28px;box-shadow:0 32px 80px rgba(0,0,0,.4);transform:scale(.95) translateY(8px);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+    #agend-contrato-confirm-overlay.cc-open #agend-contrato-confirm-box{transform:scale(1) translateY(0)}
+    #agend-cc-hdr{position:sticky;top:0;background:#fff;z-index:10;margin:0 -28px;padding:20px 28px 14px;border-bottom:1px solid #f0eeeb}
+    #agend-contrato-confirm-box .termos-body h2{font-size:15px;font-weight:700;margin:16px 0 6px;color:#1a1a1a}
+    #agend-contrato-confirm-box .termos-body h3{font-size:13px;font-weight:700;margin:12px 0 4px;color:#1a1a1a}
+    #agend-contrato-confirm-box .termos-body p{font-size:13px;line-height:1.7;color:#555;margin-bottom:8px}
+    #agend-contrato-confirm-box .termos-body strong{color:#1a1a1a}
+    #agend-contrato-confirm-box .termos-body ul{font-size:13px;line-height:1.7;color:#555;padding-left:20px;list-style:disc;margin-bottom:12px}
   `;
   document.head.appendChild(css);
 
@@ -872,9 +883,9 @@ var EVO_DEST_NUMBER  = '5519994063782';                       // Número da empr
             <input type="checkbox" id="agend-check-pecas" style="accent-color:#1a6cff;width:18px;height:18px;margin-top:2px;flex-shrink:0" onchange="window._termosCheckChanged()">
             <span style="font-size:13px;color:#1a1a1a;line-height:1.5">Eu concordo com os <a href="javascript:void(0)" onclick="event.preventDefault();event.stopPropagation();window.agendShowTermosContent()" style="color:#1a6cff;font-weight:700;text-decoration:underline">termos de peças</a></span>
           </label>
-          <label style="display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:12px;border:2px solid #e8e8ea;cursor:pointer;transition:all .2s;background:#fafafa" class="agend-termos-check-label">
-            <input type="checkbox" id="agend-check-agendamento" style="accent-color:#1a6cff;width:18px;height:18px;margin-top:2px;flex-shrink:0" onchange="window._termosCheckChanged()">
-            <span style="font-size:13px;color:#1a1a1a;line-height:1.5">Eu concordo com os <a href="javascript:void(0)" onclick="event.preventDefault();event.stopPropagation();window.agendShowTermosContent()" style="color:#1a6cff;font-weight:700;text-decoration:underline">termos de agendamento e pagamento</a></span>
+          <label id="agend-termos-check-label-3" style="display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:12px;border:2px solid #e8e8ea;cursor:not-allowed;transition:all .2s;background:#fafafa;opacity:.45" class="agend-termos-check-label">
+            <input type="checkbox" id="agend-check-agendamento" disabled style="accent-color:#1a6cff;width:18px;height:18px;margin-top:2px;flex-shrink:0;pointer-events:none" onchange="window._termosCheckChanged()">
+            <span style="font-size:13px;color:#1a1a1a;line-height:1.5">Eu concordo com os <a href="javascript:void(0)" onclick="event.preventDefault();event.stopPropagation();window.agendShowTermosContent()" style="color:#1a6cff;font-weight:700;text-decoration:underline">termos de agendamento e pagamento</a> <span style="font-size:11px;color:#f59e0b;font-weight:700">(leia os termos completos primeiro)</span></span>
           </label>
         </div>
         <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
@@ -925,6 +936,9 @@ var EVO_DEST_NUMBER  = '5519994063782';                       // Número da empr
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
           <h3 style="font-size:17px;font-weight:800;margin:0;color:#1a1a1a">📄 Termos e Condições</h3>
           <button onclick="window.agendCloseTermosContent()" style="width:36px;height:36px;border-radius:50%;border:none;background:#f5f5f5;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;color:#888;transition:all .2s" onmouseover="this.style.background='#e5e5e5'" onmouseout="this.style.background='#f5f5f5'">✕</button>
+        </div>
+        <div id="agend-termos-scroll-hint" style="background:#fffbeb;border:1.5px solid #fde68a;border-radius:12px;padding:10px 14px;margin-bottom:14px;font-size:12px;font-weight:700;color:#92400e;display:flex;align-items:center;gap:8px;transition:all .4s">
+          📖 Role até o final para habilitar o aceite dos termos
         </div>
                 <div class="termos-body" style="font-family:Inter,sans-serif">
           <h2 style="font-size:15px;font-weight:800;margin:0 0 8px;color:#1a1a1a">TERMO GERAL DE PRESTAÇÃO DE SERVIÇOS, GARANTIA E PAGAMENTO</h2>
@@ -1096,13 +1110,308 @@ var EVO_DEST_NUMBER  = '5519994063782';                       // Número da empr
       declOvl.innerHTML = `<div id="agend-decl-box"></div>`;
       document.body.appendChild(declOvl);
     }
+
+    // Contrato Confirm popup (mandatory contract reading for Apple devices)
+    if (!document.getElementById('agend-contrato-confirm-overlay')) {
+      const ccOvl = document.createElement('div');
+      ccOvl.id = 'agend-contrato-confirm-overlay';
+      ccOvl.innerHTML = `<div id="agend-contrato-confirm-box">
+        <!-- Sticky header with scroll progress -->
+        <div id="agend-cc-hdr">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:36px;height:36px;border-radius:10px;background:#1a6cff;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">🛡️</div>
+            <div style="flex:1;min-width:0">
+              <p style="font-size:13px;font-weight:800;margin:0;color:#1a1a1a;letter-spacing:-.2px">ATENÇÃO – LEIA ANTES DE CONTINUAR</p>
+              <p id="agend-cc-scroll-hint" style="font-size:11px;color:#888;margin:2px 0 0">Role até o final para habilitar a confirmação</p>
+            </div>
+          </div>
+          <div style="margin-top:10px;height:4px;background:#e8e8ea;border-radius:4px;overflow:hidden">
+            <div id="agend-cc-progress" style="height:100%;width:0%;background:#1a6cff;border-radius:4px;transition:width .12s"></div>
+          </div>
+        </div>
+        <!-- Contract body (embedded directly) -->
+        <div id="agend-cc-contrato-body" style="padding:20px 0">
+          <div class="termos-body" style="font-family:Inter,sans-serif">
+            <h2 style="font-size:15px;font-weight:800;margin:0 0 8px;color:#1a1a1a">TERMO GERAL DE PRESTAÇÃO DE SERVIÇOS, GARANTIA E PAGAMENTO</h2>
+            <p style="font-size:12px;color:#888;margin:0 0 12px">DISPOSITIVOS ELETRÔNICOS (APPLE E SIMILARES)</p>
+            <h3>1. IDENTIFICAÇÃO DO FORNECEDOR</h3>
+            <p>O presente instrumento regula a prestação de serviços técnicos especializados e o fornecimento de peças por empresa de assistência técnica independente. A empresa declara não possuir vínculo com a fabricante Apple Inc., não sendo assistência autorizada, atuando de forma autônoma, nos termos dos Arts. 421 e 425 do Código Civil. O CONTRATANTE declara ciência inequívoca de que a intervenção por assistência não autorizada poderá acarretar a perda de garantias vigentes junto ao fabricante original.</p>
+            <h3>2. FUNDAMENTAÇÃO LEGAL</h3>
+            <p>Este contrato é regido pelo Código de Defesa do Consumidor (Lei nº 8.078/90) e Código Civil (Lei nº 10.406/2002), especialmente pelos Arts. 6º, 12, 14, 18, 20, 26, 30, 35, 39, 46, 50, 51 e 101 do CDC e Arts. 187, 389, 395, 408, 409, 418, 421, 422, 476 e 927 do Código Civil.</p>
+            <p style="font-weight:700;margin:12px 0 4px">🔧 PARTE I – PRESTAÇÃO DE SERVIÇOS</p>
+            <h3>3. NATUREZA DO SERVIÇO</h3>
+            <p>A assistência realiza manutenção, reparo e substituição de componentes, podendo utilizar:</p>
+            <ul><li>peças originais (retiradas de outro aparelho)</li><li>peças compatíveis premium</li><li>peças compatíveis standard</li></ul>
+            <p>O cliente declara ciência de que a assistência não realiza pareamento com servidores da fabricante nem possui acesso a sistemas proprietários, podendo haver limitações de funcionalidade, desde que previamente informadas, conforme Art. 6º, III do CDC.</p>
+            <h3>4. DIAGNÓSTICO TÉCNICO</h3>
+            <p>O diagnóstico inicial possui caráter preliminar, podendo ser alterado após testes técnicos aprofundados. Qualquer alteração de orçamento dependerá de aprovação do cliente, inclusive por meios eletrônicos (WhatsApp, SMS ou sistema), nos termos do Art. 30 do CDC.</p>
+            <h3>5. RISCO DO REPARO</h3>
+            <p>O cliente declara ciência de que reparos eletrônicos envolvem risco técnico. Em aparelhos com oxidação, danos estruturais, intervenções anteriores ou falhas graves poderá ocorrer agravamento ou perda total. A assistência não responde por danos decorrentes exclusivamente de vícios preexistentes.</p>
+            <h3>6. CLASSIFICAÇÃO DAS PEÇAS</h3>
+            <p>O cliente declara ciência quanto à natureza das peças utilizadas, conforme dever de informação (Art. 6º, III do CDC). A CONTRATADA garante que as peças mantêm a compatibilidade técnica necessária para o funcionamento do dispositivo.</p>
+            <h3>7. PEÇAS FORNECIDAS PELO CLIENTE</h3>
+            <p>Não há garantia sobre peças fornecidas pelo cliente quanto à qualidade, compatibilidade ou procedência. A responsabilidade da assistência limita-se à execução do serviço.</p>
+            <h3>8. PEÇA NÃO RECONHECIDA</h3>
+            <p>Após substituição, poderá ocorrer aviso de "peça não reconhecida". Isso não caracteriza defeito, desde que não comprometa a função essencial e tenha sido previamente informado. O CONTRATANTE declara estar ciente de que tais avisos são restrições de software da fabricante.</p>
+            <h3>9. LIMITAÇÕES TÉCNICAS</h3>
+            <p>Após o reparo, poderão ocorrer: perda de vedação contra água, indisponibilidade de funções (Face ID, True Tone, etc.) e alterações por atualização de sistema. Tais situações não caracterizam vício, quando previamente informadas.</p>
+            <h3>10. RESPONSABILIDADE SOBRE DADOS</h3>
+            <p>O cliente é responsável por realizar backup prévio. A assistência não se responsabiliza por perda de dados, salvo se comprovada culpa direta.</p>
+            <h3>11. DEFEITOS PREEXISTENTES</h3>
+            <p>A assistência não responde por defeitos já existentes no momento da entrada, desde que registrados. O registro fotográfico ou checklist de entrada servirá como prova técnica absoluta.</p>
+            <p style="font-weight:700;margin:12px 0 4px">🛡️ PARTE II – GARANTIA</p>
+            <h3>12. PRAZO DE GARANTIA</h3>
+            <ul><li>Telas e baterias (Original/Premium): até 12 meses</li><li>Peças Standard: 90 dias</li><li>Demais serviços: 90 dias</li></ul>
+            <p>Nos termos do Art. 26 do CDC. O prazo de garantia contratual soma-se à garantia legal.</p>
+            <h3>13. COBERTURA</h3>
+            <p>A garantia cobre exclusivamente defeitos de fabricação e falhas técnicas diretamente relacionadas ao serviço.</p>
+            <h3>14. EXCLUSÕES</h3>
+            <p>Não estão cobertos: queda ou impacto, contato com líquido, mau uso, intervenção de terceiros, desgaste natural e atualizações de sistema. A presença de qualquer um desses itens invalida imediatamente a garantia.</p>
+            <h3>15. CONDIÇÕES DA GARANTIA</h3>
+            <p>A garantia depende de apresentação do comprovante e ausência de violação do aparelho. A remoção ou dano aos selos de garantia implica na perda total do direito à assistência gratuita.</p>
+            <h3>16. PRAZO DE SOLUÇÃO</h3>
+            <p>Prazo de até 30 dias para solução, conforme Art. 18 do CDC. Em casos de complexidade técnica elevada, o prazo poderá ser estendido mediante acordo entre as partes.</p>
+            <h3>17. CIÊNCIA EXPRESSA DO CLIENTE</h3>
+            <p>O cliente declara ciência quanto a: peça não reconhecida, limitações técnicas, riscos do reparo e possíveis incompatibilidades futuras.</p>
+            <h3>18. LIMITAÇÃO DE RESPONSABILIDADE</h3>
+            <p>A assistência não responde por restrições impostas por fabricante ou software. A responsabilidade da CONTRATADA limita-se ao valor total do serviço contratado, não abrangendo lucros cessantes ou danos indiretos.</p>
+            <p style="font-weight:700;margin:12px 0 4px">💳 PARTE III – PAGAMENTO</p>
+            <h3>19. PAGAMENTO ANTECIPADO – ARRAS CONFIRMATÓRIAS</h3>
+            <p>Para início do serviço, será exigido pagamento antecipado de até 20% do valor total, com natureza jurídica de arras confirmatórias, nos termos dos Arts. 408, 409 e 418 do Código Civil.</p>
+            <h3>20. VINCULAÇÃO CONTRATUAL</h3>
+            <p>O pagamento antecipado vincula as partes, autorizando: reserva de agenda, bloqueio de horário técnico, aquisição de peças e início da execução. A contratação pode ser formalizada por meios eletrônicos, com plena validade jurídica.</p>
+            <h3>21. IRRETRATABILIDADE RELATIVA</h3>
+            <p>Após iniciadas providências operacionais, o valor pago não será devolvido integralmente em caso de desistência imotivada. Poderá ser retido para cobertura de custos administrativos, peças adquiridas, tempo técnico reservado e mobilização de equipe, sempre de forma proporcional e comprovada.</p>
+            <h3>22. CANCELAMENTO</h3>
+            <p>Antes de custos: devolução integral. Após custos: retenção proporcional ao prejuízo comprovado.</p>
+            <h3>23. DESISTÊNCIA APÓS INÍCIO</h3>
+            <p>Autoriza: retenção das arras, cobrança de custos já incorridos e cobrança complementar, se necessário.</p>
+            <h3>24. NÃO COMPARECIMENTO (NO-SHOW)</h3>
+            <p>Autoriza: retenção proporcional, perda de prioridade de agenda e eventual nova cobrança para reagendamento.</p>
+            <h3>25. PAGAMENTO FINAL</h3>
+            <p>A entrega do aparelho fica condicionada à quitação integral do débito, nos termos do Art. 476 do Código Civil.</p>
+            <h3>26. DIREITO DE RETENÇÃO</h3>
+            <p>A assistência poderá reter o aparelho até pagamento integral, desde que o valor seja certo e exigível e não haja abuso.</p>
+            <h3>27. INADIMPLEMENTO</h3>
+            <p>O não pagamento autoriza cobrança extrajudicial, negativação, protesto e ação judicial, com incidência de juros, correção e honorários (Arts. 389 e 395 do Código Civil).</p>
+            <h3>28. PROVA CONTRATUAL</h3>
+            <p>Este contrato, junto com ordem de serviço, comprovantes, mensagens e registros técnicos, constitui prova válida para cobrança.</p>
+            <h3>29. CHARGEBACK</h3>
+            <p>A contestação indevida caracteriza inadimplemento e poderá gerar cobrança judicial, indenização e envio de provas à operadora. A retirada do aparelho após o reparo constitui aceite irrevogável da qualidade do serviço.</p>
+            <h3>30. ABANDONO DE APARELHO</h3>
+            <p>Após 90 dias sem retirada, caracteriza abandono (Art. 1.275, CC). O CONTRATANTE será notificado por 03 (três) vezes antes da caracterização do abandono.</p>
+            <h3>31. ARMAZENAMENTO</h3>
+            <p>Poderá ser cobrada taxa de permanência após comunicação de conclusão do serviço.</p>
+            <h3>32. RETIRADA PARCIAL</h3>
+            <p>Não será permitida retirada sem pagamento integral, salvo acordo formal.</p>
+            <h3>33. RENEGOCIAÇÃO</h3>
+            <p>Só terá validade se formalizada por escrito.</p>
+            <h3>34. FORÇA PROBATÓRIA</h3>
+            <p>Este instrumento constitui início de prova escrita para fins judiciais.</p>
+            <p style="font-weight:700;margin:12px 0 4px">⚖️ PARTE IV – DISPOSIÇÕES FINAIS</p>
+            <h3>35. BOA-FÉ CONTRATUAL</h3>
+            <p>As partes se obrigam a cumprir o contrato conforme os princípios da boa-fé objetiva (Art. 422 do Código Civil).</p>
+            <h3>36. NULIDADE PARCIAL</h3>
+            <p>A eventual nulidade de cláusula não invalida o restante do contrato.</p>
+            <h3>37. FORO</h3>
+            <p>Fica eleito o foro do domicílio do consumidor, nos termos do Art. 101 do CDC.</p>
+            <h3>38. ACEITE</h3>
+            <p>O cliente declara que leu, compreendeu e concorda integralmente com os termos.</p>
+            <h3>39. VALIDADE DIGITAL</h3>
+            <p>Este contrato possui validade jurídica inclusive quando firmado por meios eletrônicos.</p>
+            <div style="margin-top:16px;padding:14px;background:#fffbeb;border:1.5px solid #fde68a;border-radius:12px">
+              <p style="font-size:13px;font-weight:700;color:#92400e;margin:0 0 4px">⚠️ Você chegou ao final do contrato</p>
+              <p style="font-size:12px;color:#78350f;margin:0">Role a tela para cima para reler qualquer cláusula. Os campos de confirmação serão habilitados automaticamente.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Form section (SIM input disabled until scrolled to end; nome/cpf pre-filled read-only) -->
+        <div id="agend-cc-form-section" style="margin-top:8px;padding:20px;background:#f8f9ff;border-radius:16px;border:2px solid #dbeafe">
+          <!-- Step indicator + termos link -->
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px;flex-wrap:wrap">
+            <div style="display:flex;align-items:center;gap:12px">
+              <div style="position:relative;width:42px;height:42px;flex-shrink:0">
+                <div style="width:42px;height:42px;border-radius:50%;background:#1a6cff;color:#fff;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:800">3</div>
+                <span style="position:absolute;top:-8px;right:-8px;font-size:16px">⚠️</span>
+              </div>
+              <p style="font-size:15px;font-weight:800;color:#1a1a1a;margin:0">Etapa 3 de 3</p>
+            </div>
+            <a href="javascript:void(0)" onclick="window.agendShowTermosContent()" style="font-size:12px;font-weight:700;color:#1a6cff;text-decoration:underline;white-space:nowrap">📄 Ver Termos de Uso</a>
+          </div>
+          <!-- Nome -->
+          <div style="margin-bottom:10px">
+            <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em">Nome Completo</label>
+            <input type="text" id="agend-cc-nome" class="agend-input" placeholder="Seu nome completo" disabled style="background:#f5f5f7;color:#aaa" oninput="window._ccValidar()">
+          </div>
+          <!-- CPF -->
+          <div style="margin-bottom:18px">
+            <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em">CPF</label>
+            <input type="text" id="agend-cc-cpf" class="agend-input" placeholder="000.000.000-00" maxlength="14" disabled style="background:#f5f5f7;color:#aaa" oninput="window.agendFormatCpf(this);window._ccValidar()">
+          </div>
+          <!-- SIM confirmation -->
+          <div style="margin-bottom:16px">
+            <p style="font-size:13px;font-weight:600;color:#1a1a1a;margin:0 0 10px">Para continuar, digite <strong>SIM</strong> no campo abaixo</p>
+            <input type="text" id="agend-cc-sim" class="agend-input" placeholder="SIM" disabled style="background:#f5f5f7;color:#aaa;text-align:center;font-size:16px;font-weight:800;letter-spacing:.12em;text-transform:uppercase" autocomplete="off" oninput="window._ccValidar()">
+          </div>
+          <div id="agend-cc-error" style="display:none;background:#fef2f2;color:#dc2626;font-size:13px;padding:10px 14px;border-radius:10px;margin-bottom:12px"></div>
+          <button id="agend-cc-btn" onclick="window._ccConfirmar()" disabled style="width:100%;padding:14px;border-radius:14px;background:#1a6cff;color:#fff;font-size:14px;font-weight:700;border:none;cursor:not-allowed;opacity:.4;font-family:Inter,sans-serif;transition:all .2s;margin-bottom:8px">✅ ACEITO E CONTINUAR</button>
+          <button onclick="window._ccCancelar()" style="width:100%;padding:13px;border-radius:14px;background:#fff;border:2px solid #fca5a5;color:#dc2626;font-size:14px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;transition:all .2s">❌ NÃO ACEITO / VOLTAR</button>
+        </div>
+        <!-- Success screen (hidden initially) -->
+        <div id="agend-cc-success" style="display:none;text-align:center;padding:20px 0">
+          <div style="width:56px;height:56px;border-radius:50%;background:#e8f0ff;border:3px solid #1a6cff;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:26px">✅</div>
+          <h3 style="font-size:18px;font-weight:800;margin:0 0 6px;color:#1a1a1a">Termo Aceito!</h3>
+          <p style="font-size:13px;color:#888;margin:0 0 20px">Todas as condições foram aceitas com sucesso.</p>
+          <div style="background:#f7f7f8;border-radius:12px;padding:14px;margin-bottom:20px;text-align:left">
+            <p style="font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.08em;margin:0 0 8px;text-align:center">DADOS CONFIRMADOS</p>
+            <p id="agend-cc-success-nome" style="font-size:14px;font-weight:700;color:#1a1a1a;margin:0 0 2px;text-align:center"></p>
+            <p id="agend-cc-success-cpf" style="font-size:13px;color:#666;margin:0;text-align:center"></p>
+          </div>
+          <button onclick="window._ccProsseguir()" style="width:100%;padding:14px;border-radius:14px;background:#1a6cff;color:#fff;font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:Inter,sans-serif;transition:background .2s" onmouseover="this.style.background='#0057e6'" onmouseout="this.style.background='#1a6cff'">Prosseguir →</button>
+        </div>
+      </div>`;
+      document.body.appendChild(ccOvl);
+    }
   };
   window._createAgendOverlays();
+
+  // ─── Contrato Confirm popup handlers ─────────────────────
+  let _contratoScrolled = false;
+
+  window.agendShowContratoConfirm = function() {
+    // Reset scroll state
+    _contratoScrolled = false;
+    const hint = document.getElementById('agend-cc-scroll-hint');
+    if (hint) { hint.textContent = 'Role até o final para habilitar a confirmação'; hint.style.color = '#888'; }
+    const bar = document.getElementById('agend-cc-progress');
+    if (bar) { bar.style.width = '0%'; bar.style.background = '#1a6cff'; }
+    // Reset all fields to disabled/empty
+    ['agend-cc-nome', 'agend-cc-cpf', 'agend-cc-sim'].forEach(function(id) {
+      const el = document.getElementById(id);
+      if (el) { el.value = ''; el.disabled = true; el.style.background = '#f5f5f7'; el.style.color = '#aaa'; }
+    });
+    const ccBtn = document.getElementById('agend-cc-btn');
+    if (ccBtn) { ccBtn.disabled = true; ccBtn.style.opacity = '.4'; ccBtn.style.cursor = 'not-allowed'; }
+    const ccErr = document.getElementById('agend-cc-error');
+    if (ccErr) ccErr.style.display = 'none';
+    // Hide success, show form
+    const succ = document.getElementById('agend-cc-success');
+    if (succ) succ.style.display = 'none';
+    const formSec = document.getElementById('agend-cc-form-section');
+    if (formSec) formSec.style.display = '';
+    // Show overlay
+    const ol = document.getElementById('agend-contrato-confirm-overlay');
+    if (ol) ol.classList.add('cc-open');
+    // Attach scroll listener and reset position
+    const box = document.getElementById('agend-contrato-confirm-box');
+    if (box) {
+      box.scrollTop = 0;
+      box.onscroll = window._ccScrollHandler;
+      // Trigger once in case content is short enough to not need scrolling
+      setTimeout(window._ccScrollHandler, 200);
+    }
+  };
+
+  window._ccScrollHandler = function() {
+    const box = document.getElementById('agend-contrato-confirm-box');
+    if (!box) return;
+    const scrolled = box.scrollTop + box.clientHeight;
+    const total = box.scrollHeight;
+    const pct = total > 0 ? Math.min(100, Math.round((scrolled / total) * 100)) : 100;
+    const bar = document.getElementById('agend-cc-progress');
+    if (bar) bar.style.width = pct + '%';
+    if (pct >= 95 && !_contratoScrolled) {
+      _contratoScrolled = true;
+      const hint = document.getElementById('agend-cc-scroll-hint');
+      if (hint) { hint.textContent = '✅ Você chegou ao final — preencha os campos abaixo'; hint.style.color = '#16a34a'; }
+      if (bar) bar.style.background = '#16a34a';
+      // Enable all form inputs and pre-fill nome/cpf from step-3 data
+      ['agend-cc-nome', 'agend-cc-cpf', 'agend-cc-sim'].forEach(function(id) {
+        const el = document.getElementById(id);
+        if (el) { el.disabled = false; el.style.background = ''; el.style.color = ''; }
+      });
+      const ccNome = document.getElementById('agend-cc-nome');
+      const ccCpf = document.getElementById('agend-cc-cpf');
+      if (ccNome && !ccNome.value) ccNome.value = (document.getElementById('agend-nome')?.value || '').trim();
+      if (ccCpf && !ccCpf.value) ccCpf.value = (document.getElementById('agend-cpf')?.value || '').trim();
+      window._ccValidar();
+    }
+  };
+
+  window._ccValidar = function() {
+    if (!_contratoScrolled) return;
+    const nome = (document.getElementById('agend-cc-nome')?.value || '').trim();
+    const cpf = (document.getElementById('agend-cc-cpf')?.value || '').replace(/\D/g, '');
+    const sim = (document.getElementById('agend-cc-sim')?.value || '').trim().toUpperCase();
+    const btn = document.getElementById('agend-cc-btn');
+    const valid = nome.length >= 2 && cpf.length === 11 && sim === 'SIM';
+    if (btn) { btn.disabled = !valid; btn.style.opacity = valid ? '1' : '.4'; btn.style.cursor = valid ? 'pointer' : 'not-allowed'; }
+  };
+
+  window._ccConfirmar = function() {
+    const nome = (document.getElementById('agend-cc-nome')?.value || '').trim();
+    const cpf = (document.getElementById('agend-cc-cpf')?.value || '').trim();
+    const sim = (document.getElementById('agend-cc-sim')?.value || '').trim().toUpperCase();
+    const err = document.getElementById('agend-cc-error');
+    if (!nome || !cpf) { if (err) { err.textContent = 'Preencha nome completo e CPF.'; err.style.display = 'block'; } return; }
+    if (cpf.replace(/\D/g, '').length < 11) { if (err) { err.textContent = 'CPF inválido.'; err.style.display = 'block'; } return; }
+    if (sim !== 'SIM') { if (err) { err.textContent = 'Digite SIM para confirmar a leitura.'; err.style.display = 'block'; } return; }
+    if (err) err.style.display = 'none';
+    // Store acceptance data for agendSubmit
+    window._termosAceiteData = { aceite_termos_digital: true, leu_contrato_completo: true, termos_nome: nome, termos_cpf: cpf };
+    // Hide form, show success
+    const formSec = document.getElementById('agend-cc-form-section');
+    if (formSec) formSec.style.display = 'none';
+    const succ = document.getElementById('agend-cc-success');
+    if (succ) {
+      document.getElementById('agend-cc-success-nome').textContent = nome;
+      document.getElementById('agend-cc-success-cpf').textContent = cpf;
+      succ.style.display = '';
+    }
+    const box = document.getElementById('agend-contrato-confirm-box');
+    if (box) box.scrollTop = 0;
+  };
+
+  window._ccProsseguir = function() {
+    document.getElementById('agend-contrato-confirm-overlay').classList.remove('cc-open');
+    window.agendSubmit();
+  };
+
+  window._ccCancelar = function() {
+    document.getElementById('agend-contrato-confirm-overlay').classList.remove('cc-open');
+  };
 
   // ─── Termos Content popup handlers ─────────────────────────
   window.agendShowTermosContent = function() {
     const ol = document.getElementById('agend-termoscontent-overlay');
-    if (ol) { ol.classList.add('termoscontent-open'); ol.querySelector('#agend-termoscontent-box').scrollTop = 0; }
+    if (!ol) return;
+    const box = document.getElementById('agend-termoscontent-box');
+    if (box) box.scrollTop = 0;
+    ol.classList.add('termoscontent-open');
+    if (!box) return;
+    // Capture callback: set by _declOpenTermos, or default to enable 3rd termos checkbox
+    const scrollCb = _pendingTermosCallback || function() {
+      const cb3 = document.getElementById('agend-check-agendamento');
+      const lbl3 = document.getElementById('agend-termos-check-label-3');
+      if (cb3 && cb3.disabled) {
+        cb3.disabled = false; cb3.style.pointerEvents = '';
+        if (lbl3) { lbl3.style.opacity = '1'; lbl3.style.cursor = 'pointer'; }
+        const hint = document.getElementById('agend-termos-scroll-hint');
+        if (hint) { hint.textContent = '✅ Termos lidos! Puede marcar o último aceite.'; hint.style.color = '#16a34a'; hint.style.background = '#f0fdf4'; hint.style.borderColor = '#86efac'; }
+      }
+    };
+    _pendingTermosCallback = null;
+    // Attach scroll-to-bottom tracker
+    if (box._termosScrollHandler) box.removeEventListener('scroll', box._termosScrollHandler);
+    const onScroll = function() {
+      if (box.scrollTop + box.clientHeight >= box.scrollHeight - 80) {
+        box.removeEventListener('scroll', onScroll);
+        box._termosScrollHandler = null;
+        scrollCb();
+      }
+    };
+    box._termosScrollHandler = onScroll;
+    box.addEventListener('scroll', onScroll);
   };
   window.agendCloseTermosContent = function() {
     const ol = document.getElementById('agend-termoscontent-overlay');
@@ -1128,16 +1437,7 @@ var EVO_DEST_NUMBER  = '5519994063782';                       // Número da empr
   };
 
   window.agendShowAvisos = function() {
-    // Reset avisos popup
-    document.querySelectorAll('input[name="agend-avisos-choice"]').forEach(r => r.checked = false);
-    const btn = document.getElementById('agend-avisos-btn');
-    if (btn) { btn.disabled = true; btn.style.opacity = '.4'; btn.style.cursor = 'not-allowed'; }
-    const concordoLabel = document.getElementById('agend-avisos-concordo-label');
-    const naoLabel = document.getElementById('agend-avisos-naoconcordo-label');
-    if (concordoLabel) { concordoLabel.style.borderColor = '#e8e8ea'; concordoLabel.style.background = '#fafafa'; }
-    if (naoLabel) { naoLabel.style.borderColor = '#e8e8ea'; naoLabel.style.background = '#fafafa'; }
-    const ol = document.getElementById('agend-avisos-overlay');
-    if (ol) ol.classList.add('avisos-open');
+    window.agendSubmit();
   };
 
   window.agendAvisosNext = function() {
@@ -1282,6 +1582,7 @@ var EVO_DEST_NUMBER  = '5519994063782';                       // Número da empr
     const target = document.querySelector(`.agend-step[data-step="${n}"]`);
     if (target) target.classList.add('agend-active');
     renderProgress();
+    _updateHeaderBack();
     if (isNotebook) {
       const nbTitles = { 1: 'Notebook em geral', 2: 'Escolha data e horário', 3: 'Seus dados', 4: 'Revisão' };
       document.getElementById('agend-title').textContent = nbTitles[n] || 'Notebook em geral';
@@ -1342,7 +1643,40 @@ var EVO_DEST_NUMBER  = '5519994063782';                       // Número da empr
   function hideAllSub1() {
     ['agend-sub1-produto', 'agend-sub1-modelo', 'agend-sub1-servico', 'agend-sub1-opcao', 'agend-sub1-notebook']
       .forEach(id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; });
+    setTimeout(_updateHeaderBack, 0);
   }
+
+  function _updateHeaderBack() {
+    const btn = document.getElementById('agend-header-back-btn');
+    if (!btn) return;
+    let show = false;
+    if (step === 1) {
+      const prodDiv = document.getElementById('agend-sub1-produto');
+      show = !(prodDiv && prodDiv.style.display !== 'none');
+    } else {
+      show = true;
+    }
+    btn.style.display = show ? 'inline-flex' : 'none';
+  }
+
+  window.agendHeaderBack = function() {
+    if (step === 1) {
+      const modelo = document.getElementById('agend-sub1-modelo');
+      const servico = document.getElementById('agend-sub1-servico');
+      const opcao = document.getElementById('agend-sub1-opcao');
+      const notebook = document.getElementById('agend-sub1-notebook');
+      if (modelo && modelo.style.display !== 'none') window.agendBack('produto');
+      else if (servico && servico.style.display !== 'none') window.agendBack('modelo');
+      else if (opcao && opcao.style.display !== 'none') window.agendBack('servico');
+      else if (notebook && notebook.style.display !== 'none') window.agendBack('produto');
+    } else if (step === 2) {
+      window.agendGoStep(1);
+    } else if (step === 3) {
+      window.agendStep3Back();
+    } else if (step === 4) {
+      window.agendStep4Back();
+    }
+  };
 
   window.agendBack = function (to) {
     // Clear any inline FAQ expanders
@@ -1556,12 +1890,16 @@ var EVO_DEST_NUMBER  = '5519994063782';                       // Número da empr
   let _declQueue = [];    // filtered declaracoes for current opcao
   let _declIndex = 0;     // current declaration step
   let _declCallback = null; // fn to call when all accepted
+  let _declTimerDone = false;
+  let _declTermosAberto = false;
 
   window._agendStartDeclaracoes = function (declaracoes, pagamentoParcial, callback) {
     _declQueue = (declaracoes || []).filter(d => !!(d.titulo || d.texto || d.texto_checkbox));
     if (!_declQueue.length) { callback(); return; }
     _declIndex = 0;
     _declCallback = callback;
+    _declTimerDone = false;
+    _declTermosAberto = false;
     _renderDeclStep();
   };
 
@@ -1571,48 +1909,115 @@ var EVO_DEST_NUMBER  = '5519994063782';                       // Número da empr
     if (!box) return;
     const total = _declQueue.length;
     const step = _declIndex + 1;
-    const checkLabel = d.texto_checkbox || 'Eu li e concordo com o exposto acima';
+    const isLast = step === total;
+    const checkLabel = d.texto_checkbox || 'Li e concordo com todas as condições acima';
+
+    // Build progress dots
+    let progressDots = '';
+    if (total > 1) {
+      progressDots = '<div style="display:flex;justify-content:center;gap:6px;margin-bottom:20px">';
+      for (let i = 0; i < total; i++) {
+        const done = i < _declIndex, active = i === _declIndex;
+        progressDots += `<div style="width:${done ? '20px' : active ? '28px' : '8px'};height:8px;border-radius:99px;background:${done ? '#16a34a' : active ? '#f59e0b' : '#e0e0e6'};transition:all .35s"></div>`;
+      }
+      progressDots += '</div>';
+    }
 
     const html = `
-      <div style="text-align:center;margin-bottom:16px">
-        <div style="width:44px;height:44px;border-radius:50%;background:#fff3cd;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:22px">⚠️</div>
-        <h3 style="font-size:16px;font-weight:800;margin:0 0 4px;color:#1a1a1a">${d.titulo || 'Atenção'}</h3>
-        ${total > 1 ? `<p style="font-size:12px;color:#aaa;margin:0">Etapa ${step} de ${total}</p>` : ''}
+      ${progressDots}
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:14px">
+          <div style="position:relative;width:48px;height:48px;flex-shrink:0">
+            <div style="width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,#fef3c7,#fde68a);border:2px solid #fbbf24;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:#92400e">${step}</div>
+            <div style="position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:50%;background:#fff;border:2px solid #fbbf24;display:flex;align-items:center;justify-content:center;font-size:11px">⚠️</div>
+          </div>
+          <div>
+            <p style="font-size:16px;font-weight:800;margin:0;color:#1a1a1a;letter-spacing:-.3px">${d.titulo || 'Atenção'}</p>
+            ${total > 1 ? `<p style="font-size:12px;color:#aaa;margin:3px 0 0;font-weight:600">Etapa ${step} de ${total}</p>` : ''}
+          </div>
+        </div>
       </div>
-      <div style="background:#fffbeb;border:1.5px solid #fde68a;border-radius:16px;padding:16px;margin-bottom:18px">
-        <p style="font-size:13px;color:#78350f;line-height:1.75;margin:0;white-space:pre-line">${d.texto || ''}</p>
+      <div style="border-radius:16px;border:2px solid #fde68a;overflow:hidden;margin-bottom:20px;box-shadow:0 2px 12px rgba(251,191,36,.12)">
+        <div style="background:linear-gradient(90deg,#fef3c7,#fffbeb);padding:8px 14px;border-bottom:1px solid #fde68a;display:flex;align-items:center;gap:6px">
+          <span style="font-size:14px">📋</span>
+          <span style="font-size:11px;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:.06em">Leia atentamente antes de continuar</span>
+        </div>
+        <div style="background:#fffdf5;padding:16px">
+          <p style="font-size:13px;color:#78350f;line-height:1.85;margin:0;white-space:pre-line">${d.texto || ''}</p>
+        </div>
       </div>
-      <label style="display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:12px;border:2px solid #e8e8ea;cursor:pointer;margin-bottom:14px;background:#fafafa;transition:border-color .15s" id="agend-decl-check-label" onclick="this.style.borderColor=document.getElementById('agend-decl-check').checked?'#e8e8ea':'#7c3aed'">
-        <input type="checkbox" id="agend-decl-check" style="accent-color:#7c3aed;width:18px;height:18px;margin-top:2px;flex-shrink:0" onchange="window._declValidate()">
-        <span style="font-size:13px;color:#1a1a1a;line-height:1.5;font-weight:600">${checkLabel}</span>
-      </label>
-      ${step === total ? `<div style="margin-bottom:16px">
-        <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">Para continuar, digite <strong style="color:#1a1a1a">SIM</strong> no campo abaixo</label>
-        <input type="text" id="agend-decl-sim" class="agend-input" placeholder="SIM" oninput="window._declValidate()" autocomplete="off" style="text-transform:uppercase">
+      ${isLast ? `
+      <div id="agend-decl-terms-card" style="border-radius:14px;border:2px solid #fed7aa;background:#fff7ed;padding:14px;margin-bottom:16px;display:flex;align-items:center;gap:12px;transition:all .35s">
+        <div id="agend-decl-terms-icon" style="width:36px;height:36px;border-radius:10px;background:#fed7aa;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;transition:all .35s">📄</div>
+        <div style="flex:1;min-width:0">
+          <p style="font-size:12px;font-weight:800;color:#c2410c;margin:0 0 2px">Leitura dos Termos obrigatória</p>
+          <p id="agend-decl-terms-status" style="font-size:11px;color:#9a3412;margin:0;transition:color .35s">Abra e leia os Termos de Uso antes de continuar</p>
+        </div>
+        <button id="agend-decl-terms-btn" onclick="window._declOpenTermos()" style="flex-shrink:0;padding:8px 14px;border-radius:10px;background:#ea580c;color:#fff;font-size:12px;font-weight:700;border:none;cursor:pointer;font-family:Inter,sans-serif;white-space:nowrap;transition:background .25s">Ler agora →</button>
       </div>` : ''}
-      <button id="agend-decl-btn" onclick="window._declNext()" disabled style="width:100%;padding:14px;border-radius:14px;background:#16a34a;color:#fff;font-size:14px;font-weight:700;border:none;cursor:not-allowed;opacity:.4;font-family:Inter,sans-serif;transition:all .2s;margin-bottom:8px">${step < total ? '✅ ACEITO E CONTINUAR' : '✅ ACEITO E CONTINUAR'}</button>
+      <div style="border-radius:14px;border:2px solid #e8e8ea;overflow:hidden;margin-bottom:16px">
+        <label id="agend-decl-check-label" style="display:flex;align-items:flex-start;gap:12px;padding:14px;cursor:${isLast && !_declTermosAberto ? 'not-allowed' : 'pointer'};background:#fafafa;opacity:${isLast && !_declTermosAberto ? '.45' : '1'};transition:opacity .35s,cursor .35s">
+          <input type="checkbox" id="agend-decl-check" ${isLast && !_declTermosAberto ? 'disabled' : ''} style="accent-color:#7c3aed;width:20px;height:20px;margin-top:1px;flex-shrink:0;${isLast && !_declTermosAberto ? 'pointer-events:none' : ''}" onchange="window._declValidate()">
+          <span style="font-size:13px;color:#1a1a1a;line-height:1.5;font-weight:600">${checkLabel}</span>
+        </label>
+      </div>
+      ${isLast ? `
+      <div style="background:#f8f9ff;border-radius:14px;border:2px solid #dbeafe;padding:16px;margin-bottom:16px">
+        <p style="font-size:11px;font-weight:700;color:#1a6cff;text-transform:uppercase;letter-spacing:.06em;margin:0 0 12px">📝 Confirmação de identidade</p>
+        <div style="margin-bottom:10px">
+          <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em">Nome Completo</label>
+          <input type="text" id="agend-decl-nome" class="agend-input" placeholder="Seu nome completo" oninput="window._declValidate()">
+        </div>
+        <div style="margin-bottom:12px">
+          <label style="font-size:11px;font-weight:700;color:#888;display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em">CPF</label>
+          <input type="text" id="agend-decl-cpf" class="agend-input" placeholder="000.000.000-00" maxlength="14" oninput="window.agendFormatCpf(this);window._declValidate()">
+        </div>
+        <div>
+          <p style="font-size:13px;font-weight:600;color:#1a1a1a;margin:0 0 8px">Para continuar, digite <strong>SIM</strong> no campo abaixo</p>
+          <input type="text" id="agend-decl-sim" class="agend-input" placeholder="SIM" oninput="window._declValidate()" autocomplete="off" style="text-align:center;font-size:16px;font-weight:800;letter-spacing:.12em;text-transform:uppercase">
+        </div>
+      </div>` : ''}
+      <button id="agend-decl-btn" onclick="window._declNext()" disabled style="width:100%;padding:15px;border-radius:14px;background:#16a34a;color:#fff;font-size:14px;font-weight:700;border:none;cursor:not-allowed;opacity:.35;font-family:Inter,sans-serif;transition:all .25s;margin-bottom:8px">${step < total ? '✅ ACEITO E AVANÇAR' : '✅ ACEITO E CONTINUAR'}</button>
       <button onclick="window._declCancel()" style="width:100%;padding:13px;border-radius:14px;background:#fff;border:2px solid #fca5a5;color:#dc2626;font-size:14px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;transition:all .2s">❌ NÃO ACEITO / VOLTAR</button>`;
 
     box.innerHTML = html;
+    box.scrollTop = 0;
+    if (isLast) {
+      const nomeEl = document.getElementById('agend-decl-nome');
+      const cpfEl = document.getElementById('agend-decl-cpf');
+      if (nomeEl && !nomeEl.value) nomeEl.value = (document.getElementById('agend-nome')?.value || '').trim();
+      if (cpfEl && !cpfEl.value) cpfEl.value = (document.getElementById('agend-cpf')?.value || '').trim();
+    }
     const ovl = document.getElementById('agend-decl-overlay');
     if (ovl) ovl.classList.add('decl-open');
   }
 
   window._declValidate = function () {
     const cb = document.getElementById('agend-decl-check');
-    const inp = document.getElementById('agend-decl-sim');
     const isLastStep = _declIndex === _declQueue.length - 1;
+    const inp = document.getElementById('agend-decl-sim');
+    const nomeEl = document.getElementById('agend-decl-nome');
+    const cpfEl = document.getElementById('agend-decl-cpf');
     const simOk = !isLastStep || !!(inp && inp.value.trim().toUpperCase() === 'SIM');
-    const valid = !!(cb && cb.checked && simOk);
+    const nomeOk = !isLastStep || !!(nomeEl && nomeEl.value.trim().length >= 2);
+    const cpfOk = !isLastStep || !!(cpfEl && cpfEl.value.replace(/\D/g, '').length === 11);
+    const termsOk = !isLastStep || _declTermosAberto;
+    const valid = !!(cb && cb.checked && simOk && nomeOk && cpfOk && termsOk);
     const btn = document.getElementById('agend-decl-btn');
     if (btn) {
       btn.disabled = !valid;
-      btn.style.opacity = valid ? '1' : '.4';
+      btn.style.opacity = valid ? '1' : '.35';
       btn.style.cursor = valid ? 'pointer' : 'not-allowed';
     }
   };
 
   window._declNext = function () {
+    // If completing the last step, store acceptance data
+    if (_declIndex === _declQueue.length - 1) {
+      const nome = (document.getElementById('agend-decl-nome')?.value || '').trim();
+      const cpf = (document.getElementById('agend-decl-cpf')?.value || '').trim();
+      window._termosAceiteData = { aceite_termos_digital: true, leu_contrato_completo: true, termos_nome: nome, termos_cpf: cpf };
+    }
     _declIndex++;
     if (_declIndex >= _declQueue.length) {
       // All declarations accepted
@@ -1629,6 +2034,46 @@ var EVO_DEST_NUMBER  = '5519994063782';                       // Número da empr
     if (ovl) ovl.classList.remove('decl-open');
     _declQueue = [];
     _declCallback = null;
+  };
+
+  window._declCheckUnlock = function() {
+    const isLast = _declIndex === _declQueue.length - 1;
+    const termsOk = !isLast || _declTermosAberto;
+    if (!termsOk) return;
+    const cb = document.getElementById('agend-decl-check');
+    const lbl = document.getElementById('agend-decl-check-label');
+    const banner = document.getElementById('agend-decl-lock-banner');
+    const lockIcon = document.getElementById('agend-decl-lock-icon');
+    const lockText = document.getElementById('agend-decl-lock-text');
+    const lockCount = document.getElementById('agend-decl-lock-count');
+    const lockBar = document.getElementById('agend-decl-lock-bar');
+    if (cb) { cb.disabled = false; cb.style.pointerEvents = 'auto'; }
+    if (lbl) { lbl.style.cursor = 'pointer'; lbl.style.opacity = '1'; }
+    if (banner) { banner.style.background = '#f0fdf4'; banner.style.borderBottomColor = '#86efac'; }
+    if (lockIcon) { lockIcon.style.background = '#bbf7d0'; lockIcon.textContent = '✅'; }
+    if (lockText) { lockText.textContent = 'Pronto! Agora você pode confirmar a leitura abaixo'; lockText.style.color = '#16a34a'; }
+    if (lockCount) lockCount.textContent = '';
+    if (lockBar) { lockBar.style.background = '#16a34a'; lockBar.style.width = '100%'; }
+  };
+
+  window._declOpenTermos = function() {
+    _pendingTermosCallback = function() {
+      _declTermosAberto = true;
+      const card = document.getElementById('agend-decl-terms-card');
+      const statusEl = document.getElementById('agend-decl-terms-status');
+      const btn = document.getElementById('agend-decl-terms-btn');
+      const icon = document.getElementById('agend-decl-terms-icon');
+      if (card) { card.style.borderColor = '#86efac'; card.style.background = '#f0fdf4'; }
+      if (statusEl) { statusEl.textContent = '✅ Termos de Uso lidos — pode prosseguir'; statusEl.style.color = '#16a34a'; }
+      if (btn) { btn.style.background = '#16a34a'; btn.textContent = '✅ Lido'; btn.disabled = true; btn.style.cursor = 'default'; }
+      if (icon) { icon.style.background = '#bbf7d0'; icon.textContent = '✅'; }
+      const cb = document.getElementById('agend-decl-check');
+      const lbl = document.getElementById('agend-decl-check-label');
+      if (cb) { cb.disabled = false; cb.style.pointerEvents = ''; }
+      if (lbl) { lbl.style.opacity = '1'; lbl.style.cursor = 'pointer'; }
+      window._declCheckUnlock();
+    };
+    window.agendShowTermosContent();
   };
 
   // ─── Format helpers ───────────────────────────────────────
@@ -2345,7 +2790,7 @@ var EVO_DEST_NUMBER  = '5519994063782';                       // Número da empr
         if (dataFmt) msg += '📅 *Data:* ' + dataFmt + '\n';
         if (horaFmt) msg += '⏰ *Horário:* ' + horaFmt + '\n';
         if (descricao) msg += '\n📝 *Descrição:* ' + descricao + '\n';
-        msg += '\n_iPro Assistência Apple – Campinas/SP_';
+        msg += '\n_xPro7 Assistência Premium – Campinas/SP_';
         // Enviar para o número específico do notebook
         var NB_DEST_NUMBER = '5519996666898';
         const res = await fetch(EVO_API_URL + '/message/sendText/' + encodeURIComponent(EVO_INSTANCE), {

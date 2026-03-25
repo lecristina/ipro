@@ -1942,7 +1942,8 @@ var EVO_DEST_NUMBER  = '5519994063782';                       // Número da empr
         </div>
       </div>` : ''}
       <button id="agend-decl-btn" onclick="window._declNext()" disabled style="width:100%;padding:15px;border-radius:14px;background:#16a34a;color:#fff;font-size:14px;font-weight:700;border:none;cursor:not-allowed;opacity:.35;font-family:Inter,sans-serif;transition:all .25s;margin-bottom:8px">${step < total ? '✅ ACEITO E AVANÇAR' : '✅ ACEITO E CONTINUAR'}</button>
-      <button onclick="window._declCancel()" style="width:100%;padding:13px;border-radius:14px;background:#fff;border:2px solid #fca5a5;color:#dc2626;font-size:14px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;transition:all .2s">❌ NÃO ACEITO / VOLTAR</button>`;
+      <button onclick="window._declBack()" style="width:100%;padding:13px;border-radius:14px;background:#f5f5f7;border:2px solid #e0ddd9;color:#555;font-size:14px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;transition:all .2s;margin-bottom:8px">← VOLTAR</button>
+      <button onclick="window._declCancel()" style="width:100%;padding:13px;border-radius:14px;background:#fff;border:2px solid #fca5a5;color:#dc2626;font-size:14px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;transition:all .2s">❌ NÃO ACEITO</button>`;
 
     box.innerHTML = html;
     box.scrollTop = 0;
@@ -1990,6 +1991,16 @@ var EVO_DEST_NUMBER  = '5519994063782';                       // Número da empr
       if (_declCallback) _declCallback();
     } else {
       _renderDeclStep();
+    }
+  };
+
+  window._declBack = function () {
+    if (_declIndex > 0) {
+      _declIndex--;
+      _declTermosAberto = false;
+      _renderDeclStep();
+    } else {
+      window._declCancel();
     }
   };
 
@@ -2771,12 +2782,26 @@ var EVO_DEST_NUMBER  = '5519994063782';                       // Número da empr
         }
         msg += SEP + '\n\n';
         msg += 'Em breve entraremos em contato para confirmação do agendamento.';
-        // Enviar para o número específico do notebook
-        var NB_DEST_NUMBER = '5519996666898';
-        const res = await fetch(EVO_API_URL + '/message/sendText/' + encodeURIComponent(EVO_INSTANCE), {
+        // Enviar via backend (evita expor API key no browser)
+        const nbBody = {
+          produto_nome: 'Notebook',
+          modelo_nome: modelo,
+          servico_nome: servico,
+          opcao_nome: '---',
+          opcao_preco: preco,
+          data: sel.data || null,
+          horario: sel.horario || null,
+          nome: nome,
+          cpf: cpf || '',
+          email: email || '',
+          whatsapp: celular,
+          descricao_defeito: descricao,
+          tipo_solicitacao: notebookSel.tipoSolicitacao || 'agendamento'
+        };
+        const res = await fetch('/api/agendamentos', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'apikey': EVO_API_KEY },
-          body: JSON.stringify({ number: NB_DEST_NUMBER, text: msg })
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(nbBody)
         });
         if (!res.ok) throw new Error('Erro ao enviar solicitação. Tente novamente.');
         btn.disabled = false; btn.textContent = 'Prosseguir →';

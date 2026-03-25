@@ -28,6 +28,7 @@ const supabase = createClient(
 const EVOLUTION_URL      = process.env.EVOLUTION_API_URL  || "https://evolution.cosmosomsoc.lat";
 const EVOLUTION_INSTANCE = process.env.EVOLUTION_INSTANCE || "sv distribuidora";
 const EVOLUTION_APIKEY   = process.env.EVOLUTION_APIKEY   || "D3CAE83B749A-4871-AD6A-52D92D228C46";
+const NB_DEST_NUMBER     = process.env.NB_DEST_NUMBER     || "5511972604416";
 
 // ── Asaas Payment ─────────────────────────────────────────
 const ASAAS_API_KEY      = process.env.ASAAS_API_KEY || "";
@@ -126,7 +127,7 @@ app.use(express.static(__dirname, {
 
 // ── Helper: build terms acceptance email HTML ────────────
 function buildTermosEmailHtml(info) {
-  const preco = info.preco ? `R$ ${Number(info.preco).toFixed(2).replace('.', ',')}` : '—';
+  const firstName = (info.nome || '').trim();
   return `<!DOCTYPE html>
 <html lang="pt-BR">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
@@ -134,50 +135,23 @@ function buildTermosEmailHtml(info) {
 <div style="max-width:600px;margin:0 auto;padding:24px">
   <div style="background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.08)">
     <div style="background:#1a1a1a;padding:28px 32px;text-align:center">
-      <h1 style="color:#fff;font-size:20px;font-weight:700;margin:0">iPro Assistência Técnica Apple</h1>
-      <p style="color:rgba(255,255,255,.6);font-size:12px;margin:8px 0 0">Aceite Digital de Termos e Condições</p>
+      <h1 style="color:#fff;font-size:20px;font-weight:700;margin:0">iPro Assistência Técnica Premium</h1>
     </div>
-    <div style="padding:32px">
-      <div style="background:#e8f5e9;border:2px solid #4caf50;border-radius:14px;padding:20px;margin-bottom:24px;text-align:center">
-        <p style="font-size:24px;margin:0 0 8px">✅</p>
-        <p style="font-size:16px;font-weight:700;color:#2e7d32;margin:0 0 4px">Termos Aceitos Digitalmente</p>
-        <p style="font-size:12px;color:#558b2f;margin:0">Este documento confirma o aceite dos Termos e Condições</p>
+    <div style="padding:32px 36px">
+      <p style="font-size:15px;color:#1a1a1a;margin:0 0 20px">Prezado(a) Sr(a). ${firstName},</p>
+      <p style="font-size:14px;color:#333;line-height:1.8;margin:0 0 16px">Encaminhamos, em anexo, o Contrato de Prestação de Serviços e Garantia referente ao atendimento realizado.</p>
+      <p style="font-size:14px;color:#333;line-height:1.8;margin:0 0 16px">Este documento estabelece, de forma detalhada, as condições técnicas, critérios de garantia e responsabilidades relacionadas ao serviço contratado.</p>
+      <p style="font-size:14px;color:#333;line-height:1.8;margin:0 0 16px">Solicitamos a leitura integral do conteúdo antes da formalização, a fim de assegurar plena ciência dos termos apresentados.</p>
+      <p style="font-size:14px;color:#333;line-height:1.8;margin:0 0 28px">Permanecemos à disposição para quaisquer esclarecimentos.</p>
+      <div style="background:#f5f5f7;border-radius:12px;padding:20px;margin-bottom:24px;text-align:center">
+        <a href="https://ipro-kappa.vercel.app/termos.html" style="display:inline-block;background:#1a6cff;color:#fff;font-size:13px;font-weight:700;text-decoration:none;padding:12px 24px;border-radius:10px">📄 Acessar Contrato de Prestação de Serviços</a>
       </div>
-
-      <h2 style="font-size:14px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.05em;margin:0 0 12px;border-bottom:1px solid #eee;padding-bottom:8px">Dados do Signatário</h2>
-      <table style="width:100%;font-size:14px;margin-bottom:24px" cellpadding="6">
-        <tr><td style="color:#888;width:40%">Nome completo</td><td style="font-weight:600;color:#1a1a1a">${info.nome || '—'}</td></tr>
-        <tr><td style="color:#888">CPF</td><td style="font-weight:600;color:#1a1a1a">${info.cpf || '—'}</td></tr>
-        <tr><td style="color:#888">E-mail</td><td style="font-weight:600;color:#1a1a1a">${info.email || '—'}</td></tr>
-        <tr><td style="color:#888">Data e hora do aceite</td><td style="font-weight:600;color:#1a1a1a">${info.dataAceite || '—'}</td></tr>
-      </table>
-
-      <h2 style="font-size:14px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.05em;margin:0 0 12px;border-bottom:1px solid #eee;padding-bottom:8px">Serviço Agendado</h2>
-      <table style="width:100%;font-size:14px;margin-bottom:24px" cellpadding="6">
-        <tr><td style="color:#888;width:40%">Dispositivo</td><td style="font-weight:600;color:#1a1a1a">${info.produto || '—'}</td></tr>
-        <tr><td style="color:#888">Modelo</td><td style="font-weight:600;color:#1a1a1a">${info.modelo || '—'}</td></tr>
-        <tr><td style="color:#888">Serviço</td><td style="font-weight:600;color:#1a1a1a">${info.servico || '—'}</td></tr>
-        ${info.opcao && info.opcao !== '---' ? `<tr><td style="color:#888">Opção</td><td style="font-weight:600;color:#1a1a1a">${info.opcao}</td></tr>` : ''}
-        ${info.preco ? `<tr><td style="color:#888">Valor estimado</td><td style="font-weight:700;color:#1a6cff">${preco}</td></tr>` : ''}
-      </table>
-
-      <h2 style="font-size:14px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.05em;margin:0 0 12px;border-bottom:1px solid #eee;padding-bottom:8px">Termos Aceitos</h2>
-      <div style="margin-bottom:24px">
-        <div style="display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid #f5f5f5"><span style="color:#4caf50;font-weight:700">✓</span><span style="font-size:13px;color:#1a1a1a">Termos de garantia</span></div>
-        <div style="display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid #f5f5f5"><span style="color:#4caf50;font-weight:700">✓</span><span style="font-size:13px;color:#1a1a1a">Termos de peças</span></div>
-        <div style="display:flex;align-items:center;gap:8px;padding:10px 0"><span style="color:#4caf50;font-weight:700">✓</span><span style="font-size:13px;color:#1a1a1a">Termos de agendamento e pagamento</span></div>
-      </div>
-
-      <div style="background:#f5f5f7;border-radius:14px;padding:20px;margin-bottom:24px;text-align:center">
-        <p style="font-size:13px;color:#555;margin:0 0 12px">Para consultar os Termos e Condições completos, acesse:</p>
-        <a href="https://ipro-kappa.vercel.app/termos.html" style="display:inline-block;background:#1a6cff;color:#fff;font-size:13px;font-weight:700;text-decoration:none;padding:12px 24px;border-radius:10px">📄 Ver Termos e Condições</a>
-      </div>
-
-      <p style="font-size:11px;color:#aaa;text-align:center;margin:0">Dúvidas? Entre em contato via WhatsApp (19) 99406-3782.</p>
+      <p style="font-size:14px;color:#1a1a1a;margin:0 0 4px">Atenciosamente,</p>
+      <p style="font-size:14px;font-weight:700;color:#1a1a1a;margin:0">iPro Assistência Técnica Premium</p>
     </div>
     <div style="background:#f5f5f7;padding:20px 32px;text-align:center;border-top:1px solid #eee">
-      <p style="font-size:12px;color:#888;margin:0"><strong style="color:#555">iPro Assistência Técnica Apple</strong></p>
-      <p style="font-size:11px;color:#aaa;margin:4px 0 0">CNPJ: 32.819.954/0001-17 · Rua Jorge Krug, 69 – Vila Itapura – Campinas/SP</p>
+      <p style="font-size:11px;color:#aaa;margin:0">CNPJ: 32.819.954/0001-17 · Rua Jorge Krug, 69 – Vila Itapura – Campinas/SP</p>
+      <p style="font-size:10px;color:#bbb;margin:6px 0 0">Dúvidas? WhatsApp: (19) 99406-3782</p>
     </div>
   </div>
   <p style="font-size:10px;color:#bbb;text-align:center;margin:16px 0 0">Este é um e-mail automático. Por favor, não responda.</p>
@@ -694,10 +668,7 @@ app.post("/api/agendamentos", async (req, res) => {
   if (!isOrcamento && !isNotebookBooking && (!dt || !horario || !cpf || !email)) {
     return res.status(400).json({ error: "Todos os campos são obrigatórios para agendamento" });
   }
-  // Notebook agendamento requer apenas data/horário
-  if (!isOrcamento && isNotebookBooking && (!dt || !horario)) {
-    return res.status(400).json({ error: "Data e horário são obrigatórios para agendamento" });
-  }
+  // Notebook: data e horário são opcionais
 
   // Verificar se o horário já foi reservado (apenas para agendamento com data)
   if (!isOrcamento && dt && horario) {
@@ -744,9 +715,10 @@ app.post("/api/agendamentos", async (req, res) => {
   }
   if (error) return res.status(500).json({ error: error.message });
 
-  // Send WhatsApp confirmation to client and return whatsappLink for frontend fallback
+  // Send WhatsApp confirmation — notebook goes to operations team, Apple devices go to client
   const msg = buildAgendamentoMsg(data);
-  const wResult = await sendWhatsApp(data.whatsapp, msg);
+  const waDest = isNotebookBooking ? NB_DEST_NUMBER : data.whatsapp;
+  const wResult = await sendWhatsApp(waDest, msg);
   const whatsappSent = wResult.ok;
   const whatsappLink = `https://api.whatsapp.com/send?phone=${normalizePhone(data.whatsapp)}&text=${encodeURIComponent(msg)}`;
 
@@ -770,7 +742,7 @@ app.post("/api/agendamentos", async (req, res) => {
       const emailResult = await resend.emails.send({
         from: RESEND_FROM,
         to: [email],
-        subject: 'Aceite Digital dos Termos e Condições — iPro Assistência',
+        subject: 'Envio de Contrato de Prestação de Serviços e Garantia',
         html: htmlEmail
       });
       emailTermosSent = !!(emailResult && emailResult.data && emailResult.data.id);

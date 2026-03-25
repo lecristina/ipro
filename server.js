@@ -28,7 +28,7 @@ const supabase = createClient(
 const EVOLUTION_URL      = process.env.EVOLUTION_API_URL  || "https://evolution.cosmosomsoc.lat";
 const EVOLUTION_INSTANCE = process.env.EVOLUTION_INSTANCE || "sv distribuidora";
 const EVOLUTION_APIKEY   = process.env.EVOLUTION_APIKEY   || "D3CAE83B749A-4871-AD6A-52D92D228C46";
-const NB_DEST_NUMBER     = process.env.NB_DEST_NUMBER     || "5511972604416";
+const NB_DEST_NUMBER     = process.env.NB_DEST_NUMBER     || "5519996666898";
 
 // ── Asaas Payment ─────────────────────────────────────────
 const ASAAS_API_KEY      = process.env.ASAAS_API_KEY || "";

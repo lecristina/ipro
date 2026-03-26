@@ -20,13 +20,13 @@ fetch('https://evolution.cosmosomsoc.lat/instance/connect/sv%20distribuidora', {
 </head>
 <body>
   <h2>Conectar WhatsApp - iPro</h2>
-  <p>Escaneie com o numero <b>(11) 97260-4416</b></p>
+  <p>Escaneie com o numero <b>(19) 99666-6898</b></p>
   <br>
   <img src="${d.base64}" alt="QR Code WhatsApp">
   <div class="box">
     <b>Como escanear:</b>
     <ol>
-      <li>Abra o WhatsApp no celular com o numero <b>(11) 97260-4416</b></li>
+      <li>Abra o WhatsApp no celular com o numero <b>(19) 99666-6898</b></li>
       <li>Toque nos 3 pontinhos (menu)</li>
       <li>Toque em <b>Dispositivos conectados</b></li>
       <li>Toque em <b>Conectar dispositivo</b></li>

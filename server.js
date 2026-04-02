@@ -722,7 +722,7 @@ app.post("/api/agendamentos", async (req, res) => {
       .select("id")
       .eq("data", dt)
       .eq("horario", horario)
-      .in("status", ["pendente", "aprovado"])
+      .in("status", ["pendente", "aprovado", "reagendado", "em_andamento"])
       .limit(1);
     if (clash && clash.length > 0) {
       return res.status(409).json({ error: "slot_taken", message: "Este horário acabou de ser reservado por outro cliente. Por favor, escolha outro horário." });
@@ -824,7 +824,73 @@ app.put("/api/agendamentos/:id/recusar", authAdmin, async (req, res) => {
   const { data, error } = await supabase
     .from("agendamentos").update({ status: "recusado" }).eq("id", req.params.id).select().single();
   if (error) return res.status(500).json({ error: error.message });
+  if (data) {
+    const SEP = '━━━━━━━━━━━━━━━━━━';
+    const msg =
+      `📱 *ATUALIZAÇÃO DO SEU ATENDIMENTO*\n\n` +
+      `Olá ${data.nome}, infelizmente não será possível realizar o atendimento conforme solicitado.\n\n` +
+      `${SEP}\n` +
+      `📱 *DISPOSITIVO*\n` +
+      `Dispositivo: ${data.produto_nome}\n` +
+      (data.modelo_nome ? `Modelo: ${data.modelo_nome}\n` : '') +
+      `Serviço: ${data.servico_nome}\n` +
+      `${SEP}\n\n` +
+      `📊 *STATUS DO PEDIDO:*\n\n` +
+      `❌ Recusado — Não foi possível confirmar o atendimento.\n\n` +
+      `Para mais informações, entre em contato pelo WhatsApp.`;
+    await sendWhatsApp(data.whatsapp, msg);
+  }
   res.json(data);
+});
+
+// Admin marca em andamento
+app.put("/api/agendamentos/:id/em-andamento", authAdmin, async (req, res) => {
+  const { data, error } = await supabase
+    .from("agendamentos").update({ status: "em_andamento" }).eq("id", req.params.id).select().single();
+  if (error) return res.status(500).json({ error: error.message });
+  const SEP = '━━━━━━━━━━━━━━━━━━';
+  const msg =
+    `📱 *ATUALIZAÇÃO DO SEU ATENDIMENTO*\n\n` +
+    `Olá ${data.nome}, seu dispositivo está em andamento! 🔧\n\n` +
+    `${SEP}\n` +
+    `🔧 *DISPOSITIVO EM MANUTENÇÃO*\n` +
+    `Dispositivo: ${data.produto_nome}\n` +
+    (data.modelo_nome ? `Modelo: ${data.modelo_nome}\n` : '') +
+    `Serviço: ${data.servico_nome}\n` +
+    `${SEP}\n\n` +
+    `📊 *STATUS DO PEDIDO:*\n\n` +
+    `🔧 Em andamento — Seu dispositivo está sendo reparado.\n\n` +
+    `Assim que o serviço for concluído, entraremos em contato.`;
+  const wResult = await sendWhatsApp(data.whatsapp, msg);
+  const whatsappSent = wResult.ok;
+  const whatsappLink = `https://api.whatsapp.com/send?phone=${normalizePhone(data.whatsapp)}&text=${encodeURIComponent(msg)}`;
+  res.json({ ...data, whatsappSent, whatsappLink, _evolutionStatus: wResult.status, _evolutionBody: wResult.body });
+});
+
+// Admin cancela
+app.put("/api/agendamentos/:id/cancelar", authAdmin, async (req, res) => {
+  const { motivo } = req.body || {};
+  const { data, error } = await supabase
+    .from("agendamentos").update({ status: "cancelado" }).eq("id", req.params.id).select().single();
+  if (error) return res.status(500).json({ error: error.message });
+  const SEP = '━━━━━━━━━━━━━━━━━━';
+  const msg =
+    `📱 *ATUALIZAÇÃO DO SEU ATENDIMENTO*\n\n` +
+    `Olá ${data.nome}, informamos que o seu agendamento foi cancelado.\n\n` +
+    `${SEP}\n` +
+    `📱 *DISPOSITIVO*\n` +
+    `Dispositivo: ${data.produto_nome}\n` +
+    (data.modelo_nome ? `Modelo: ${data.modelo_nome}\n` : '') +
+    `Serviço: ${data.servico_nome}\n` +
+    `${SEP}\n\n` +
+    `📊 *STATUS DO PEDIDO:*\n\n` +
+    `❌ Cancelado.` +
+    (motivo ? `\n\n📝 Motivo: ${motivo}` : '') +
+    `\n\nPara reagendar ou mais informações, entre em contato pelo WhatsApp.`;
+  const wResult = await sendWhatsApp(data.whatsapp, msg);
+  const whatsappSent = wResult.ok;
+  const whatsappLink = `https://api.whatsapp.com/send?phone=${normalizePhone(data.whatsapp)}&text=${encodeURIComponent(msg)}`;
+  res.json({ ...data, whatsappSent, whatsappLink, _evolutionStatus: wResult.status, _evolutionBody: wResult.body });
 });
 
 // Admin remarca (não cria novo, apenas muda data/horário mantendo o mesmo registro)
@@ -845,7 +911,7 @@ app.put("/api/agendamentos/:id/remarcar", authAdmin, async (req, res) => {
     .select("id")
     .eq("data", nova_data)
     .eq("horario", novo_horario)
-    .in("status", ["pendente", "aprovado"])
+    .in("status", ["pendente", "aprovado", "reagendado", "em_andamento"])
     .neq("id", req.params.id)
     .limit(1);
 
@@ -856,7 +922,7 @@ app.put("/api/agendamentos/:id/remarcar", authAdmin, async (req, res) => {
 
   const { data, error } = await supabase
     .from("agendamentos")
-    .update({ data: nova_data, horario: novo_horario, status: "pendente" })
+    .update({ data: nova_data, horario: novo_horario, status: "reagendado" })
     .eq("id", req.params.id)
     .select()
     .single();
@@ -894,7 +960,8 @@ app.put("/api/agendamentos/:id/remarcar", authAdmin, async (req, res) => {
       `⚡ Prioridade: ${`Rápido`}\n\n` +
       `${SEP_R}\n\n` +
       `📊 STATUS DO PEDIDO:\n\n` +
-      `⚠️ Alteração de data e horário solicitada.` +
+      `📅 Reagendado — Nova data e horário confirmados.` +
+      `\nData: ${newDate} às ${newHora}` +
       (extraMsg ? `\n\n📝 Mensagem da iPro:\n${extraMsg}` : '');
     const wResult = await sendWhatsApp(agendOld.whatsapp, msg);
     whatsappSent = wResult.ok;
@@ -978,7 +1045,7 @@ app.get("/api/horarios-disponiveis", async (req, res) => {
 
   // Pegar agendamentos já feitos nesse dia (aprovados + pendentes)
   const { data: agends } = await supabase
-    .from("agendamentos").select("horario").eq("data", dateStr).in("status", ["pendente", "aprovado"]);
+    .from("agendamentos").select("horario").eq("data", dateStr).in("status", ["pendente", "aprovado", "reagendado", "em_andamento"]);
 
   const ocupados = new Set((agends || []).map(a => a.horario));
   const horarios = (horariosConfig || []).map(h => ({
@@ -1006,7 +1073,7 @@ app.get("/api/disponibilidade", async (req, res) => {
   const [bloqRes, horRes, agendRes, regrasRes] = await Promise.all([
     supabase.from("dias_bloqueados").select("*").gte("data", startDate).lte("data", endDate),
     supabase.from("horarios").select("dia_semana, horario").eq("ativo", true),
-    supabase.from("agendamentos").select("data, horario").gte("data", startDate).lte("data", endDate).in("status", ["pendente", "aprovado"]),
+    supabase.from("agendamentos").select("data, horario").gte("data", startDate).lte("data", endDate).in("status", ["pendente", "aprovado", "reagendado", "em_andamento"]),
     supabase.from("regras_recorrentes").select("dia_semana, tipo, motivo")
   ]);
 

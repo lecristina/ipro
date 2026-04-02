@@ -315,6 +315,9 @@
             <button class="agend-filter active px-4 py-2 rounded-xl text-sm font-semibold bg-[#1a6cff] text-white" data-status="">Todos</button>
             <button class="agend-filter px-4 py-2 rounded-xl text-sm font-semibold bg-[#f5f5f7] text-[#555]" data-status="pendente">Pendentes</button>
             <button class="agend-filter px-4 py-2 rounded-xl text-sm font-semibold bg-[#f5f5f7] text-[#555]" data-status="aprovado">Aprovados</button>
+            <button class="agend-filter px-4 py-2 rounded-xl text-sm font-semibold bg-[#f5f5f7] text-[#555]" data-status="em_andamento">Em andamento</button>
+            <button class="agend-filter px-4 py-2 rounded-xl text-sm font-semibold bg-[#f5f5f7] text-[#555]" data-status="reagendado">Reagendados</button>
+            <button class="agend-filter px-4 py-2 rounded-xl text-sm font-semibold bg-[#f5f5f7] text-[#555]" data-status="cancelado">Cancelados</button>
             <button class="agend-filter px-4 py-2 rounded-xl text-sm font-semibold bg-[#f5f5f7] text-[#555]" data-status="recusado">Recusados</button>
           </div>
         </div>
@@ -2755,8 +2758,8 @@ function filterByDate(dateStr) {
 function openAgendDetail(id) {
   const a = agendamentos.find(x => x.id === id);
   if (!a) return;
-  const statusColors = { pendente: 'bg-yellow-100 text-yellow-800', aprovado: 'bg-green-100 text-green-800', recusado: 'bg-red-100 text-red-700' };
-  const statusLabels = { pendente: 'Pendente', aprovado: 'Aprovado', recusado: 'Recusado' };
+  const statusColors = { pendente: 'bg-yellow-100 text-yellow-800', aprovado: 'bg-green-100 text-green-800', em_andamento: 'bg-blue-100 text-blue-800', reagendado: 'bg-amber-100 text-amber-800', cancelado: 'bg-gray-200 text-gray-600', recusado: 'bg-red-100 text-red-700' };
+  const statusLabels = { pendente: 'Pendente', aprovado: 'Aprovado', em_andamento: 'Em andamento', reagendado: 'Reagendado', cancelado: 'Cancelado', recusado: 'Recusado' };
   const dt = a.data ? new Date(a.data + 'T12:00:00').toLocaleDateString('pt-BR') : null;
   const criado = new Date(a.created_at).toLocaleDateString('pt-BR') + ' ' + new Date(a.created_at).toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
   const preco = a.opcao_preco ? parseFloat(a.opcao_preco).toLocaleString('pt-BR', {style:'currency',currency:'BRL'}) : null;
@@ -2819,6 +2822,12 @@ function openAgendDetail(id) {
       <button onclick="aprovarAgend('${a.id}');closeAgendDetail()" class="flex-1 bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-xl text-sm transition-colors"><i class="fa-solid fa-check mr-1.5"></i>Aprovar</button>
       <button onclick="remarcarAgend('${a.id}');closeAgendDetail()" class="flex-1 bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3 rounded-xl text-sm transition-colors"><i class="fa-solid fa-calendar-days mr-1.5"></i>Remarcar</button>
       <button onclick="quickRecusarAgend('${a.id}');closeAgendDetail()" class="flex-1 bg-red-500 hover:bg-red-600 text-white font-semibold py-3 rounded-xl text-sm transition-colors"><i class="fa-solid fa-xmark mr-1.5"></i>Recusar</button>
+    </div>` : a.status === 'aprovado' ? `<div class="flex gap-3 flex-wrap">
+      <button onclick="setEmAndamento('${a.id}');closeAgendDetail()" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-xl text-sm transition-colors"><i class="fa-solid fa-wrench mr-1.5"></i>Em andamento</button>
+      <button onclick="remarcarAgend('${a.id}');closeAgendDetail()" class="flex-1 bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3 rounded-xl text-sm transition-colors"><i class="fa-solid fa-calendar-days mr-1.5"></i>Remarcar</button>
+      <button onclick="cancelarAgend('${a.id}');closeAgendDetail()" class="flex-1 bg-red-500 hover:bg-red-600 text-white font-semibold py-3 rounded-xl text-sm transition-colors"><i class="fa-solid fa-ban mr-1.5"></i>Cancelar</button>
+    </div>` : a.status === 'em_andamento' ? `<div class="flex gap-3 flex-wrap">
+      <button onclick="cancelarAgend('${a.id}');closeAgendDetail()" class="flex-1 bg-red-500 hover:bg-red-600 text-white font-semibold py-3 rounded-xl text-sm transition-colors"><i class="fa-solid fa-ban mr-1.5"></i>Cancelar</button>
     </div>` : `<button onclick="deleteAgend('${a.id}');closeAgendDetail()" class="w-full bg-[#f5f5f7] hover:bg-red-500 hover:text-white text-[#888] font-semibold py-3 rounded-xl text-sm transition-colors"><i class="fa-solid fa-trash mr-1.5"></i>Excluir agendamento</button>`}
   `;
   showPopup('agend-detail-modal');
@@ -2895,8 +2904,8 @@ function renderAgendamentosList(list) {
   if (!list.length) { empty.classList.remove('hidden'); return; }
   empty.classList.add('hidden');
   list.forEach(a => {
-    const statusColors = { pendente: 'bg-yellow-100 text-yellow-800', aprovado: 'bg-green-100 text-green-800', recusado: 'bg-red-100 text-red-700' };
-    const statusLabels = { pendente: 'Pendente', aprovado: 'Aprovado', recusado: 'Recusado' };
+    const statusColors = { pendente: 'bg-yellow-100 text-yellow-800', aprovado: 'bg-green-100 text-green-800', em_andamento: 'bg-blue-100 text-blue-800', reagendado: 'bg-amber-100 text-amber-800', cancelado: 'bg-gray-200 text-gray-600', recusado: 'bg-red-100 text-red-700' };
+    const statusLabels = { pendente: 'Pendente', aprovado: 'Aprovado', em_andamento: 'Em andamento', reagendado: 'Reagendado', cancelado: 'Cancelado', recusado: 'Recusado' };
     const dt = a.data ? new Date(a.data + 'T12:00:00').toLocaleDateString('pt-BR') : null;
     const isNb = a.produto_nome === 'Notebook em geral';
     const div = document.createElement('div');
@@ -2921,13 +2930,39 @@ function renderAgendamentosList(list) {
           ${a.status === 'pendente' ? `
           <button onclick="event.stopPropagation();aprovarAgend('${a.id}')" class="px-4 py-2.5 bg-green-500 hover:bg-green-600 text-white rounded-xl text-xs font-semibold transition-colors">Aprovar</button>
           <button onclick="event.stopPropagation();remarcarAgend('${a.id}')" class="px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-xs font-semibold transition-colors">Remarcar</button>
-          <button onclick="event.stopPropagation();quickRecusarAgend('${a.id}')" class="px-4 py-2.5 bg-red-500 hover:bg-red-600 text-white rounded-xl text-xs font-semibold transition-colors">Recusar</button>` : ''}
+          <button onclick="event.stopPropagation();quickRecusarAgend('${a.id}')" class="px-4 py-2.5 bg-red-500 hover:bg-red-600 text-white rounded-xl text-xs font-semibold transition-colors">Recusar</button>` : a.status === 'aprovado' ? `
+          <button onclick="event.stopPropagation();setEmAndamento('${a.id}')" class="px-4 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-xs font-semibold transition-colors">Em andamento</button>
+          <button onclick="event.stopPropagation();remarcarAgend('${a.id}')" class="px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-xs font-semibold transition-colors">Remarcar</button>
+          <button onclick="event.stopPropagation();cancelarAgend('${a.id}')" class="px-4 py-2.5 bg-red-500 hover:bg-red-600 text-white rounded-xl text-xs font-semibold transition-colors">Cancelar</button>` : a.status === 'em_andamento' ? `
+          <button onclick="event.stopPropagation();cancelarAgend('${a.id}')" class="px-4 py-2.5 bg-red-500 hover:bg-red-600 text-white rounded-xl text-xs font-semibold transition-colors">Cancelar</button>` : ''}
           <button onclick="event.stopPropagation();deleteAgend('${a.id}')" class="w-9 h-9 bg-[#f5f5f7] hover:bg-red-500 hover:text-white rounded-xl flex items-center justify-center text-[#999] transition-colors" title="Excluir"><i class="fa-solid fa-trash text-xs"></i></button>
         </div>
       </div>`;
     div.addEventListener('click', () => openAgendDetail(a.id));
     container.appendChild(div);
   });
+}
+
+async function setEmAndamento(id) {
+  const result = await API('/api/agendamentos/' + id + '/em-andamento', { method: 'PUT', body: {} });
+  if (result.whatsappSent) {
+    showToast('🔧 Em andamento! Mensagem enviada ao cliente via WhatsApp.');
+  } else if (result.whatsappLink) {
+    showToast('⚠️ Status atualizado, mas envio automático falhou. Enviando via link...', 'warning');
+    window.open(result.whatsappLink, '_blank');
+  }
+  await loadAgendamentos();
+}
+
+async function cancelarAgend(id) {
+  if (!confirm('Confirmar cancelamento? O cliente será notificado via WhatsApp.')) return;
+  const result = await API('/api/agendamentos/' + id + '/cancelar', { method: 'PUT', body: {} });
+  if (result.whatsappSent) {
+    showToast('❌ Cancelado! Mensagem enviada ao cliente via WhatsApp.');
+  } else {
+    showToast('❌ Cancelado!');
+  }
+  await loadAgendamentos();
 }
 
 async function aprovarAgend(id) {
@@ -2963,8 +2998,9 @@ async function remarcarAgend(id) {
 }
 
 async function quickRecusarAgend(id) {
-  if (!confirm('Recusar este agendamento?\n\nO cliente NÃO será notificado automaticamente.')) return;
+  if (!confirm('Recusar este agendamento? O cliente será notificado via WhatsApp.')) return;
   await API('/api/agendamentos/' + id + '/recusar', { method: 'PUT', body: {} });
+  showToast('❌ Recusado! Mensagem enviada ao cliente via WhatsApp.');
   await loadAgendamentos();
 }
 

@@ -30,6 +30,10 @@ const EVOLUTION_INSTANCE = process.env.EVOLUTION_INSTANCE || "sv distribuidora";
 const EVOLUTION_APIKEY   = process.env.EVOLUTION_APIKEY   || "7D0C582D4B38-4AB4-AD6D-03958C9DB338";
 const NB_DEST_NUMBER     = process.env.NB_DEST_NUMBER     || "5519996666898";
 
+// ── Evolution API — instância Notebook (ipho dois) ───────
+const NB_EVOLUTION_INSTANCE = process.env.NB_EVOLUTION_INSTANCE || "ipho dois";
+const NB_EVOLUTION_APIKEY   = process.env.NB_EVOLUTION_APIKEY   || "23AC664C1831-4F63-B25E-3878CE95C685";
+
 // ── Asaas Payment ─────────────────────────────────────────
 const ASAAS_API_KEY      = process.env.ASAAS_API_KEY || "";
 const ASAAS_ENV          = process.env.ASAAS_ENV || "sandbox";
@@ -82,6 +86,34 @@ function normalizePhone(phone) {
   if (digits.startsWith("55") && digits.length >= 12) return digits;
   // Caso contrário, adiciona 55
   return "55" + digits;
+}
+
+// Envia pelo número do notebook (ipho dois → para si mesmo)
+async function sendWhatsAppNb(text) {
+  const number = normalizePhone(NB_DEST_NUMBER);
+  const url = `${EVOLUTION_URL}/message/sendText/${encodeURIComponent(NB_EVOLUTION_INSTANCE)}`;
+  const payload = { number, text };
+  console.log("[Evolution/NB] ▶ Enviando mensagem para notebook");
+  console.log("[Evolution/NB]   Instância:", NB_EVOLUTION_INSTANCE);
+  console.log("[Evolution/NB]   Para:", number);
+  console.log("[Evolution/NB]   Mensagem:", text.substring(0, 80) + (text.length > 80 ? "..." : ""));
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "apikey": NB_EVOLUTION_APIKEY },
+      body: JSON.stringify(payload),
+    });
+    const body = await res.text();
+    if (!res.ok) {
+      console.error("[Evolution/NB] ✗ Falha HTTP", res.status, body);
+      return { ok: false, status: res.status, body };
+    }
+    console.log("[Evolution/NB] ✓ Enviado com sucesso", res.status, body.substring(0, 200));
+    return { ok: true, status: res.status, body };
+  } catch (e) {
+    console.error("[Evolution/NB] ✗ Erro de conexão:", e.message);
+    return { ok: false, status: 0, body: e.message };
+  }
 }
 
 async function sendWhatsApp(phone, text) {
@@ -710,7 +742,7 @@ app.post("/api/agendamentos", async (req, res) => {
       tipo_solicitacao: tipo_solicitacao || 'agendamento'
     };
     const msg = buildAgendamentoMsg(nbData);
-    const wNb = await sendWhatsApp(NB_DEST_NUMBER, msg);
+    const wNb = await sendWhatsAppNb(msg);
     const whatsappLink = `https://api.whatsapp.com/send?phone=${normalizePhone(whatsapp)}&text=${encodeURIComponent(msg)}`;
     return res.json({ whatsappLink, whatsappSent: wNb.ok });
   }
